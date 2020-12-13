@@ -12,7 +12,7 @@ Raspberry pi + drum pad + loop station
  <li>A <a href="https://www.thomann.de/nl/behringer_ucontrol_uca_222.htm">soundcard</a> which should work well with the Pi</li>
  <li>LED's, RGB for some shiny colors on the buttons</li>
  <li>An LCD, mainly to visualize the beat/tempo of the loop</li>
- <li>Cables, and diodes to connect it all and make the buttons work</li>
+ <li>Jumper cables, and diodes to connect it all and make the buttons work</li>
 </ul>
 <p>I got the basic technical parts from <a href="https://opencircuit.nl/">opencircuit</a>, which were super fast in delivering the first parts. Now we wait for the soundcard and the buttons to arrive and we can start to wire it all up. Finally, I would like to share the initial render for the box, also made by Peter (friends TU Delft ftw)! </p>
 <p>
