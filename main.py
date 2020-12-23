@@ -1,68 +1,51 @@
-"""PyAudio Example: Play a wave file (callback version)."""
+import os
+#puredata path: change on Pi!
+path = "/Applications/Pd-0.51-1.app/Contents/Resources/bin/"
+       
+def send2Pd(channel, message=''):
+    """
+    Send messages from Python to PD.
+    channel: Link each message to a channel to be received in PD
+        0: DSP status (0: off, 1: on)
+        1: select_kit (int value)
+    message: should be a string msg to be send as variable to PD
+    """
+    os.system("echo '" + str(channel) + " " + str(message) + ";' | "+ path + "pdsend 3000")
 
-import pyaudio
-import wave
-import time
-import sys, os
-import termios
-import tty
+def audio_on():
+    """
+    turn on DSP in PD
+    channel: 0
+    """
+    message = '1'
+    send2Pd(0, message)
 
-CHUNK = 1024
+def audio_off():
+    """
+    turn off DSP in PD
+    channel: 0
+    """
+    message = '0'
+    send2Pd(0, message)
 
-if len(sys.argv) < 2:
-    print("Plays a wave file.\n\nUsage: %s filename.wav" % sys.argv[0])
-    sys.exit(-1)
+def select_kit(kit):
+    """
+    kit: numeric value that for selecting a kit
+    channel: 1
+    """
+    send2Pd(1, kit)
 
-wf = wave.open(sys.argv[1], 'rb')
-
-# instantiate PyAudio (1)
-p = pyaudio.PyAudio()
-
-def getkey():
-    old_settings = termios.tcgetattr(sys.stdin)
-    tty.setcbreak(sys.stdin.fileno())
-    try:
-        while True:
-            b = os.read(sys.stdin.fileno(), 3).decode()
-            if len(b) == 3:
-                k = ord(b[2])
-            else:
-                k = ord(b)
-            key_mapping = {
-                27: 'esc',
-            }
-            return key_mapping.get(k, chr(k))
-    finally:
-        termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_settings)
-
-# open stream using callback (3)
-stream = p.open(format=p.get_format_from_width(wf.getsampwidth()),
-                channels=wf.getnchannels(),
-                rate=wf.getframerate(),
-                output=True)
-
-while True:
-    k = getkey()
-    if k == 'esc':
-        stream.stop_stream()
-        stream.close()
-        wf.close()
-        # close PyAudio (7)
-        p.terminate()
-        quit()
+def press_button(button):
+    """
+    button: numeric value of the pressed button (loop: 1-8, drumbox: 9-16)
+    channel: 2
+    """
+    if button > 16 or button < 1:
+        raise("button_error: range of buttons should be between 1:16")
     else:
-        print(k)
-        wf.rewind()
-        # read data
-        data = wf.readframes(CHUNK)
-
-        # play stream (3)
-        while len(data) > 0:
-            stream.write(data)
-            data = wf.readframes(CHUNK)
-
-
-
-
-
+        send2Pd(2, button)
+    
+#kit = input("select drum kit (1-5): ")
+#select_kit(kit)
+press_button(11)
 
