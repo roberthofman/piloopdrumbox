@@ -3,19 +3,32 @@ import socket
 PORT_RECV_FROM_PD = 4000
 ADDRESS = "127.0.0.1"
 
+def handleStatus(action, payload):
+    if action == "clear_rec":
+        print("Received: " + action + ": " + str(payload))
+    elif action == "start_rec":
+        print("Received: " + action + ": " + str(payload))
+    elif action == "stop_rec":
+        print("Received: " + action + ": " + str(payload))
+    elif action == "wait_rec":
+        print("Received: " + action + ": " + str(payload))
+    elif action == "mute_rec":
+        print("Received: " + action + ": " + str(payload))
+    else:
+        print("unknown status received from PD")
+
 def setMetronome(count):
     metronome = count
-    print(metronome)
 
-def pdreceive(address, port):
+def pd_receive(address, port):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # Avoid bind() exception: OSError: [Errno 48] Address already in use
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     try:
         s.bind((address, port))
         s.listen(5) #queue messages
-    except s.error as e:
-        print("socket setup failed:" + str(e))
+    except Exception as e:
+        print("Socket setup failed: \n" + str(e))
 
     while True:
         conn, addr = s.accept()
@@ -25,8 +38,11 @@ def pdreceive(address, port):
         conn.close()
     s.close()
 
-for message in pdreceive(ADDRESS, PORT_RECV_FROM_PD):
+for message in pd_receive(ADDRESS, PORT_RECV_FROM_PD):
     #print("got message: ", message)
     x = message.split("|") #x[0] has the route, x[1] the value
+    x.pop() #remove last element of the list (PD automatically adds \n)
     if x[0] == "counter":
         setMetronome(x[1])
+    if x[0] == "status":
+        handleStatus(x[1], x[2:])

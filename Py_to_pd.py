@@ -16,9 +16,9 @@ class Py_to_pd:
         os.system("echo '" + str(channel) + " " + str(message) + ";' | "+
             self.path + "pdsend " + str(self.port))
 
-    def audio_on(self):
+    def audio_toggle(self):
         """
-        turn on DSP in PD
+        turn on/off DSP in PD
         channel: 0
         """
         message = '1'
