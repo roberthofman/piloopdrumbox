@@ -1,5 +1,15 @@
 # piloopdrumbox
-Raspberry pi + drum pad + loop station
+Welcome to my repo for the ultimate Raspberry pi + drum pad + loop station.
+For updates on the build log see the (Wiki)[https://github.com/roberthofman/piloopdrumbox/wiki]. 
 
-## Update: 13 december 2020
-<p>I got a Raspberry Pi this month to start my looper/drumbox project. I want to make a loop station including a drum box, which can connect to my keyboard and loop over both the drum box and the music input. Obviously, it should also include an output jack to output the loop. After a bit of searching, <a href="https://youtu.be/_nBK8sAl9nw">this</a> video turned out to be a nice inspiration, except for all the fancy synth buttons and effects, as those will come out of my keyboard anyway. See the Wiki for more info</p> 
+## Install requirements
+### PureData
+On the pi, use the command:
+`sudo apt-get install puredata`
+No extensions are required. 
+
+### Python
+The Python code is based on Python3. 
+Make sure you have installed the packages to work with GPIO pins:
+`sudo apt-get install python-rpi.gpio`
+
