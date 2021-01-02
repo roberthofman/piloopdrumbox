@@ -1,5 +1,7 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
+drum_sounds/
+
 *.py[cod]
 *$py.class
 
