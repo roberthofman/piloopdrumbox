@@ -13,11 +13,12 @@ def main():
 
     # start the socket (Pd_to_py)
     os.system('python3 Pd_to_py.py &')
-    print("setting up socket")
+    print("setting up socket...")
+    time.sleep(1)
 
     # start PD
-    os.system(PD_PATH + 'pd main.pd &')
-    print("starting PD")
+    os.system(PD_PATH + 'pd main.pd -nogui &')
+    print("starting PD...")
     time.sleep(4)
 
     while True:
