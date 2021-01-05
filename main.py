@@ -17,7 +17,7 @@ def main():
     time.sleep(1)
 
     # start PD
-    os.system(PD_PATH + 'pd main.pd -nogui &')
+    os.system(PD_PATH + 'pd -nogui main.pd &')
     print("starting PD...")
     time.sleep(4)
 
