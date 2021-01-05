@@ -5,7 +5,7 @@ from Py_to_pd import Py_to_pd
 
 def main():
     #PD_PATH = "/Applications/Pd-0.51-1.app/Contents/Resources/bin/" #mac
-    PD_PATH = "" #pi
+    PD_PATH = "" #pi (test)
     PORT_SEND_TO_PD = 3000
 
     # initiate python to PD class
