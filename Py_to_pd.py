@@ -1,7 +1,7 @@
 import os
 
 class Py_to_pd:
-    def __init__(self, pd_path, send_port, mac):
+    def __init__(self, pd_path, send_port):
         self.path = pd_path
         self.port = send_port
 
