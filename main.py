@@ -1,11 +1,18 @@
 import os
 import time
 import sys, getopt
+import git
 from Py_to_pd import Py_to_pd
 
 def main():
+    # Perform a git pull to get the latest version on boot
+    print("Checking for updates...")
+    dir = '~/piloopdrumbox'
+    g = git.cmd.Git(dir)
+    g.pull()
+
     #PD_PATH = "/Applications/Pd-0.51-1.app/Contents/Resources/bin/" #mac
-    PD_PATH = "" #pi (test)
+    PD_PATH = "" #pi
     PORT_SEND_TO_PD = 3000
 
     # initiate python to PD class
@@ -22,7 +29,8 @@ def main():
     time.sleep(4)
 
     while True:
-        send_msg.select_kit(input("select kit:"))
+        #send_msg.select_kit(input("select kit:"))
+        send_msg.press_button(input("press buton:"))
 
 if __name__ == "__main__":
     main()
