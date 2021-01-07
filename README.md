@@ -1,4 +1,4 @@
-# piloopdrumbox
+# Pi-loop-drumbox!
 Welcome to my repo for the ultimate Raspberry pi + drum pad + loop station.  
 For updates on the build log see the [wiki](https://github.com/roberthofman/piloopdrumbox/wiki).   
 
