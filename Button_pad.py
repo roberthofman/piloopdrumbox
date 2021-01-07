@@ -56,48 +56,42 @@ class Button_pad:
             GPIO.setup(self.colorPins[row], GPIO.OUT, initial=GPIO.LOW)
 
     def scan(self):
-        current = 0
+        for current in range(self.NUM_LED_COLUMNS):
+            #Select current columns -> start without LED
+            GPIO.output(btnColumnPins[current], GPIO.LOW)
+            GPIO.output(ledColumnPins[current], GPIO.LOW)
 
-        #Select current columns -> start without LED
-        GPIO.output(btnColumnPins[current], GPIO.LOW)
-        GPIO.output(ledColumnPins[current], GPIO.LOW)
+            # output LED row values
+            for row in self.NUM_LED_ROWS:
+                if(self.LED_buffer[current][row]):
+                    GPIO.output(colorPins[row], GPIO.HIGH)
 
-        # output LED row values
-        for row in self.NUM_LED_ROWS:
-            if(self.LED_buffer[current][row]):
-                GPIO.output(colorPins[row], GPIO.HIGH)
+            time.wait(1/1000)
 
-        time.wait(1/1000)
+            # read the button inputs
+            for row in self.NUM_BTN_ROWS:
+                val = GPIO.input(btnRowPins[row])
+                if val == GPIO.LOW:
+                    # Active low: val is low when btn is pressed
+                    if debounce_count[current][row] < MAX_DEBOUNCE]:
+                        debounce_count[current][row] += 1
+                        if debounce_count[current][row] == MAX_DEBOUNCE:
+                            print("Key Down: " + current*self.NUM_BTN_ROWS + ", " + row)
+                            #Send button press
+                            LED_buffer[current][j] = !LED_buffer[current][j]
+                else:
+                    # Button is released
+                    if debounce_count[current][j] > 0:
+                        debounce_count[current][j] -= 1
+                        if debounce_count[current][j] == 0:
+                            print("Key Up: " + current*self.NUM_BTN_ROWS + ", " + row)
+                            #Send key release
 
-        # read the button inputs
-        for row in self.NUM_BTN_ROWS:
-            val = GPIO.input(btnRowPins[row])
-            if val == GPIO.LOW:
-                # Active low: val is low when btn is pressed
-                if debounce_count[current][row] < MAX_DEBOUNCE]:
-                    debounce_count[current][row] += 1
-                    if debounce_count[current][row] == MAX_DEBOUNCE:
-                        print("Key Down: " + current*self.NUM_BTN_ROWS + ", " + row)
-                        #Send button press
-                        LED_buffer[current][j] = !LED_buffer[current][j]
-            else:
-                # Button is released
-                if debounce_count[current][j] > 0:
-                    debounce_count[current][j] -= 1
-                    if debounce_count[current][j] == 0:
-                        print("Key Up: " + current*self.NUM_BTN_ROWS + ", " + row)
-                        #Send key release
+            time.wait(1/1000)
 
-        time.wait(1/1000)
+            # Reset button to init value
+            GPIO.output(btnColumnPins[current], GPIO.HIGH)
+            GPIO.output(ledColumnPins[current], GPIO.HIGH)
 
-        # Reset button to init value
-        GPIO.output(btnColumnPins[current], GPIO.HIGH)
-        GPIO.output(ledColumnPins[current], GPIO.HIGH)
-
-        for row in self.NUM_LED_ROWS:
-            GPIO.output(colorpins[row], GPIO.LOW)
-
-        current += 1
-
-        if current >= self.NUM_LED_COLUMNS:
-            current = 0
+            for row in self.NUM_LED_ROWS:
+                GPIO.output(colorpins[row], GPIO.LOW)

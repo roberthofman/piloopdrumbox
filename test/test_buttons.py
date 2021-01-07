@@ -6,6 +6,4 @@ buttons = Button_pad()
 buttons.setup_buttons() #Initialize the Pins of leds/buttons
 
 while True:
-    #send_msg.select_kit(input("select kit:"))
-    #send_msg.press_button(int(input("press buton:")))
     buttons.scan()
