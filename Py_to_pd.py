@@ -45,6 +45,6 @@ class Py_to_pd:
         channel: 2
         """
         if button > 16 or button < 1:
-            raise("button_error: range of buttons should be between 1:16")
+            print("range of buttons should be between 1:16")
         else:
             self.send2Pd(2, button)

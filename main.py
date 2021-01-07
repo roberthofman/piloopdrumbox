@@ -3,6 +3,7 @@ import time
 import sys, getopt
 import git
 from Py_to_pd import Py_to_pd
+from Button_pad import Button_pad
 
 def main():
     # Perform a git pull to get the latest version on boot
@@ -10,6 +11,10 @@ def main():
     dir = '~/piloopdrumbox'
     g = git.cmd.Git(dir)
     g.pull()
+
+    # Set up the GPIO library and Pins
+    buttons = Button_pad()
+    buttons.setup_buttons() #Initialize the Pins of leds/buttons
 
     #PD_PATH = "/Applications/Pd-0.51-1.app/Contents/Resources/bin/" #mac
     PD_PATH = "" #pi
@@ -30,7 +35,8 @@ def main():
 
     while True:
         #send_msg.select_kit(input("select kit:"))
-        send_msg.press_button(int(input("press buton:")))
+        #send_msg.press_button(int(input("press buton:")))
+        buttons.scan()
 
 if __name__ == "__main__":
     main()
