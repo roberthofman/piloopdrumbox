@@ -1,5 +1,5 @@
 #Test script for the buttons
-from ../Button_pad import Button_pad
+from ..Button_pad import Button_pad
 
 # Set up the GPIO library and Pins
 buttons = Button_pad()
