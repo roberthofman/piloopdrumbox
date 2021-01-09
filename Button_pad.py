@@ -25,7 +25,7 @@ class Button_pad:
         self.btnColumnPins = [31, 33, 35, 37] # Pin numbers for columns (4)
         self.btnRowPins = [13, 15, 19, 21] # Pin numbers for rows (4)
         self.ledColumnPins = [32, 36, 38, 40] # Pin numbers for the LED's (columns) (4)
-        self.colorPins = [[8, 18, 28], [10, 22, 23], [12, 24, 27], [16, 26, 29]] # 1: red 2: green 3: blue
+        self.colorPins = [[8, 18, 23], [10, 22, 27], [12, 24, 28], [16, 26, 29]] # 1: red 2: green 3: blue
         # Tracks how often a button is pressed
         self.debounce_count = self.create_matrix(0, self.NUM_BTN_COLUMNS, self.NUM_BTN_ROWS)
         self.button_timer = self.create_matrix(0, self.NUM_BTN_COLUMNS, self.NUM_BTN_ROWS)
