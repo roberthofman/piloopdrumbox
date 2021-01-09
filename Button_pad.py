@@ -78,7 +78,7 @@ class Button_pad:
                 val = GPIO.input(self.btnRowPins[row])
                 if val == GPIO.LOW:
                     # Active low: val is low when btn is pressed
-                    if self.debounce_count[current][row] < self.MAX_DEBOUNCE]:
+                    if self.debounce_count[current][row] < self.MAX_DEBOUNCE:
                         self.debounce_count[current][row] += 1
                         if self.debounce_count[current][row] == MAX_DEBOUNCE:
                             print("Key Down: " + current*self.NUM_BTN_ROWS + ", " + row)
