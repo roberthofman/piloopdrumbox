@@ -29,7 +29,7 @@ class Button_pad:
         # Tracks how often a button is pressed
         self.debounce_count = self.create_matrix(0, self.NUM_BTN_COLUMNS, self.NUM_BTN_ROWS)
         self.button_timer = self.create_matrix(0, self.NUM_BTN_COLUMNS, self.NUM_BTN_ROWS)
-        mylcd = RPi_I2C_driver.lcd()
+        self.mylcd = RPi_I2C_driver.lcd()
 
     def create_matrix(self, value, y_range, x_range):
         """
@@ -87,7 +87,7 @@ class Button_pad:
                             #Send button press
                             self.LED_buffer[current][row] = not self.LED_buffer[current][row]
                             text = "Pressed: " + str(row) + ":" + str(current)
-                            mylcd.lcd_display_string(text, 1)
+                            self.mylcd.lcd_display_string(text, 1)
                 else:
                     # Button is released
                     if self.debounce_count[current][row] > 0:
@@ -95,7 +95,7 @@ class Button_pad:
                         if self.debounce_count[current][row] == 0:
                             print("Key Up: " + str(current) + ", " + str(row))
                             #Send key release
-                            mylcd.lcd_display_string("lekker peet", 2)
+                            self.mylcd.lcd_display_string("lekker peet", 2)
 
             time.sleep(1/1000)
 
