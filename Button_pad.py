@@ -83,7 +83,7 @@ class Button_pad:
                         if self.debounce_count[current][row] == MAX_DEBOUNCE:
                             print("Key Down: " + current*self.NUM_BTN_ROWS + ", " + row)
                             #Send button press
-                            self.LED_buffer[current][j] = !self.LED_buffer[current][j]
+                            self.LED_buffer[current][j] = not self.LED_buffer[current][j]
                 else:
                     # Button is released
                     if self.debounce_count[current][j] > 0:
