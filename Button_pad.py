@@ -88,7 +88,7 @@ class Button_pad:
                     # Button is released
                     if self.debounce_count[current][row] > 0:
                         self.debounce_count[current][row] -= 1
-                        if debounce_count[current][row] == 0:
+                        if self.debounce_count[current][row] == 0:
                             print("Key Up: " + str(current*self.NUM_BTN_ROWS) + ", " + str(row))
                             #Send key release
 
