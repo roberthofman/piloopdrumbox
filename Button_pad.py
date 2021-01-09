@@ -42,6 +42,7 @@ class Button_pad:
         GPIO.setmode(GPIO.BOARD)
         for col in range(self.NUM_LED_COLUMNS):
             # LED columns
+            print(self.ledColumnPins[col])
             GPIO.setup(self.ledColumnPins[col], GPIO.OUT, initial=GPIO.HIGH)
 
         for col in range(self.NUM_BTN_COLUMNS):
