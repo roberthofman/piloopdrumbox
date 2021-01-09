@@ -1,5 +1,6 @@
 import RPi.GPIO as GPIO
 import time
+import RPi_I2C_driver
 
 class Button_pad:
     def __init__(self):
@@ -24,10 +25,11 @@ class Button_pad:
         self.btnColumnPins = [31, 33, 35, 37] # Pin numbers for columns (4)
         self.btnRowPins = [13, 15, 19, 21] # Pin numbers for rows (4)
         self.ledColumnPins = [32, 36, 38, 40] # Pin numbers for the LED's (columns) (4)
-        self.colorPins = [3, 5, 7, 11] # Pin numbers for LED rows (4)
+        self.colorPins = [8, 10, 12, 16] # Pin numbers for LED rows (4)
         # Tracks how often a button is pressed
         self.debounce_count = self.create_matrix(0, self.NUM_BTN_COLUMNS, self.NUM_BTN_ROWS)
         self.button_timer = self.create_matrix(0, self.NUM_BTN_COLUMNS, self.NUM_BTN_ROWS)
+        mylcd = RPi_I2C_driver.lcd()
 
     def create_matrix(self, value, y_range, x_range):
         """
@@ -81,16 +83,19 @@ class Button_pad:
                     if self.debounce_count[current][row] < self.MAX_DEBOUNCE:
                         self.debounce_count[current][row] += 1
                         if self.debounce_count[current][row] == self.MAX_DEBOUNCE:
-                            print("Key Down: " + str(current*self.NUM_BTN_ROWS) + ", " + str(row))
+                            print("Key Down: " + str(current) + ", " + str(row))
                             #Send button press
                             self.LED_buffer[current][row] = not self.LED_buffer[current][row]
+                            text = "Pressed: " + str(row) + ":" + str(current)
+                            mylcd.lcd_display_string(text, 1)
                 else:
                     # Button is released
                     if self.debounce_count[current][row] > 0:
                         self.debounce_count[current][row] -= 1
                         if self.debounce_count[current][row] == 0:
-                            print("Key Up: " + str(current*self.NUM_BTN_ROWS) + ", " + str(row))
+                            print("Key Up: " + str(current) + ", " + str(row))
                             #Send key release
+                            mylcd.lcd_display_string("lekker peet", 2)
 
             time.sleep(1/1000)
 
