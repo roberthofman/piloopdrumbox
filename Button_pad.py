@@ -18,7 +18,7 @@ class Button_pad:
         self.NUM_COLORS = 1
         # Vary this number if the key press is not registered correctly
         # It basically sets the sensitivity of the button (press/no press)
-        self.MAX_DEBOUNCE = 2 # should range between 2-3 accorinding to Sparkfun
+        self.MAX_DEBOUNCE = 3 # should range between 2-3 accorinding to Sparkfun
         # Global Variables
         self.LED_buffer = self.create_matrix(False, self.NUM_LED_COLUMNS, self.NUM_LED_ROWS)
         self.btnColumnPins = [31, 33, 35, 37] # Pin numbers for columns (4)
@@ -84,7 +84,6 @@ class Button_pad:
                             print("Key Down: " + str(current*self.NUM_BTN_ROWS) + ", " + str(row))
                             #Send button press
                             self.LED_buffer[current][row] = not self.LED_buffer[current][row]
-                            #print(self.LED_buffer)
                 else:
                     # Button is released
                     if self.debounce_count[current][row] > 0:
