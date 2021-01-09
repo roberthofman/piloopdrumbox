@@ -21,10 +21,10 @@ class Button_pad:
         self.MAX_DEBOUNCE = 3 # should range between 2-3 accorinding to Sparkfun
         # Global Variables
         self.LED_buffer = self.create_matrix(False, self.NUM_LED_COLUMNS, self.NUM_LED_ROWS)
-        self.btnColumnPins = [6, 13, 19, 26] # Pin numbers for columns (4)
-        self.btnRowPins = [9, 10, 22, 27] # Pin numbers for rows (4)
-        self.ledColumnPins = [12, 16, 20, 21] # Pin numbers for the LED's (columns) (4)
-        self.colorPins = [2, 3 ,4 ,17] # Pin numbers for LED rows (4)
+        self.btnColumnPins = [31, 33, 35, 37] # Pin numbers for columns (4)
+        self.btnRowPins = [13, 15, 19, 21] # Pin numbers for rows (4)
+        self.ledColumnPins = [32, 36, 38, 40] # Pin numbers for the LED's (columns) (4)
+        self.colorPins = [3, 5, 7, 11] # Pin numbers for LED rows (4)
         # Tracks how often a button is pressed
         self.debounce_count = self.create_matrix(0, self.NUM_BTN_COLUMNS, self.NUM_BTN_ROWS)
         self.button_timer = self.create_matrix(0, self.NUM_BTN_COLUMNS, self.NUM_BTN_ROWS)
