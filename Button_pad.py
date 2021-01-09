@@ -86,8 +86,8 @@ class Button_pad:
                             print("Key Down: " + str(current) + ", " + str(row))
                             #Send button press
                             self.LED_buffer[current][row] = not self.LED_buffer[current][row]
-                            text = "Pressed: " + str(row) + ":" + str(current)
-                            self.mylcd.lcd_display_string(text, 1)
+                            #text = "Pressed: " + str(row) + ":" + str(current)
+                            #self.mylcd.lcd_display_string("test", 1)
                 else:
                     # Button is released
                     if self.debounce_count[current][row] > 0:
@@ -95,7 +95,6 @@ class Button_pad:
                         if self.debounce_count[current][row] == 0:
                             print("Key Up: " + str(current) + ", " + str(row))
                             #Send key release
-                            self.mylcd.lcd_display_string("lekker peet", 2)
 
             time.sleep(1/1000)
 
