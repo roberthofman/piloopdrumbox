@@ -50,7 +50,7 @@ class Button_pad:
 
         for row in range(self.NUM_BTN_ROWS):
             # Button columns
-            GPIO.setup(self.btnRowPins[col], GPIO.IN, pull_up_down=GPIO.PUD_UP)
+            GPIO.setup(self.btnRowPins[row], GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
         for row in range(self.NUM_LED_ROWS):
             # LED drive lines
