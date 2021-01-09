@@ -16,7 +16,7 @@ class Button_pad:
         self.NUM_BTN_COLUMNS = 4
         self.NUM_BTN_ROWS = 4
         # Change to RGB later
-        self.NUM_COLORS = 1
+        self.NUM_COLORS = 3
         # Vary this number if the key press is not registered correctly
         # It basically sets the sensitivity of the button (press/no press)
         self.MAX_DEBOUNCE = 3 # should range between 2-3 accorinding to Sparkfun
@@ -25,7 +25,7 @@ class Button_pad:
         self.btnColumnPins = [31, 33, 35, 37] # Pin numbers for columns (4)
         self.btnRowPins = [13, 15, 19, 21] # Pin numbers for rows (4)
         self.ledColumnPins = [32, 36, 38, 40] # Pin numbers for the LED's (columns) (4)
-        self.colorPins = [8, 10, 12, 16] # Pin numbers for LED rows (4)
+        self.colorPins = [[8, 18, 28], [10, 22, 23], [12, 24, 27], [16, 26, 29]] # 1: red 2: green 3: blue
         # Tracks how often a button is pressed
         self.debounce_count = self.create_matrix(0, self.NUM_BTN_COLUMNS, self.NUM_BTN_ROWS)
         self.button_timer = self.create_matrix(0, self.NUM_BTN_COLUMNS, self.NUM_BTN_ROWS)
@@ -42,6 +42,7 @@ class Button_pad:
         Initialize PINS
         """
         GPIO.setmode(GPIO.BOARD)
+        self.mylcd.lcd_display_string("De ultieme test", 1)
         for col in range(self.NUM_LED_COLUMNS):
             # LED columns
             GPIO.setup(self.ledColumnPins[col], GPIO.OUT, initial=GPIO.HIGH)
@@ -56,7 +57,8 @@ class Button_pad:
 
         for row in range(self.NUM_LED_ROWS):
             # LED drive lines
-            GPIO.setup(self.colorPins[row], GPIO.OUT, initial=GPIO.LOW)
+            for color in range(self.NUM_COLORS):
+                GPIO.setup(self.colorPins[row][color], GPIO.OUT, initial=GPIO.LOW)
 
     def scan(self):
         """
@@ -70,8 +72,9 @@ class Button_pad:
 
             # output LED row values
             for row in range(self.NUM_LED_ROWS):
+                val = self.LED_buffer[current][row]
                 if(self.LED_buffer[current][row]):
-                    GPIO.output(self.colorPins[row], GPIO.HIGH)
+                    GPIO.output(self.colorPins[row][val-1], GPIO.HIGH)
 
             time.sleep(1/1000)
 
@@ -85,7 +88,7 @@ class Button_pad:
                         if self.debounce_count[current][row] == self.MAX_DEBOUNCE:
                             print("Key Down: " + str(current) + ", " + str(row))
                             #Send button press
-                            self.LED_buffer[current][row] = not self.LED_buffer[current][row]
+                            self.LED_buffer[current][row] += 1
                             #text = "Pressed: " + str(row) + ":" + str(current)
                             #self.mylcd.lcd_display_string("test", 1)
                 else:
@@ -103,4 +106,5 @@ class Button_pad:
             GPIO.output(self.ledColumnPins[current], GPIO.HIGH)
 
             for row in range(self.NUM_LED_ROWS):
-                GPIO.output(self.colorPins[row], GPIO.LOW)
+                for color in range(self.NUM_COLORS):
+                    GPIO.output(self.colorPins[row][color], GPIO.LOW)
