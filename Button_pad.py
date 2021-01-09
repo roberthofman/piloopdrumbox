@@ -58,6 +58,7 @@ class Button_pad:
         for row in range(self.NUM_LED_ROWS):
             # LED drive lines
             for color in range(self.NUM_COLORS):
+                print(row, color)
                 GPIO.setup(self.colorPins[row][color], GPIO.OUT, initial=GPIO.LOW)
 
     def scan(self):
