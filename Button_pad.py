@@ -80,7 +80,7 @@ class Button_pad:
                     # Active low: val is low when btn is pressed
                     if self.debounce_count[current][row] < self.MAX_DEBOUNCE:
                         self.debounce_count[current][row] += 1
-                        if self.debounce_count[current][row] == MAX_DEBOUNCE:
+                        if self.debounce_count[current][row] == self.MAX_DEBOUNCE:
                             print("Key Down: " + current*self.NUM_BTN_ROWS + ", " + row)
                             #Send button press
                             self.LED_buffer[current][row] = not self.LED_buffer[current][row]
