@@ -74,7 +74,7 @@ class Button_pad:
             time.sleep(1/1000)
 
             # read the button inputs
-            for row in self.NUM_BTN_ROWS:
+            for row in range(self.NUM_BTN_ROWS):
                 val = GPIO.input(self.btnRowPins[row])
                 if val == GPIO.LOW:
                     # Active low: val is low when btn is pressed
@@ -98,5 +98,5 @@ class Button_pad:
             GPIO.output(self.btnColumnPins[current], GPIO.HIGH)
             GPIO.output(self.ledColumnPins[current], GPIO.HIGH)
 
-            for row in self.NUM_LED_ROWS:
+            for row in range(self.NUM_LED_ROWS):
                 GPIO.output(self.colorPins[row], GPIO.LOW)
