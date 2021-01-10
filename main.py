@@ -23,7 +23,7 @@ buttons.setup_buttons() #Initialize the Pins of leds/buttons
 # start the socket (Pd_to_py)
 #os.system('python3 Pd_to_py.py &')
 def pdreceive():
-    args = ["pdreceive", PORT_RECEIVE_FROM_PD]
+    args = ["pdreceive", str(PORT_RECEIVE_FROM_PD)]
     proc = subprocess.Popen(args, stdout=subprocess.PIPE)
     while True:
         line = proc.stdout.readline()
