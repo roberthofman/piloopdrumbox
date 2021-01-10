@@ -25,11 +25,11 @@ buttons.setup_buttons() #Initialize the Pins of leds/buttons
 def pdreceive():
     args = ["pdreceive", str(PORT_RECEIVE_FROM_PD)]
     proc = subprocess.Popen(args, stdout=subprocess.PIPE)
-    while True:
-        line = proc.stdout.readline()
-        if line == '': # `pdreceive` exited.
-            break
-        yield line
+    line = proc.stdout.readline()
+    if line == '': # `pdreceive` exited.
+        break
+    yield line
+    
 print("setting up socket...")
 time.sleep(1)
 
