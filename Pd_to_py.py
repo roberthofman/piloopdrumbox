@@ -1,5 +1,4 @@
 import socket
-from main import socket_message
 
 PORT_RECV_FROM_PD = 4000
 ADDRESS = "127.0.0.1"
@@ -17,7 +16,6 @@ def handle_status(action, payload):
         print("Received: " + action + ": " + str(payload))
     else:
         print("unknown status received from PD")
-    socket_message = {action: payload}
 
 def setMetronome(count):
     metronome = count
