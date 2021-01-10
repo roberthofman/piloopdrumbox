@@ -35,12 +35,7 @@ time.sleep(4)
 
 while True:
     #incoming PD data
-    if proc.stdout:
-        print(proc.stdout)
-        for line in proc.stdout:
-            print(line)
-            l = line.decode(encoding="utf-8", errors="ignore")
-            print(l)
+    print(proc.stdout.read())
     #send_msg.select_kit(input("select kit:"))
     #send_msg.press_button(int(input("press buton:")))
     buttons.scan()
