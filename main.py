@@ -35,7 +35,7 @@ time.sleep(4)
 
 while True:
     #incoming PD data
-    print(proc)
+    print(proc.stdout)
     #send_msg.select_kit(input("select kit:"))
     #send_msg.press_button(int(input("press buton:")))
     buttons.scan()
