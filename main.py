@@ -34,7 +34,7 @@ buttons.setup_buttons() #Initialize the Pins of leds/buttons
 
 # start the socket
 print("setting up socket...")
-args = ["sudo pdreceive", str(PORT_RECEIVE_FROM_PD)]
+args = ["sudo", "pdreceive", str(PORT_RECEIVE_FROM_PD)]
 proc = subprocess.Popen(args, stdout=subprocess.PIPE)
 # Queue for storing output lines
 proc_q = Queue.Queue()
