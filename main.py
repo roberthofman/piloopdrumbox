@@ -51,8 +51,9 @@ time.sleep(4)
 while True:
     #incoming PD data
     try:
-        l = proc_q.get(False).decode()
-        print(l)
+        pd_input = proc_q.get(False).decode()
+        if pd_input:
+            print(pd_input)
     except queue.Empty:
         pass
     #send_msg.select_kit(input("select kit:"))
