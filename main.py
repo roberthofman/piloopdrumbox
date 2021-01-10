@@ -54,7 +54,7 @@ while True:
         l = proc_q.get(False)
         sys.stdout.write("A: ")
         sys.stdout.write(l)
-    except Queue.Empty:
+    except queue.Empty:
         pass
     #send_msg.select_kit(input("select kit:"))
     #send_msg.press_button(int(input("press buton:")))
