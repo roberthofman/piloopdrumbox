@@ -20,11 +20,11 @@ def main():
     buttons.setup_buttons() #Initialize the Pins of leds/buttons
 
     # start the socket (Pd_to_py)
+    socket_message = {}
+    previous_socket_message = {}
     os.system('python3 Pd_to_py.py &')
     print("setting up socket...")
     time.sleep(1)
-    socket_message = {}
-    previous_socket_message = {}
 
     # start PD
     os.system(PD_PATH + 'pd -nogui main.pd &')
