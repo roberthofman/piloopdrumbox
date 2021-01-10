@@ -16,7 +16,11 @@ Then, reconfigure the index of audio devices: `/lib/modprobe.d/aliases.conf` and
 The Python code is based on Python3, so make sure that the raspberry pi defaults to Python3. Make sure you have installed the packages to work with GPIO pins:  
 `sudo apt-get install python-rpi.gpio`  
 I also use the GitPython package to run a git pull every boot. In that case you need to install pip and GitPython via pip.   
-`sudo apt-get python3 pip` & `pip3 install GitPython`.
+`sudo apt-get python3 pip` & `pip3 install GitPython`.   
+You'll need a couple of libraries:   
+- sudo apt – get install i2c – tools
+- sudo apt – get install python3 – smbus
+
 
 ### Drum sounds
 I added a couple drum sounds. You can add additional .wav files following the number sintax in the folder. 
