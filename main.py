@@ -37,7 +37,7 @@ print("setting up socket...")
 args = ["sudo", "pdreceive", str(PORT_RECEIVE_FROM_PD)]
 proc = subprocess.Popen(args, stdout=subprocess.PIPE)
 # Queue for storing output lines
-proc_q = Queue.Queue()
+proc_q = queue.Queue()
 proc_t = threading.Thread(target=read_output, args=(proc.stdout, proc_q))
 proc_t.daemon = True
 proc_t.start()
