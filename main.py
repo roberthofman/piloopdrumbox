@@ -36,6 +36,7 @@ time.sleep(4)
 while True:
     #incoming PD data
     for line in proc.stdout:
+        print(line)
         l = line.decode(encoding="utf-8", errors="ignore")
         print(l)
     #send_msg.select_kit(input("select kit:"))

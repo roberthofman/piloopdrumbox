@@ -79,7 +79,7 @@ class Button_pad:
         #Send key release
         print("Key Up: " + str(column) + ", " + str(row))
         self.button_timer[column][row] = datetime.now() - self.button_press_time[column][row]
-        if self.button_timer.seconds > 2 and row < 2:
+        if self.button_timer[column][row].seconds > 2 and row < 2:
             #send clear loop if row 1 or 2
             button_num = 1 + 4 * row + column
             self.send_msg.clear_loop(button_num)
