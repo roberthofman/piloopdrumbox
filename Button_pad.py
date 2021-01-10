@@ -82,7 +82,7 @@ class Button_pad:
             #error if only key up is registered: avoid by if
             self.button_timer[column][row] = datetime.now() - self.button_press_time[column][row]
         else:
-            self.button_timer[column][row] = 0
+            self.button_timer[column][row] = datetime.now() - datetime.now()
         if self.button_timer[column][row].seconds > 2 and row < 2:
             #send clear loop if row 1 or 2
             button_num = 1 + 4 * row + column
