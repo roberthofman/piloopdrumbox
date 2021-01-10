@@ -26,10 +26,9 @@ def pdreceive():
     args = ["pdreceive", str(PORT_RECEIVE_FROM_PD)]
     proc = subprocess.Popen(args, stdout=subprocess.PIPE)
     line = proc.stdout.readline()
-    if line == '': # `pdreceive` exited.
-        break
-    yield line
-    
+    if not line == '':
+        yield line
+
 print("setting up socket...")
 time.sleep(1)
 
