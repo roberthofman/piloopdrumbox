@@ -35,7 +35,7 @@ time.sleep(4)
 while True:
     #incoming PD data
     pd_status = socket.splitlines()
-    if not pd_status == '':
+    if pd_status:
         print(pd_status)
     #send_msg.select_kit(input("select kit:"))
     #send_msg.press_button(int(input("press buton:")))
