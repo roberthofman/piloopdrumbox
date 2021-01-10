@@ -117,7 +117,7 @@ class Button_pad:
                     if self.debounce_count[column][row] > 0:
                         self.debounce_count[column][row] -= 1
                         if self.debounce_count[column][row] == 0:
-                            self.handle_button_press(column, row)
+                            self.handle_button_release(column, row)
 
             time.sleep(1/1000)
 
