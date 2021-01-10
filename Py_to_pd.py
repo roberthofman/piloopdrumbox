@@ -48,3 +48,6 @@ class Py_to_pd:
             print("range of buttons should be between 1:16")
         else:
             self.send2Pd(2, button)
+
+    def clear_loop(self, button):
+        print("clear loop!")

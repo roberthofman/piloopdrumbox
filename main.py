@@ -2,7 +2,6 @@ import os
 import time
 import sys, getopt
 import git
-from Py_to_pd import Py_to_pd
 from Button_pad import Button_pad
 
 def main():
@@ -12,21 +11,20 @@ def main():
     g = git.cmd.Git(dir)
     g.pull()
 
-    # Set up the GPIO library and Pins
-    buttons = Button_pad()
-    buttons.setup_buttons() #Initialize the Pins of leds/buttons
-
     #PD_PATH = "/Applications/Pd-0.51-1.app/Contents/Resources/bin/" #mac
     PD_PATH = "" #pi
     PORT_SEND_TO_PD = 3000
 
-    # initiate python to PD class
-    send_msg = Py_to_pd(PD_PATH, PORT_SEND_TO_PD)
+    # Set up the GPIO library and Pins and send the PD_to_py info
+    buttons = Button_pad(PD_PATH, PORT_SEND_TO_PD)
+    buttons.setup_buttons() #Initialize the Pins of leds/buttons
 
     # start the socket (Pd_to_py)
     os.system('python3 Pd_to_py.py &')
     print("setting up socket...")
     time.sleep(1)
+    socket_message = {}
+    previous_socket_message = {}
 
     # start PD
     os.system(PD_PATH + 'pd -nogui main.pd &')
@@ -34,6 +32,9 @@ def main():
     time.sleep(4)
 
     while True:
+        if socket_message and not socket_message == previous_socket_message:
+            print(socket_message)
+            previous_socket_message = socket_message
         #send_msg.select_kit(input("select kit:"))
         #send_msg.press_button(int(input("press buton:")))
         buttons.scan()

@@ -1,9 +1,10 @@
 import socket
+from main import socket_message
 
 PORT_RECV_FROM_PD = 4000
 ADDRESS = "127.0.0.1"
 
-def handleStatus(action, payload):
+def handle_status(action, payload):
     if action == "clear_rec":
         print("Received: " + action + ": " + str(payload))
     elif action == "start_rec":
@@ -16,6 +17,7 @@ def handleStatus(action, payload):
         print("Received: " + action + ": " + str(payload))
     else:
         print("unknown status received from PD")
+    socket_message = {action: payload}
 
 def setMetronome(count):
     metronome = count
@@ -29,7 +31,6 @@ def pd_receive(address, port):
         s.listen(5) #queue messages
     except Exception as e:
         print("Socket setup failed: \n" + str(e))
-
     while True:
         conn, addr = s.accept()
         print("PD connected")
@@ -45,4 +46,4 @@ for message in pd_receive(ADDRESS, PORT_RECV_FROM_PD):
     if x[0] == "counter":
         setMetronome(x[1])
     if x[0] == "status":
-        handleStatus(x[1], x[2:])
+        handle_status(x[1], x[2:])
