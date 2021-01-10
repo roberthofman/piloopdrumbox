@@ -35,7 +35,9 @@ time.sleep(4)
 
 while True:
     #incoming PD data
-    print(proc.stdout.read())
+    socket_msg = proc.stdout.read().decode()
+    if socket_msg:
+        print('socket_msg')
     #send_msg.select_kit(input("select kit:"))
     #send_msg.press_button(int(input("press buton:")))
     buttons.scan()
