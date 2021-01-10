@@ -3,7 +3,19 @@ import time
 import sys, getopt
 import git
 import subprocess
+import Queue
+import threading
+import sys
 from Button_pad import Button_pad
+
+def read_output(pipe, q):
+    """
+    reads output from `pipe`, when line has been read, puts
+    line on Queue `q`
+    """
+    while True:
+        l = pipe.readline()
+        q.put(l)
 
 # Perform a git pull to get the latest version on boot
 print("Checking for updates...")
@@ -20,11 +32,15 @@ PORT_RECEIVE_FROM_PD = 4000
 buttons = Button_pad(PD_PATH, PORT_SEND_TO_PD)
 buttons.setup_buttons() #Initialize the Pins of leds/buttons
 
-# start the socket (Pd_to_py)
-#os.system('python3 Pd_to_py.py &')
-args = ["pdreceive", str(PORT_RECEIVE_FROM_PD)]
-proc = subprocess.Popen(args, stdout=subprocess.PIPE)
+# start the socket
 print("setting up socket...")
+args = ["sudo pdreceive", str(PORT_RECEIVE_FROM_PD)]
+proc = subprocess.Popen(args, stdout=subprocess.PIPE)
+# Queue for storing output lines
+proc_q = Queue.Queue()
+proc_t = threading.Thread(target=read_output, args=(proc.stdout, proc_q))
+proc_t.daemon = True
+proc_t.start()
 time.sleep(1)
 
 # start PD
@@ -34,9 +50,12 @@ time.sleep(4)
 
 while True:
     #incoming PD data
-    socket_msg = proc.stdout.read().decode()
-    if socket_msg:
-        print(socket_msg)
+    try:
+        l = proc_q.get(False)
+        sys.stdout.write("A: ")
+        sys.stdout.write(l)
+    except Queue.Empty:
+        pass
     #send_msg.select_kit(input("select kit:"))
     #send_msg.press_button(int(input("press buton:")))
     buttons.scan()
