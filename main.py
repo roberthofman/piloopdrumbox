@@ -3,7 +3,7 @@ import time
 import sys, getopt
 import git
 import subprocess
-import Queue
+import queue
 import threading
 import sys
 from Button_pad import Button_pad
