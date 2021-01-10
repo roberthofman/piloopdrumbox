@@ -24,7 +24,6 @@ buttons.setup_buttons() #Initialize the Pins of leds/buttons
 #os.system('python3 Pd_to_py.py &')
 args = ["pdreceive", str(PORT_RECEIVE_FROM_PD)]
 proc = subprocess.Popen(args, stdout=subprocess.PIPE)
-
 print("setting up socket...")
 time.sleep(1)
 
@@ -37,7 +36,7 @@ while True:
     #incoming PD data
     socket_msg = proc.stdout.read().decode()
     if socket_msg:
-        print('socket_msg')
+        print(socket_msg)
     #send_msg.select_kit(input("select kit:"))
     #send_msg.press_button(int(input("press buton:")))
     buttons.scan()
