@@ -5,7 +5,7 @@ For updates on the build log see the [wiki](https://github.com/roberthofman/pilo
 ## Install requirements
 ### PureData
 On the pi, use the command: `sudo apt-get install puredata`.  
-No extensions are required. 
+No extensions are required.  
 In order to get the soundcard working and avoiding the `ALSA input error (snd_pcm_open): No such file or directory
 ` error, you need to make sure that the USB-soundcard is the only audio device and has index 0. Disable the Pi's jack input via this file:   
 `/etc/modprobe.d/alsa-blacklist.conf` and add the following line: `blacklist snd_bcm2835`.   
@@ -17,9 +17,9 @@ The Python code is based on Python3, so make sure that the raspberry pi defaults
 `sudo apt-get install python-rpi.gpio`  
 I also use the GitPython package to run a git pull every boot. In that case you need to install pip and GitPython via pip.   
 `sudo apt-get python3 pip` & `pip3 install GitPython`.   
-You'll need a couple of libraries:   
-- sudo apt – get install i2c – tools
-- sudo apt – get install python3 – smbus
+You'll need a couple of python libraries:   
+- i2c–tools
+- smbus
 
 
 ### Drum sounds
