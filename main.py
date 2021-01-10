@@ -35,7 +35,8 @@ time.sleep(4)
 
 while True:
     #incoming PD data
-    if line in proc.stdout:
+    if proc.stdout:
+        print(proc.stout)
         for line in proc.stout:
             print(line)
             l = line.decode(encoding="utf-8", errors="ignore")
