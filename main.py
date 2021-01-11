@@ -20,7 +20,7 @@ def read_output(pipe, q):
     while True:
         l = pipe.readline()
         q.put(l)
-        time.sleep(1/10) #check if potential lag
+        #time.sleep(1/10) #check if potential lag
 
 def read_pd_input(proc_q):
     """
@@ -31,6 +31,7 @@ def read_pd_input(proc_q):
         #reads the process without blocking (get(False) is non-blocking)
         pd_input = proc_q.get(False).decode()
         if pd_input:
+            print(pd_input)
             #If possible: create a thread for this function to avoid slowing loop
             handle_pd_msg(pd_input)
     except Empty:
@@ -45,7 +46,6 @@ def handle_pd_msg(msg):
     if x[0] == "counter":
         set_metronome(x[1])
     if x[0] == "status":
-        print(msg)
         handle_status(x[1], x[2:])
 
 def handle_status(action, payload):
