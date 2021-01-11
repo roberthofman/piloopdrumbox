@@ -103,7 +103,7 @@ proc = Popen(args, stdout=PIPE)
 proc_q = Queue()
 # Seperate thread for reading the output from PD
 proc_thread = Thread(target = read_output, args = (proc.stdout, proc_q))
-read_pd_thread = Thread(target = read_pd_input, args = proc_q)
+read_pd_thread = Thread(target = read_pd_input, args = (proc_q))
 proc_thread.daemon = True
 read_pd_thread.daemon = True
 proc_thread.start()
