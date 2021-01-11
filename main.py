@@ -1,7 +1,7 @@
 import os
 import time
 import git
-from subprocess Popen
+from subprocess import Popen
 from queue import Queue, Empty
 from threading import Thread
 from Button_pad import Button_pad
