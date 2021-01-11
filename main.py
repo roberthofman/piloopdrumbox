@@ -45,6 +45,7 @@ def handle_pd_msg(msg):
     if x[0] == "counter":
         set_metronome(x[1])
     if x[0] == "status":
+        print(msg)
         handle_status(x[1], x[2:])
 
 def handle_status(action, payload):
