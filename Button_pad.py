@@ -98,7 +98,7 @@ class Button_pad:
         color: red, green, blue, yellow, purple, cyan, white
         """
         column = (button-1) % 4
-        row = math.ceil(button / 4)
+        row = math.floor((button-1) / 4)
         self.LED_output[column][row] = color
 
     def set_LED_GPIO(self, color, column, row):
