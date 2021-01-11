@@ -27,15 +27,16 @@ def read_pd_input(proc_q):
     Thread process to read PureData input
     Requires the proces queue which reads the socket input
     """
-    try:
-        #reads the process without blocking (get(False) is non-blocking)
-        pd_input = proc_q.get(False).decode()
-        if pd_input:
-            print(pd_input)
-            #If possible: create a thread for this function to avoid slowing loop
-            handle_pd_msg(pd_input)
-    except Empty:
-        pass
+    while True:
+        try:
+            #reads the process without blocking (get(False) is non-blocking)
+            pd_input = proc_q.get(False).decode()
+            if pd_input:
+                print(pd_input)
+                #If possible: create a thread for this function to avoid slowing loop
+                handle_pd_msg(pd_input)
+        except Empty:
+            pass
 
 def handle_pd_msg(msg):
     """
