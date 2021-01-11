@@ -1,7 +1,7 @@
 import os
 import time
 import git
-from subprocess import Popen
+from subprocess import Popen, PIPE
 from queue import Queue, Empty
 from threading import Thread
 from Button_pad import Button_pad
@@ -98,7 +98,7 @@ lcd = RPi_I2C_driver.lcd()
 # start the socket
 print("setting up socket...")
 args = ["pdreceive", str(PORT_RECEIVE_FROM_PD)]
-proc = Popen(args, stdout=subprocess.PIPE)
+proc = Popen(args, stdout=PIPE)
 # Queue for storing output lines
 proc_q = Queue()
 # Seperate thread for reading the output from PD
