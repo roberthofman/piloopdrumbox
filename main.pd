@@ -1,4 +1,4 @@
-#N canvas 661 341 729 441 12;
+#N canvas 634 358 729 441 12;
 #X obj 76 83 bng 45 250 50 0 lp-trig-1 button-1 empty 17 7 0 10 -262144
 -1 -1;
 #X obj 150 83 bng 45 250 50 0 lp-trig-2 button-2 empty 17 7 0 10 -262144
@@ -120,8 +120,8 @@
 #N canvas 7 188 1418 565 load_sounds 0;
 #X obj 768 25 inlet;
 #N canvas 0 22 450 278 (subpatch) 0;
-#X array kick-1 38827 float 2;
-#X coords 0 0.1 38827 -0.1 100 50 1 0 0;
+#X array kick-1 35895 float 2;
+#X coords 0 0.1 35895 -0.1 100 50 1 0 0;
 #X restore 36 219 graph;
 #X obj 36 114 soundfiler;
 #X floatatom 36 147 10 0 0 0 - - -;
@@ -159,8 +159,8 @@
 #X floatatom 787 146 10 0 0 0 - - -;
 #X obj 787 328 soundfiler;
 #N canvas 0 22 450 278 (subpatch) 0;
-#X array hh-2 27136 float 2;
-#X coords 0 0.1 27136 -0.1 100 50 1 0 0;
+#X array hh-2 88200 float 2;
+#X coords 0 0.1 88200 -0.1 100 50 1 0 0;
 #X restore 788 432 graph;
 #X floatatom 787 362 10 0 0 0 - - -;
 #X msg 787 81 read -resize drum_sounds/hh_\$1_1.wav hh-1;
@@ -703,7 +703,7 @@ push has been done.;
 0 1;
 #X obj 341 205 tgl 15 0 empty rec-loop-8 empty 17 7 0 10 -4034 -1 -1
 0 1;
-#N canvas 29 333 633 448 send_msg 0;
+#N canvas 0 330 633 448 send_msg 1;
 #X obj 220 134 r counter;
 #X obj 24 51 loadbang;
 #X obj 24 390 netsend;
@@ -729,6 +729,7 @@ to the socket;
 #X msg 415 177 send status|stop_rec|\$1|;
 #X msg 415 254 send status|wait_rec|\$1|;
 #X msg 416 313 send status|mute_rec|\$1|\$2|;
+#X text 503 282 1: mute status 2: loop nr;
 #X connect 0 0 19 0;
 #X connect 1 0 4 0;
 #X connect 2 0 3 0;

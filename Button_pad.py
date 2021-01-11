@@ -2,6 +2,7 @@ import RPi.GPIO as GPIO
 from Py_to_pd import Py_to_pd
 import time
 from datetime import datetime
+import math
 
 class Button_pad:
     def __init__(self, PD_PATH, PORT_SEND_TO_PD):
@@ -22,13 +23,14 @@ class Button_pad:
         # It basically sets the sensitivity of the button (press/no press)
         self.MAX_DEBOUNCE = 3 # should range between 2-3 accorinding to Sparkfun
         # Global Variables
-        self.LED_output = self.create_matrix(False, self.NUM_LED_COLUMNS, self.NUM_LED_ROWS)
         self.btnColumnPins = [31, 33, 35, 37] # Pin numbers for columns (4)
         self.btnRowPins = [13, 15, 19, 21] # Pin numbers for rows (4)
         self.ledColumnPins = [32, 36, 38, 40] # Pin numbers for the LED's (columns) (4)
         self.colorPins = [[8, 18, 7], [10, 22, 23], [12, 24, 11], [16, 26, 29]] # 1: red 2: green 3: blue
         # Tracks how often a button is pressed
         self.debounce_count = self.create_matrix(0, self.NUM_BTN_COLUMNS, self.NUM_BTN_ROWS)
+        # Tracks the LED status
+        self.LED_output = self.create_matrix("", self.NUM_LED_COLUMNS, self.NUM_LED_ROWS)
         self.button_press_time = self.create_matrix(0, self.NUM_BTN_COLUMNS, self.NUM_BTN_ROWS)
         self.button_timer = self.create_matrix(0, self.NUM_BTN_COLUMNS, self.NUM_BTN_ROWS)
         # initiate python to PD class
@@ -65,7 +67,6 @@ class Button_pad:
     def handle_button_press(self, column, row):
         #Send button press
         print("Key Down: " + str(column) + ", " + str(row))
-        self.LED_output[column][row] += 1
         self.button_press_time[column][row] = datetime.now()
         button_num = 1 + 4 * row + column
         if row > 1:
@@ -89,6 +90,40 @@ class Button_pad:
             self.send_msg.clear_loop(button_num)
         self.button_timer[column][row] = 0
 
+    def set_button_color(self, button, color):
+        """
+        Called from the main function
+        Determines the color for a certain button
+        button: 1:16
+        color: red, green, blue, yellow, purple, cyan, white
+        """
+        column = (button-1) % 4
+        row = math.ceil(button / 4)
+        self.LED_output[column][row] = color
+
+    def set_LED_GPIO(self, color, column, row):
+        if color == "red":
+            GPIO.output(self.colorPins[row][0], GPIO.HIGH)
+        if color == "green":
+            GPIO.output(self.colorPins[row][1], GPIO.HIGH)
+        if color == "blue":
+            GPIO.output(self.colorPins[row][2], GPIO.HIGH)
+        if color == "yellow":
+            GPIO.output(self.colorPins[row][0], GPIO.HIGH)
+            GPIO.output(self.colorPins[row][1], GPIO.HIGH)
+        if color == "purple":
+            GPIO.output(self.colorPins[row][0], GPIO.HIGH)
+            GPIO.output(self.colorPins[row][2], GPIO.HIGH)
+        if color == "cyan":
+            GPIO.output(self.colorPins[row][1], GPIO.HIGH)
+            GPIO.output(self.colorPins[row][2], GPIO.HIGH)
+        if color == "white":
+            GPIO.output(self.colorPins[row][0], GPIO.HIGH)
+            GPIO.output(self.colorPins[row][1], GPIO.HIGH)
+            GPIO.output(self.colorPins[row][2], GPIO.HIGH)
+        else:
+            print("Color invalid")
+
     def scan(self):
         """
         Function to be looped to scan button presses
@@ -101,9 +136,9 @@ class Button_pad:
 
             # output LED row values
             for row in range(self.NUM_LED_ROWS):
-                val = self.LED_output[column][row]
-                if(self.LED_output[column][row]):
-                    GPIO.output(self.colorPins[row][val-1], GPIO.HIGH)
+                color = self.LED_output[column][row]
+                if color:
+                    self.set_LED_GPIO(color, column, row)
 
             time.sleep(1/1000)
 
