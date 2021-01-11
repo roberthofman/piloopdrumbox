@@ -107,7 +107,7 @@ read_pd_thread = Thread(target = read_pd_input, args = proc_q)
 proc_thread.daemon = True
 read_pd_thread.daemon = True
 proc_thread.start()
-read_pd_threat.start()
+read_pd_thread.start()
 time.sleep(1)
 
 # start PD
