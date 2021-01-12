@@ -89,7 +89,7 @@ buttons = Button_pad(PD_PATH, PORT_SEND_TO_PD)
 buttons.setup_buttons() #Initialize the Pins of leds/buttons
 for drumpad_button in DRUMPAD_BUTTONS:
     #Set buttons to white color
-    buttons.set_button_color(drumpad_button, COLORS[4])
+    buttons.set_button_color(drumpad_button, COLORS[0])
 
 # Set up the LCD
 lcd = RPi_I2C_driver.lcd()
