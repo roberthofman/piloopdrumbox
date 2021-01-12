@@ -66,9 +66,10 @@ class Button_pad:
 
     def handle_button_press(self, column, row):
         #Send button press
-        #print("Key Down: " + str(column) + ", " + str(row))
+        #print("Key Press: " + str(column) + ", " + str(row))
         self.button_press_time[column][row] = datetime.now()
         button_num = 1 + 4 * row + column
+        print("button no: " + button_num)
         if row > 1:
             #Drumbox
             self.send_msg.press_button(button_num)
