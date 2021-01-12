@@ -39,7 +39,7 @@ def handle_pd_msg(msg):
     Handle a msg from puredata, which is split by | characters
     """
     x = msg.split("|")
-    x.pop() #remove last element of the list (PD automatically adds \n)
+    del x[-1] #remove last element of the list (PD automatically adds \n)
     if x[0] == "counter":
         set_metronome(x[1])
     if x[0] == "status":
@@ -49,23 +49,24 @@ def handle_status(action, payload):
     """
     Handle status messages from PD
     """
+    payload = [int(i) for i in payload]
     if action == "clear_rec":
-        print("Received: " + action + ": " + str(payload))
+        print("Received: " + action + ": " + str(payload[0]))
     elif action == "start_rec":
         buttons.set_button_color(payload, COLORS[0]) #red
-        lcd.lcd_display_string("Start rec: " + str(payload), 1)
+        lcd.lcd_display_string("Start rec: " + str(payload[0]), 1)
     elif action == "stop_rec":
         buttons.set_button_color(payload, COLORS[1]) #green
-        lcd.lcd_display_string("Finished rec: " + str(payload), 1)
+        lcd.lcd_display_string("Finished rec: " + str(payload[0]), 1)
     elif action == "wait_rec":
-        buttons.set_button_color(payload, COLORS[3]) #yellow
+        buttons.set_button_color(payload[0], COLORS[3]) #yellow
     elif action == "mute_rec":
         if payload[0] == 1:
             #mute
             buttons.set_button_color(payload[1], COLORS[2]) #blue
         if payload[0] == 0:
             #unmute
-            buttons.set_button_color(payload, COLORS[1]) #green
+            buttons.set_button_color(payload[1], COLORS[1]) #green
     else:
         print("unknown status received from PD")
 

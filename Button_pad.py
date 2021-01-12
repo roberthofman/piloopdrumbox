@@ -66,7 +66,7 @@ class Button_pad:
 
     def handle_button_press(self, column, row):
         #Send button press
-        print("Key Down: " + str(column) + ", " + str(row))
+        #print("Key Down: " + str(column) + ", " + str(row))
         self.button_press_time[column][row] = datetime.now()
         button_num = 1 + 4 * row + column
         if row > 1:
@@ -78,7 +78,7 @@ class Button_pad:
 
     def handle_button_release(self, column, row):
         #Send key release
-        print("Key Up: " + str(column) + ", " + str(row))
+        #print("Key Up: " + str(column) + ", " + str(row))
         if not self.button_press_time[column][row] == 0:
             #error if only key up is registered: avoid by if
             self.button_timer[column][row] = datetime.now() - self.button_press_time[column][row]
