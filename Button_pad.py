@@ -69,6 +69,7 @@ class Button_pad:
         print("Key Press: " + str(column) + ", " + str(row))
         self.button_press_time[column][row] = datetime.now()
         button_num = 1 + 4 * column + row
+        print("button no:" + str(button_num))
         if row > 1:
             #Drumbox
             self.send_msg.press_button(button_num)
@@ -86,7 +87,7 @@ class Button_pad:
             self.button_timer[column][row] = datetime.now() - datetime.now()
         if self.button_timer[column][row].seconds > 2 and row < 2:
             #send clear loop if row 1 or 2
-            button_num = 1 + 4 * row + column
+            button_num = 1 + 4 * column + row
             self.send_msg.clear_loop(button_num)
         self.button_timer[column][row] = 0
 
@@ -99,7 +100,8 @@ class Button_pad:
         """
         column = (button-1) % 4
         row = math.floor((button-1) / 4)
-        self.LED_output[row][column] = color
+        self.LED_output[column][row] = color
+        print(self.LED_output)
 
     def set_LED_GPIO(self, color, column, row):
         if color == "red":
@@ -138,7 +140,7 @@ class Button_pad:
 
             # output LED row values
             for row in range(self.NUM_LED_ROWS):
-                color = self.LED_output[row][column]
+                color = self.LED_output[column][row]
                 if color:
                     self.set_LED_GPIO(color, column, row)
 
