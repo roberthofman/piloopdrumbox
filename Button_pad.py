@@ -66,10 +66,8 @@ class Button_pad:
 
     def handle_button_press(self, column, row):
         #Send button press
-        #print("Key Press: " + str(column) + ", " + str(row))
+        print("Key Press: " + str(column) + ", " + str(row))
         self.button_press_time[column][row] = datetime.now()
-        button_num = 1 + 4 * column + row
-        print("button no: " + str(button_num), column, row)
         if row > 1:
             #Drumbox
             self.send_msg.press_button(button_num)
@@ -98,8 +96,8 @@ class Button_pad:
         button: 1:16
         color: red, green, blue, yellow, purple, cyan, white
         """
-        column = (button-1) % 4
-        row = math.floor((button-1) / 4)
+        row = (button-1) % 4
+        column = math.floor((button-1) / 4)
         self.LED_output[column][row] = color
 
     def set_LED_GPIO(self, color, column, row):
