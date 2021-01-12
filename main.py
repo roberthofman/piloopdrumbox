@@ -12,37 +12,33 @@ COLORS = ["red", "green", "blue", "yellow", "purple", "cyan", "white"]
 LOOP_BUTTONS = [1,2,3,4,5,6,7,8]
 DRUMPAD_BUTTONS = [9,10,11,12,13,14,15,16]
 
-def read_output(pipe, q):
-    """
-    reads output from `pipe`, when line has been read, puts
-    line on Queue `q`
-    """
-    while True:
-        l = pipe.readline()
-        q.put(l)
-        #time.sleep(1/10) #check if potential lag
-
-def read_pd_input(proc_q):
+def read_pd_input(proc, q):
     """
     Thread process to read PureData input
-    Requires the proces queue which reads the socket input
+    Requires the queue, that stores the socket output
     """
     while True:
+        pd_input = proc.readline()
+        q.put(pd_input)
+        time.sleep(1/10)
+
+def process_pd_input(q):
+    while True:
         try:
-            #reads the process without blocking (get(False) is non-blocking)
-            pd_input = proc_q.get(False).decode()
+            #reads the queue with blocking
+            pd_input = q.get().decode()
             if pd_input:
                 print(pd_input)
-                #If possible: create a thread for this function to avoid slowing loop
                 handle_pd_msg(pd_input)
         except Empty:
+            time.sleep(1/10)
             pass
 
 def handle_pd_msg(msg):
     """
     Handle a msg from puredata, which is split by | characters
     """
-    x = message.split("|")
+    x = msg.split("|")
     x.pop() #remove last element of the list (PD automatically adds \n)
     if x[0] == "counter":
         set_metronome(x[1])
@@ -100,16 +96,14 @@ lcd = RPi_I2C_driver.lcd()
 # start the socket
 print("setting up socket...")
 args = ["pdreceive", str(PORT_RECEIVE_FROM_PD)]
-proc = Popen(args, stdout=PIPE)
-# Queue for storing output lines
+process_socket_PD = Popen(args, stdout=PIPE)
 proc_q = Queue()
 # Seperate thread for reading the output from PD
-proc_thread = Thread(target = read_output, args = (proc.stdout, proc_q))
-read_pd_thread = Thread(target = read_pd_input, args = (proc_q,))
-proc_thread.daemon = True
-read_pd_thread.daemon = True
-proc_thread.start()
+# IDEA: create 1 thread with communicate; it can be blocking as it is a seperate Thread
+read_pd_thread = Thread(target = read_pd_input, args = (process_socket_PD.stdout, proc_q))
+process_pd_thread = Thread(target = process_pd_input, args = (proc_q, ))
 read_pd_thread.start()
+process_pd_thread.start()
 time.sleep(1)
 
 # start PD
