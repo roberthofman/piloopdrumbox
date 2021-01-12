@@ -69,7 +69,7 @@ class Button_pad:
         #print("Key Press: " + str(column) + ", " + str(row))
         self.button_press_time[column][row] = datetime.now()
         button_num = 1 + 4 * row + column
-        print("button no: " + button_num)
+        print("button no: " + str(button_num))
         if row > 1:
             #Drumbox
             self.send_msg.press_button(button_num)
