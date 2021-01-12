@@ -122,7 +122,9 @@ class Button_pad:
             GPIO.output(self.colorPins[row][1], GPIO.HIGH)
             GPIO.output(self.colorPins[row][2], GPIO.HIGH)
         else:
-            print("Color invalid")
+            GPIO.output(self.colorPins[row][0], GPIO.LOW)
+            GPIO.output(self.colorPins[row][1], GPIO.LOW)
+            GPIO.output(self.colorPins[row][2], GPIO.LOW)
 
     def scan(self):
         """
