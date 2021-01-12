@@ -53,10 +53,10 @@ def handle_status(action, payload):
     if action == "clear_rec":
         print("Received: " + action + ": " + str(payload[0]))
     elif action == "start_rec":
-        buttons.set_button_color(payload, COLORS[0]) #red
+        buttons.set_button_color(payload[0], COLORS[0]) #red
         lcd.lcd_display_string("Start rec: " + str(payload[0]), 1)
     elif action == "stop_rec":
-        buttons.set_button_color(payload, COLORS[1]) #green
+        buttons.set_button_color(payload[0], COLORS[1]) #green
         lcd.lcd_display_string("Finished rec: " + str(payload[0]), 1)
     elif action == "wait_rec":
         buttons.set_button_color(payload[0], COLORS[3]) #yellow
