@@ -138,7 +138,7 @@ class Button_pad:
 
             # output LED row values
             for row in range(self.NUM_LED_ROWS):
-                color = self.LED_output[column][row]
+                color = self.LED_output[row][column]
                 if color:
                     self.set_LED_GPIO(color, column, row)
 
