@@ -103,8 +103,6 @@ class Button_pad:
         self.LED_output[row][column] = color
 
     def set_LED_GPIO(self, color, row):
-        GPIO.output(self.colorPins[row][1], GPIO.HIGH)
-        print(color, str(color=="purple"))
         if color == "red":
             GPIO.output(self.colorPins[row][0], GPIO.HIGH)
         if color == "green":
@@ -124,10 +122,11 @@ class Button_pad:
             GPIO.output(self.colorPins[row][0], GPIO.HIGH)
             GPIO.output(self.colorPins[row][1], GPIO.HIGH)
             GPIO.output(self.colorPins[row][2], GPIO.HIGH)
-        else:
-            GPIO.output(self.colorPins[row][0], GPIO.LOW)
-            GPIO.output(self.colorPins[row][1], GPIO.LOW)
-            GPIO.output(self.colorPins[row][2], GPIO.LOW)
+        #else:
+        #    return None
+            #GPIO.output(self.colorPins[row][0], GPIO.LOW)
+            #GPIO.output(self.colorPins[row][1], GPIO.LOW)
+            #GPIO.output(self.colorPins[row][2], GPIO.LOW)
 
     def scan(self):
         """
@@ -142,7 +141,6 @@ class Button_pad:
             # output LED row values
             for row in range(self.NUM_LED_ROWS):
                 color = self.LED_output[column][row]
-                print(color)
                 if color:
                     self.set_LED_GPIO(color, row)
                     #GPIO.output(self.colorPins[row][2], GPIO.HIGH)
