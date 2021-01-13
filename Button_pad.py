@@ -26,7 +26,7 @@ class Button_pad:
         self.btnColumnPins = [31, 33, 35, 37] # Pin numbers for columns (4)
         self.btnRowPins = [13, 15, 19, 21] # Pin numbers for rows (4)
         self.ledColumnPins = [32, 36, 38, 40] # Pin numbers for the LED's (columns) (4)
-        self.colorPins = [[8, 18, 7], [10, 22, 23], [12, 24, 11], [16, 26, 29]] # 1: red 2: green 3: blue
+        self.colorPins = [[8, 18, 7], [10, 22, 23], [12, 24, 11], [16, 26, 29]] # 1: red 2: blue 3: green
         # Tracks how often a button is pressed
         self.debounce_count = self.create_matrix(0, self.NUM_BTN_COLUMNS, self.NUM_BTN_ROWS)
         # Tracks the LED status
@@ -104,14 +104,14 @@ class Button_pad:
     def set_LED_GPIO(self, color, row):
         if color == "red":
             GPIO.output(self.colorPins[row][0], GPIO.HIGH)
-        if color == "green":
-            GPIO.output(self.colorPins[row][1], GPIO.HIGH)
         if color == "blue":
+            GPIO.output(self.colorPins[row][1], GPIO.HIGH)
+        if color == "green":
             GPIO.output(self.colorPins[row][2], GPIO.HIGH)
-        if color == "yellow":
+        if color == "purple":
             GPIO.output(self.colorPins[row][0], GPIO.HIGH)
             GPIO.output(self.colorPins[row][1], GPIO.HIGH)
-        if color == "purple":
+        if color == "yellow":
             GPIO.output(self.colorPins[row][0], GPIO.HIGH)
             GPIO.output(self.colorPins[row][2], GPIO.HIGH)
         if color == "cyan":
