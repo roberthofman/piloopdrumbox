@@ -59,17 +59,17 @@ def handle_status(action, payload):
         buttons.set_button_color(payload[0], COLORS[0]) #red
         lcd.lcd_display_string("Start rec: " + str(payload[0]), 1)
     elif action == "stop_rec":
-        buttons.set_button_color(payload[0], COLORS[1]) #green
+        buttons.set_button_color(payload[0], COLORS[2]) #green
         lcd.lcd_display_string("Finished rec: " + str(payload[0]), 1)
     elif action == "wait_rec":
         buttons.set_button_color(payload[0], COLORS[6]) #yellow
     elif action == "mute_rec":
         if payload[0] == 1:
             #mute
-            buttons.set_button_color(payload[1], COLORS[2]) #blue
+            buttons.set_button_color(payload[1], COLORS[1]) #blue
         if payload[0] == 0:
             #unmute
-            buttons.set_button_color(payload[1], COLORS[1]) #green
+            buttons.set_button_color(payload[1], COLORS[2]) #green
     else:
         print("unknown status received from PD")
 
