@@ -141,8 +141,8 @@ class Button_pad:
             for row in range(self.NUM_LED_ROWS):
                 color = self.LED_output[column][row]
                 if color:
-                    #self.set_LED_GPIO(color, row)
-                    GPIO.output(self.colorPins[row][0], GPIO.HIGH)
+                    self.set_LED_GPIO(color, row)
+                    #GPIO.output(self.colorPins[row][0], GPIO.HIGH)
 
             time.sleep(1/1000)
 
