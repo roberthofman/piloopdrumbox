@@ -97,10 +97,9 @@ lcd = RPi_I2C_driver.lcd()
 # start the socket
 print("setting up socket...")
 args = ["pdreceive", str(PORT_RECEIVE_FROM_PD)]
-process_socket_PD = Popen(args, stdout=PIPE)
-proc_q = Queue()
-# Seperate thread for reading the output from PD
-# IDEA: create 1 thread with communicate; it can be blocking as it is a seperate Thread
+process_socket_PD = Popen(args, stdout=PIPE) #second process to read PD
+proc_q = Queue() #queue for messages from PD
+# Seperate threads for reading/handling the output from PD
 read_pd_thread = Thread(target = read_pd_input, args = (process_socket_PD.stdout, proc_q))
 process_pd_thread = Thread(target = process_pd_input, args = (proc_q, ))
 read_pd_thread.start()
