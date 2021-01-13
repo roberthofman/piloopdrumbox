@@ -11,6 +11,7 @@ from resources import RPi_I2C_driver
 COLORS = ["red", "green", "blue", "yellow", "purple", "cyan", "white"]
 LOOP_BUTTONS = [1,2,3,4,5,6,7,8]
 DRUMPAD_BUTTONS = [9,10,11,12,13,14,15,16]
+BLOCK = chr(255) #block to display on screen for metronome
 
 def read_pd_input(proc, q):
     """
@@ -28,7 +29,6 @@ def process_pd_input(q):
             #reads the queue with blocking
             pd_input = q.get().decode()
             if pd_input:
-                print(pd_input)
                 handle_pd_msg(pd_input)
         except Empty:
             time.sleep(1/10)
@@ -41,7 +41,7 @@ def handle_pd_msg(msg):
     x = msg.split("|")
     del x[-1] #remove last element of the list (PD automatically adds \n)
     if x[0] == "counter":
-        set_metronome(int(x[1]))
+        set_metronome(int(x[1]), int(x[2]))
     if x[0] == "status":
         handle_status(x[1], x[2:])
 
@@ -70,8 +70,8 @@ def handle_status(action, payload):
     else:
         print("unknown status received from PD")
 
-def set_metronome(value):
-    lcd.lcd_display_string("Metro: " + str(value + 1), 2)
+def set_metronome(value, total_beats):
+    lcd.lcd_display_string_pos(12 / total_beats * value, 2, 0)
 
 # Perform a git pull to get the latest version on boot
 print("Checking for updates...")
