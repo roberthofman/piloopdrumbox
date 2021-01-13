@@ -47,7 +47,7 @@
 -1 -1;
 #X obj 341 165 bng 15 250 50 0 clear-8 empty empty 17 7 0 10 -258113
 -1 -1;
-#N canvas 296 157 1144 562 router 0;
+#N canvas 296 157 1144 562 router 1;
 #X obj 169 41 netreceive 3000;
 #X obj 188 72 print received;
 #X obj 193 222 s selected_kit;
@@ -85,7 +85,6 @@
 #X msg 790 111 4;
 #X text 787 52 the signature (maatsoort);
 #X text 788 68 integer value;
-#X connect 0 0 1 0;
 #X connect 0 0 31 0;
 #X connect 0 1 30 0;
 #X connect 3 0 4 0;
@@ -671,7 +670,7 @@ push has been done.;
 #X connect 37 0 29 1;
 #X connect 38 0 29 0;
 #X restore 382 146 pd loop_player;
-#X obj 127 103 tgl 15 0 empty mute-1 empty 17 7 0 10 -4032 -1 -1 0
+#X obj 127 103 tgl 15 0 empty mute-1 empty 17 7 0 10 -4032 -1 -1 1
 1;
 #X obj 198 103 tgl 15 0 empty mute-2 empty 17 7 0 10 -4032 -1 -1 0
 1;
@@ -703,7 +702,7 @@ push has been done.;
 0 1;
 #X obj 341 205 tgl 15 0 empty rec-loop-8 empty 17 7 0 10 -4034 -1 -1
 0 1;
-#N canvas 0 330 633 448 send_msg 1;
+#N canvas 548 25 633 448 send_msg 0;
 #X obj 220 134 r counter;
 #X obj 24 51 loadbang;
 #X obj 24 390 netsend;
@@ -718,7 +717,7 @@ push has been done.;
 #X obj 415 231 t f;
 #X obj 97 52 r connect;
 #X obj 42 114 r disconnect;
-#X obj 416 286 r mute-rec;
+#X obj 415 296 r mute-rec;
 #X obj 221 53 r clear-rec;
 #X obj 221 76 t f;
 #X text 25 8 send status messages to python and initiate the connection
@@ -728,9 +727,8 @@ to the socket;
 #X msg 414 99 send status|start_rec|\$1|;
 #X msg 415 177 send status|stop_rec|\$1|;
 #X msg 415 254 send status|wait_rec|\$1|;
-#X msg 416 313 send status|mute_rec|\$1|\$2|;
-#X text 503 282 1: mute status 2: loop nr;
-#X obj 392 365 print \$1 \$2;
+#X msg 415 323 send status|mute_rec|\$1|\$2|;
+#X text 414 280 1: mute status 2: loop nr;
 #X connect 0 0 19 0;
 #X connect 1 0 4 0;
 #X connect 2 0 3 0;
@@ -745,7 +743,6 @@ to the socket;
 #X connect 12 0 4 0;
 #X connect 13 0 5 0;
 #X connect 14 0 23 0;
-#X connect 14 0 25 0;
 #X connect 15 0 16 0;
 #X connect 16 0 18 0;
 #X connect 18 0 2 0;
