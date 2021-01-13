@@ -152,6 +152,7 @@ class Button_pad:
                         GPIO.output(self.colorPins[row][0], GPIO.HIGH)
                         GPIO.output(self.colorPins[row][1], GPIO.HIGH)
                     if color == "purple":
+                        print(row)
                         GPIO.output(self.colorPins[row][0], GPIO.HIGH)
                         GPIO.output(self.colorPins[row][2], GPIO.HIGH)
                     if color == "cyan":
