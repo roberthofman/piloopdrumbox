@@ -140,7 +140,6 @@ class Button_pad:
             # output LED row values
             for row in range(self.NUM_LED_ROWS):
                 color = self.LED_output[column][row]
-                print(str(column), str(row), color)
                 if color:
                     #self.set_LED_GPIO(color, row)
                     GPIO.output(self.colorPins[row][0], GPIO.HIGH)
