@@ -142,30 +142,8 @@ class Button_pad:
                 color = self.LED_output[column][row]
                 if color:
                     #self.set_LED_GPIO(color, row)
-                    if color == "red":
-                        GPIO.output(self.colorPins[row][0], GPIO.HIGH)
-                    if color == "green":
-                        GPIO.output(self.colorPins[row][1], GPIO.HIGH)
-                    if color == "blue":
-                        GPIO.output(self.colorPins[row][2], GPIO.HIGH)
-                    if color == "yellow":
-                        GPIO.output(self.colorPins[row][0], GPIO.HIGH)
-                        GPIO.output(self.colorPins[row][1], GPIO.HIGH)
-                    if color == "purple":
-                        print(row)
-                        GPIO.output(self.colorPins[row][0], GPIO.HIGH)
-                        GPIO.output(self.colorPins[row][2], GPIO.HIGH)
-                    if color == "cyan":
-                        GPIO.output(self.colorPins[row][1], GPIO.HIGH)
-                        GPIO.output(self.colorPins[row][2], GPIO.HIGH)
-                    if color == "white":
-                        GPIO.output(self.colorPins[row][0], GPIO.HIGH)
-                        GPIO.output(self.colorPins[row][1], GPIO.HIGH)
-                        GPIO.output(self.colorPins[row][2], GPIO.HIGH)
-                    else:
-                        GPIO.output(self.colorPins[row][0], GPIO.LOW)
-                        GPIO.output(self.colorPins[row][1], GPIO.LOW)
-                        GPIO.output(self.colorPins[row][2], GPIO.LOW)
+                    GPIO.output(self.colorPins[row][0], GPIO.HIGH)
+                    GPIO.output(self.colorPins[row][1], GPIO.HIGH)
 
             time.sleep(1/1000)
 
