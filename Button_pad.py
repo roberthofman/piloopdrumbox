@@ -103,7 +103,6 @@ class Button_pad:
         self.LED_output[row][column] = color
 
     def set_LED_GPIO(self, color, row):
-        print(str(row), color)
         if color == "red":
             GPIO.output(self.colorPins[row][0], GPIO.HIGH)
         if color == "green":
@@ -142,8 +141,30 @@ class Button_pad:
             for row in range(self.NUM_LED_ROWS):
                 color = self.LED_output[column][row]
                 if color:
-                    self.set_LED_GPIO(color, row)
-                    #GPIO.output(self.colorPins[row][0], GPIO.HIGH)
+                    #self.set_LED_GPIO(color, row)
+                    if color == "red":
+                        GPIO.output(self.colorPins[row][0], GPIO.HIGH)
+                    if color == "green":
+                        GPIO.output(self.colorPins[row][1], GPIO.HIGH)
+                    if color == "blue":
+                        GPIO.output(self.colorPins[row][2], GPIO.HIGH)
+                    if color == "yellow":
+                        GPIO.output(self.colorPins[row][0], GPIO.HIGH)
+                        GPIO.output(self.colorPins[row][1], GPIO.HIGH)
+                    if color == "purple":
+                        GPIO.output(self.colorPins[row][0], GPIO.HIGH)
+                        GPIO.output(self.colorPins[row][2], GPIO.HIGH)
+                    if color == "cyan":
+                        GPIO.output(self.colorPins[row][1], GPIO.HIGH)
+                        GPIO.output(self.colorPins[row][2], GPIO.HIGH)
+                    if color == "white":
+                        GPIO.output(self.colorPins[row][0], GPIO.HIGH)
+                        GPIO.output(self.colorPins[row][1], GPIO.HIGH)
+                        GPIO.output(self.colorPins[row][2], GPIO.HIGH)
+                    else:
+                        GPIO.output(self.colorPins[row][0], GPIO.LOW)
+                        GPIO.output(self.colorPins[row][1], GPIO.LOW)
+                        GPIO.output(self.colorPins[row][2], GPIO.LOW)
 
             time.sleep(1/1000)
 
