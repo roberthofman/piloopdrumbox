@@ -71,7 +71,7 @@ def handle_status(action, payload):
         print("unknown status received from PD")
 
 def set_metronome(value):
-    lcd.lcd_display_string("Metro: " + str(value), 2)
+    lcd.lcd_display_string("Metro: " + str(value + 1), 2)
 
 # Perform a git pull to get the latest version on boot
 print("Checking for updates...")
