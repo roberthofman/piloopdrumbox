@@ -29,6 +29,7 @@ def process_pd_input(q):
             #reads the queue with blocking
             pd_input = q.get().decode()
             if pd_input:
+                print(pd_input)
                 handle_pd_msg(pd_input)
         except Empty:
             time.sleep(1/10)
@@ -71,7 +72,7 @@ def handle_status(action, payload):
         print("unknown status received from PD")
 
 def set_metronome(value, total_beats):
-    lcd.lcd_display_string_pos(12 / total_beats * value, 2, 0)
+    lcd.lcd_display_string_pos(12 / total_beats * value * BLOCK, 2, 0)
 
 # Perform a git pull to get the latest version on boot
 print("Checking for updates...")
