@@ -13,6 +13,7 @@ COLORS = ["red", "green", "blue", "yellow", "purple", "cyan", "white"]
 LOOP_BUTTONS = [1,2,3,4,5,6,7,8]
 DRUMPAD_BUTTONS = [9,10,11,12,13,14,15,16]
 BLOCK = chr(255) #block to display on screen for metronome
+BLANK = chr(32) #blank block to display for metronome
 
 def read_pd_input(proc, q):
     """
@@ -73,7 +74,8 @@ def handle_status(action, payload):
         print("unknown status received from PD")
 
 def set_metronome(value, total_beats):
-    lcd.lcd_display_string(math.floor(12 / total_beats * (value + 1)) * BLOCK, 2)
+    block_size = math.floor(16 / total_beats * (value + 1)) * BLOCK
+    lcd.lcd_display_string(block_size + (16 - block_size) * BLANK, 2)
 
 # Perform a git pull to get the latest version on boot
 print("Checking for updates...")
