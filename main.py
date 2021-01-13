@@ -31,7 +31,6 @@ def process_pd_input(q):
             #reads the queue with blocking
             pd_input = q.get().decode()
             if pd_input:
-                print(pd_input)
                 handle_pd_msg(pd_input)
         except Empty:
             time.sleep(1/10)
@@ -121,4 +120,4 @@ lcd.lcd_display_string("Ready to play!", 1)
 while True:
     # Run button loop
     buttons.scan()
-    time.sleep(1/1000)
+    time.sleep(1/3000)
