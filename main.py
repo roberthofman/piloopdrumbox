@@ -73,7 +73,7 @@ def handle_status(action, payload):
         print("unknown status received from PD")
 
 def set_metronome(value, total_beats):
-    lcd.lcd_display_string(math.floor(12 / total_beats * value) * BLOCK, 2)
+    lcd.lcd_display_string(math.floor(12 / total_beats * (value + 1)) * BLOCK, 2)
 
 # Perform a git pull to get the latest version on boot
 print("Checking for updates...")
