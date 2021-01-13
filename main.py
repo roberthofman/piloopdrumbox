@@ -1,6 +1,7 @@
 import os
 import time
 import git
+import math
 from subprocess import Popen, PIPE
 from queue import Queue, Empty
 from threading import Thread
@@ -72,7 +73,7 @@ def handle_status(action, payload):
         print("unknown status received from PD")
 
 def set_metronome(value, total_beats):
-    lcd.lcd_display_string_pos(12 / total_beats * value * BLOCK, 2, 0)
+    lcd.lcd_display_string(math.floor(12 / total_beats * value) * BLOCK, 2)
 
 # Perform a git pull to get the latest version on boot
 print("Checking for updates...")
