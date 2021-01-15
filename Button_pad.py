@@ -35,6 +35,7 @@ class Button_pad:
         self.button_timer = self.create_matrix(0, self.NUM_BTN_COLUMNS, self.NUM_BTN_ROWS)
         # initiate python to PD class
         self.send_msg = Py_to_pd(PD_PATH, PORT_SEND_TO_PD)
+        self.options_open = False
 
     def create_matrix(self, value, y_range, x_range):
         """
@@ -64,31 +65,38 @@ class Button_pad:
             for color in range(self.NUM_COLORS):
                 GPIO.setup(self.colorPins[row][color], GPIO.OUT, initial=GPIO.LOW)
 
+    def open_options(self):
+        self.options_open = not self.options_open
+
     def handle_button_press(self, column, row):
         #Send button press
-        #print("Key Press: " + str(column) + ", " + str(row))
-        self.button_press_time[column][row] = datetime.now()
-        button_num = 1 + 4 * column + row
-        if row > 1:
-            #Drumbox
-            self.send_msg.press_button(button_num)
+        if self.options_open:
+            #Perform Menu Action
+            return None
         else:
-            #loop
-            self.send_msg.press_button(button_num)
+            self.button_press_time[column][row] = datetime.now()
+            button_num = 1 + 4 * column + row
+            if row > 1:
+                #Drumbox
+                self.send_msg.press_button(button_num)
+            else:
+                #loop
+                self.send_msg.press_button(button_num)
 
     def handle_button_release(self, column, row):
         #Send key release
         #print("Key Up: " + str(column) + ", " + str(row))
         if not self.button_press_time[column][row] == 0:
             #error if only key up is registered: avoid by if
-            self.button_timer[column][row] = datetime.now() - self.button_press_time[column][row]
-        else:
-            self.button_timer[column][row] = datetime.now() - datetime.now()
-        if self.button_timer[column][row].seconds > 2 and row < 2:
-            #send clear loop if row 1 or 2
             button_num = 1 + 4 * column + row
-            self.send_msg.clear_loop(button_num)
-        self.button_timer[column][row] = 0
+            self.button_timer[column][row] = datetime.now() - self.button_press_time[column][row]
+            if self.button_timer[column][row].seconds > 1 and row < 2:
+                #send clear loop if row 1 or 2
+                self.send_msg.clear_loop(button_num)
+            if self.button_timer[column][row].seconds > 1 and button_num == 13:
+                #open the option menu
+                self.open_options()
+            self.button_timer[column][row] = 0
 
     def set_button_color(self, button, color):
         """
