@@ -670,7 +670,7 @@ push has been done.;
 #X connect 37 0 29 1;
 #X connect 38 0 29 0;
 #X restore 382 146 pd loop_player;
-#X obj 127 103 tgl 15 0 empty mute-1 empty 17 7 0 10 -4032 -1 -1 1
+#X obj 127 103 tgl 15 0 empty mute-1 empty 17 7 0 10 -4032 -1 -1 0
 1;
 #X obj 198 103 tgl 15 0 empty mute-2 empty 17 7 0 10 -4032 -1 -1 0
 1;
@@ -702,7 +702,7 @@ push has been done.;
 0 1;
 #X obj 341 205 tgl 15 0 empty rec-loop-8 empty 17 7 0 10 -4034 -1 -1
 0 1;
-#N canvas 548 25 633 448 send_msg 1;
+#N canvas 548 25 633 448 send_msg 0;
 #X obj 220 134 r counter;
 #X obj 24 51 loadbang;
 #X obj 24 390 netsend;
@@ -761,16 +761,19 @@ to the socket;
 #X text 475 116 initial loop settings;
 #X text 492 145 playing loops and metronome;
 #X text 470 174 sending messages to Python;
-#N canvas 552 164 450 300 audio_input 0;
-#X obj 28 173 s~ audio;
+#N canvas 552 164 450 300 audio_input 1;
+#X obj 70 173 s~ audio;
 #X obj 28 47 adc~;
 #X obj 28 134 *~;
 #X msg 46 109 1;
 #X obj 46 85 loadbang;
 #X text 23 18 The audio input from the soundcard;
 #X text 82 109 volume;
+#X obj 28 172 dac~;
 #X connect 1 0 2 0;
 #X connect 2 0 0 0;
+#X connect 2 0 7 0;
+#X connect 2 0 7 1;
 #X connect 3 0 2 1;
 #X connect 4 0 3 0;
 #X restore 381 282 pd audio_input;
