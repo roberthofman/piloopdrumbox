@@ -50,4 +50,7 @@ class Py_to_pd:
             self.send2Pd(2, button)
 
     def clear_loop(self, button):
-        print("clear loop!")
+        if button > 8:
+            print("This is not a loop button")
+        else:
+            self.send2Pd(3, button)

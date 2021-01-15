@@ -129,6 +129,10 @@ class Button_pad:
             GPIO.output(self.colorPins[row][0], GPIO.HIGH)
             GPIO.output(self.colorPins[row][1], GPIO.HIGH)
             GPIO.output(self.colorPins[row][2], GPIO.HIGH)
+        if color == "off":
+            GPIO.output(self.colorPins[row][0], GPIO.LOW)
+            GPIO.output(self.colorPins[row][1], GPIO.LOW)
+            GPIO.output(self.colorPins[row][2], GPIO.LOW)
 
     def scan(self):
         """
