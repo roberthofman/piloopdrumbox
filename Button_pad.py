@@ -134,9 +134,6 @@ class Button_pad:
             if button_num > 8 or not self.active_loops[button_num]:
                 # Press the button if drumkit or no active loop
                 self.send_msg.press_button(button_num)
-                if button_num < 9:
-                    # Make loop active
-                    self.active_loops[button_num] = True
 
     def handle_button_release(self, column, row):
         #Send key release
@@ -153,6 +150,8 @@ class Button_pad:
                         self.send_msg.clear_loop(button_num)
                     else:
                         self.send_msg.press_button(button_num)
+                #turn into an active loop
+                self.active_loops[button_num] = True
             if self.button_timer[column][row].seconds > 1 and button_num == 13:
                 #open the option menu
                 self.toggle_options()
