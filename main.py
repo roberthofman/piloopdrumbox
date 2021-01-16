@@ -81,7 +81,6 @@ def handle_status(action, payload):
         print("unknown status received from PD")
 
 def set_metronome(value, total_beats):
-    print(total_beats)
     block_size = math.floor(SCREEN_SIZE / total_beats * (value + 1))
     lcd.lcd_display_string(block_size * BLOCK + (SCREEN_SIZE - block_size) * BLANK, 2)
 
