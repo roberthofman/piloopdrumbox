@@ -84,6 +84,9 @@ def set_metronome(value, total_beats):
     block_size = math.floor(SCREEN_SIZE / total_beats * (value + 1))
     lcd.lcd_display_string(block_size * BLOCK + (SCREEN_SIZE - block_size) * BLANK, 2)
 
+# Wait for linux to boot further
+time.sleep(5)
+
 # Perform a git pull to get the latest version on boot
 print("Checking for updates...")
 try:
