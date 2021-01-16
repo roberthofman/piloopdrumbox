@@ -52,7 +52,8 @@ def handle_pd_msg(msg):
     x = msg.split("|")
     del x[-1] #remove last element of the list (PD automatically adds \n)
     if x[0] == "counter":
-        set_metronome(int(x[1]), int(x[2]))
+        if not buttons.options_open:
+            set_metronome(int(x[1]), int(x[2]))
     if x[0] == "status":
         handle_status(x[1], x[2:])
 

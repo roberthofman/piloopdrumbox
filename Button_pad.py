@@ -80,7 +80,7 @@ class Button_pad:
             self.options_open = False
             self.option_number = 0
             self.option_values[2] = ""
-            lcd.lcd_display_string("Ready to play!", 1)
+            self.lcd.lcd_display_string("Ready to play!", 1)
 
     def update_option_lcd(self):
         self.lcd.lcd_display_string("Options", 1)
