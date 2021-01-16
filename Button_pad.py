@@ -41,7 +41,7 @@ class Button_pad:
         self.options_open = False
         self.option_number = 0
         self.options = {0: "select_kit", 1: "toggle_sound", 2: "clear_all"}
-        self.option_values = {0:1, 1:True, 2:""}
+        self.option_values = {0:1, 1:True, 2:0}
         self.total_drumkits = 3
         # loop variables
         self.active_loops = {1:False, 2:False, 3:False, 4:False, 5:False, 6:False, 7:False, 8:False}
@@ -133,6 +133,7 @@ class Button_pad:
             button_num = 1 + 4 * column + row
             if button_num > 8 or not self.active_loops[button_num]:
                 # Press the button if drumkit or no active loop
+                # For active loops: wait for release (clear or (un)mute)
                 self.send_msg.press_button(button_num)
 
     def handle_button_release(self, column, row):
