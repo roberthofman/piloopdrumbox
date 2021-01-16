@@ -63,8 +63,7 @@ def handle_status(action, payload):
     """
     payload = [int(i) for i in payload]
     if action == "clear_rec":
-        buttons.set_button_color(payload[0], COLORS[7])
-        lcd.lcd_display_string("Clear rec: " + str(payload[0]), 1)
+        buttons.set_button_color(payload[0], COLORS[7]) #off
     elif action == "start_rec":
         buttons.set_button_color(payload[0], COLORS[0]) #red
         lcd.lcd_display_string("Start rec: " + str(payload[0]), 1)
@@ -72,13 +71,11 @@ def handle_status(action, payload):
         buttons.set_button_color(payload[0], COLORS[1]) #green
         lcd.lcd_display_string("Finished rec: " + str(payload[0]), 1)
     elif action == "wait_rec":
-        buttons.set_button_color(payload[0], COLORS[6]) #yellow
+        buttons.set_button_color(payload[0], COLORS[6]) #orange
     elif action == "mute_rec":
-        if payload[0] == 1:
-            #mute
+        if payload[0] == 1: #mute
             buttons.set_button_color(payload[1], COLORS[2]) #blue
-        if payload[0] == 0:
-            #unmute
+        if payload[0] == 0: #unmute
             buttons.set_button_color(payload[1], COLORS[1]) #green
     else:
         print("unknown status received from PD")
@@ -126,4 +123,3 @@ lcd.lcd_display_string("Ready to play!", 1)
 while True:
     # Run button loop
     buttons.scan()
-    time.sleep(1/1000)

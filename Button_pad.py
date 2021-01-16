@@ -161,14 +161,14 @@ class Button_pad:
                 # loop button
                 if self.active_loops[button_num]:
                     #active loop: release longer than 1 second: clear loop, else press_button
-                    if self.button_timer[column][row].seconds > 1:
+                    if self.button_timer[column][row].seconds >= 1:
                         #send clear loop if row 1 or 2
                         self.send_msg.clear_loop(button_num)
                     else:
                         self.send_msg.press_button(button_num)
                 #turn into an active loop
                 self.active_loops[button_num] = True
-            if self.button_timer[column][row].seconds > 1 and button_num == 13:
+            if self.button_timer[column][row].seconds >= 1 and button_num == 13:
                 #open the option menu
                 self.toggle_options()
             self.button_timer[column][row] = 0
