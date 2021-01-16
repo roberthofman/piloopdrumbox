@@ -96,6 +96,7 @@ class Button_pad:
                 self.send_msg.clear_loop(button_num)
             if self.button_timer[column][row].seconds > 1 and button_num == 13:
                 #open the option menu
+                print("Opening options")
                 self.open_options()
             self.button_timer[column][row] = 0
 
