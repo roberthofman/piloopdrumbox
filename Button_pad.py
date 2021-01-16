@@ -55,6 +55,7 @@ class Button_pad:
     def setup_buttons(self):
         """
         Initialize PINS
+        using GPIO.BOARD mode: which uses actual pin numbers (instead of only GPIO)
         """
         GPIO.setmode(GPIO.BOARD)
         for col in range(self.NUM_LED_COLUMNS):
@@ -75,21 +76,31 @@ class Button_pad:
                 GPIO.setup(self.colorPins[row][color], GPIO.OUT, initial=GPIO.LOW)
 
     def toggle_options(self):
+        """
+        Function that toggles the option menu
+        """
         self.options_open = not self.options_open
         if self.options_open:
             self.update_option_lcd()
         else:
             self.options_open = False
             self.option_number = 0
-            self.option_values[2] = ""
+            self.option_values[2] = 0
             self.lcd.lcd_display_string("Ready to play!", 1)
 
     def update_option_lcd(self):
+        """
+        Update the lcd with the selected option
+        """
         self.lcd.lcd_display_string("Options", 1)
         current_option = self.options[self.option_number]
         self.lcd.lcd_display_string(current_option + ":" + str(int(self.option_values[self.option_number])), 2)
 
     def handle_button_press(self, column, row):
+        """
+        This function handles the button press, not the release
+        There's a lot of sintax regarding the
+        """
         #Send button press
         if self.options_open:
             # Handle options
@@ -97,36 +108,32 @@ class Button_pad:
             self.update_option_lcd()
             if not button_num in [14, 15, 16]:
                 # Unknown options button
-                self.lcd.lcd_display_string("Up:14Set:15Q:16", 1)
-                time.sleep(1)
-                self.update_option_lcd()
+                self.lcd.lcd_display_string("Use but 14/15/16", 1)
             if button_num == 14:
                 # next option
                 self.option_number = 0 if self.option_number == (len(self.options)-1) else self.option_number + 1
                 self.update_option_lcd()
-            elif button_num == 15:
+            if button_num == 15:
                 # apply option
                 if self.option_number == 0:
-                    #select_kit
+                    # select_kit
                     self.option_values[self.option_number] = 0 if self.option_values[self.option_number] == self.total_drumkits else self.option_values[self.option_number] + 1
                     self.send_msg.select_kit(self.option_values[self.option_number])
-                    self.update_option_lcd()
                 if self.option_number == 1:
-                    #toggle_sound
+                    # toggle_sound
                     self.option_values[self.option_number] = not self.option_values[self.option_number]
                     if self.option_values[self.option_number]:
                         self.send_msg.audio_on()
                     else:
                         self.send_msg.audio_off()
-                    self.update_option_lcd()
                 if self.option_number == 2:
-                    #clear_all
+                    # clear_all
                     self.send_msg.clear_all()
-                    self.option_values[self.option_number] = "Clear"
+                    self.option_values[self.option_number] = 1
                     self.active_loops = {1:False, 2:False, 3:False, 4:False, 5:False, 6:False, 7:False, 8:False}
-                    self.update_option_lcd()
-            elif button_num == 16:
-                #quit options
+                self.update_option_lcd()
+            if button_num == 16:
+                # quit options
                 self.toggle_options()
         else:
             self.button_press_time[column][row] = datetime.now()
@@ -137,6 +144,14 @@ class Button_pad:
                 self.send_msg.press_button(button_num)
 
     def handle_button_release(self, column, row):
+        """
+        Function that handles when a button is released (up)
+        - Checks if the button is actually pressed
+        - Checks if the button is an active loop, and monitors the time of the
+        button press
+        - Checks if the pressed button = 13, if long press: open options
+        - Lastly: reset the button timer and press time
+        """
         #Send key release
         if not self.button_press_time[column][row] == 0:
             #error if only key up is registered: avoid by if
@@ -171,6 +186,9 @@ class Button_pad:
         self.LED_output[row][column] = color
 
     def set_LED_GPIO(self, color, row):
+        """
+        Sets the color of the LED
+        """
         if color == "red":
             GPIO.output(self.colorPins[row][0], GPIO.HIGH)
         if color == "blue":
