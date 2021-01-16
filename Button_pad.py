@@ -92,6 +92,7 @@ class Button_pad:
             self.button_timer[column][row] = datetime.now() - self.button_press_time[column][row]
             if self.button_timer[column][row].seconds > 1 and row < 2:
                 #send clear loop if row 1 or 2
+                print("clear loop: " + str(button_num))
                 self.send_msg.clear_loop(button_num)
             if self.button_timer[column][row].seconds > 1 and button_num == 13:
                 #open the option menu
