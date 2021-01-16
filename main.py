@@ -86,8 +86,11 @@ def set_metronome(value, total_beats):
 
 # Perform a git pull to get the latest version on boot
 print("Checking for updates...")
-g = git.cmd.Git(DIR)
-g.pull()
+try:
+    g = git.cmd.Git(DIR)
+    g.pull()
+except:
+    print("Could not reach git")
 
 # Set up the LCD
 lcd = RPi_I2C_driver.lcd()
