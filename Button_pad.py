@@ -43,6 +43,8 @@ class Button_pad:
         self.options = {0: "select_kit", 1: "toggle_sound", 2: "clear_all"}
         self.option_values = {0:1, 1:True, 2:""}
         self.total_drumkits = 3
+        # loop variables
+        self.active_loops = {1:False, 2:False, 3:False, 4:False, 5:False, 6:False, 7:False, 8:False}
 
     def create_matrix(self, value, y_range, x_range):
         """
@@ -121,6 +123,7 @@ class Button_pad:
                     #clear_all
                     self.send_msg.clear_all()
                     self.option_values[self.option_number] = "Clear"
+                    self.active_loops = {1:False, 2:False, 3:False, 4:False, 5:False, 6:False, 7:False, 8:False}
                     self.update_option_lcd()
             elif button_num == 16:
                 #quit options
@@ -128,7 +131,12 @@ class Button_pad:
         else:
             self.button_press_time[column][row] = datetime.now()
             button_num = 1 + 4 * column + row
-            self.send_msg.press_button(button_num)
+            if button_num > 8 or not self.active_loops[button_num]:
+                # Press the button if drumkit or no active loop
+                self.send_msg.press_button(button_num)
+                if button_num < 9:
+                    # Make loop active
+                    self.active_loops[button_num] = True
 
     def handle_button_release(self, column, row):
         #Send key release
@@ -136,15 +144,20 @@ class Button_pad:
             #error if only key up is registered: avoid by if
             button_num = 1 + 4 * column + row
             self.button_timer[column][row] = datetime.now() - self.button_press_time[column][row]
-            if self.button_timer[column][row].seconds > 1 and column < 2:
-                #send clear loop if row 1 or 2
-                print("clear loop: " + str(button_num))
-                self.send_msg.clear_loop(button_num)
+            if button_num < 9:
+                # loop button
+                if self.active_loops[button_num]:
+                    #active loop: release longer than 1 second: clear loop, else press_button
+                    if self.button_timer[column][row].seconds > 1:
+                        #send clear loop if row 1 or 2
+                        self.send_msg.clear_loop(button_num)
+                    else:
+                        self.send_msg.press_button(button_num)
             if self.button_timer[column][row].seconds > 1 and button_num == 13:
                 #open the option menu
-                print("Opening options")
                 self.toggle_options()
             self.button_timer[column][row] = 0
+            self.button_press_time[column][row] = 0
 
     def set_button_color(self, button, color):
         """
