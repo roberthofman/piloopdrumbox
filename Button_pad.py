@@ -41,7 +41,7 @@ class Button_pad:
         self.options_open = False
         self.option_number = 0
         self.options = {0: "select_kit", 1: "toggle_sound", 2: "clear_all"}
-        self.option_values = {0:1, 1:True 2:""}
+        self.option_values = {0:1, 1:True, 2:""}
         self.total_drumkits = 3
 
     def create_matrix(self, value, y_range, x_range):
