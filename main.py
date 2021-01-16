@@ -14,6 +14,12 @@ LOOP_BUTTONS = [1,2,3,4,5,6,7,8]
 DRUMPAD_BUTTONS = [9,10,11,12,13,14,15,16]
 BLOCK = chr(255) #block to display on screen for metronome
 BLANK = chr(32) #blank block to display for metronome
+SCREEN_SIZE = 16 #screen size of the LCD display (length)
+#PD_PATH = "/Applications/Pd-0.51-1.app/Contents/Resources/bin/" #mac
+PD_PATH = "" #pi
+PORT_SEND_TO_PD = 3000 #port to communicate message TO PD
+PORT_RECEIVE_FROM_PD = 4000 #port to receive messages FROM PD
+DIR = '~/piloopdrumbox' #where does the GIT repo live on the Pi
 
 def read_pd_input(proc, q):
     """
@@ -26,6 +32,9 @@ def read_pd_input(proc, q):
         time.sleep(1/10)
 
 def process_pd_input(q):
+    """
+    Constantly read the queue for new messages from PD
+    """
     while True:
         try:
             #reads the queue with blocking
@@ -74,29 +83,24 @@ def handle_status(action, payload):
         print("unknown status received from PD")
 
 def set_metronome(value, total_beats):
-    block_size = math.floor(16 / total_beats * (value + 1))
-    lcd.lcd_display_string(block_size * BLOCK + (16 - block_size) * BLANK, 2)
+    block_size = math.floor(SCREEN_SIZE / total_beats * (value + 1))
+    lcd.lcd_display_string(block_size * BLOCK + (SCREEN_SIZE - block_size) * BLANK, 2)
 
 # Perform a git pull to get the latest version on boot
 print("Checking for updates...")
-dir = '~/piloopdrumbox'
-g = git.cmd.Git(dir)
+g = git.cmd.Git(DIR)
 g.pull()
 
-#PD_PATH = "/Applications/Pd-0.51-1.app/Contents/Resources/bin/" #mac
-PD_PATH = "" #pi
-PORT_SEND_TO_PD = 3000
-PORT_RECEIVE_FROM_PD = 4000
+# Set up the LCD
+lcd = RPi_I2C_driver.lcd()
+lcd.lcd_display_string("Loading...", 1)
 
 # Set up the GPIO library and Pins and send the PD_to_py info
-buttons = Button_pad(PD_PATH, PORT_SEND_TO_PD)
+buttons = Button_pad(PD_PATH, PORT_SEND_TO_PD, lcd)
 buttons.setup_buttons() #Initialize the Pins of leds/buttons
 for drumpad_button in DRUMPAD_BUTTONS:
     #Set buttons to white color
     buttons.set_button_color(drumpad_button, COLORS[5])
-
-# Set up the LCD
-lcd = RPi_I2C_driver.lcd()
 
 # start the socket
 print("setting up socket...")
@@ -121,4 +125,4 @@ lcd.lcd_display_string("Ready to play!", 1)
 while True:
     # Run button loop
     buttons.scan()
-    time.sleep(1/3000)
+    time.sleep(1/1000)

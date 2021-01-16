@@ -16,9 +16,9 @@ class Py_to_pd:
         os.system("echo '" + str(channel) + " " + str(message) + ";' | "+
             self.path + "pdsend " + str(self.port))
 
-    def audio_toggle(self):
+    def audio_on(self):
         """
-        turn on/off DSP in PD
+        turn on DSP in PD
         channel: 0
         """
         message = '1'
@@ -50,7 +50,17 @@ class Py_to_pd:
             self.send2Pd(2, button)
 
     def clear_loop(self, button):
+        """
+        Clear a single loop
+        button: 1:8 (loop buttons)
+        """
         if button > 8:
             print("This is not a loop button")
         else:
             self.send2Pd(3, button)
+
+    def clear_all(self):
+        """
+        Reset the entire song
+        """
+        self.send2Pd(4)

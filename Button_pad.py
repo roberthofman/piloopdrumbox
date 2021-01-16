@@ -5,7 +5,7 @@ from datetime import datetime
 import math
 
 class Button_pad:
-    def __init__(self, PD_PATH, PORT_SEND_TO_PD):
+    def __init__(self, PD_PATH, PORT_SEND_TO_PD, lcd):
         """
         Hooking up the button pad: Config variables / Global Variables
         Source: https://tinyurl.com/y6qafxfs
@@ -35,7 +35,14 @@ class Button_pad:
         self.button_timer = self.create_matrix(0, self.NUM_BTN_COLUMNS, self.NUM_BTN_ROWS)
         # initiate python to PD class
         self.send_msg = Py_to_pd(PD_PATH, PORT_SEND_TO_PD)
+        # be able to send msg to LCD
+        self.lcd = lcd
+        # Options variables
         self.options_open = False
+        self.option_number = 0
+        self.options = {0: "select_kit", 1: "toggle_sound", 2: "clear_all"}
+        self.option_values = {0:1, 1:True 2:""}
+        self.total_drumkits = 3
 
     def create_matrix(self, value, y_range, x_range):
         """
@@ -65,39 +72,78 @@ class Button_pad:
             for color in range(self.NUM_COLORS):
                 GPIO.setup(self.colorPins[row][color], GPIO.OUT, initial=GPIO.LOW)
 
-    def open_options(self):
+    def toggle_options(self):
         self.options_open = not self.options_open
+        if self.options_open:
+            self.update_option_lcd()
+        else:
+            self.options_open = False
+            self.option_number = 0
+            self.option_values[2] = ""
+            lcd.lcd_display_string("Ready to play!", 1)
+
+    def update_option_lcd(self):
+        self.lcd.lcd_display_string("Options", 1)
+        current_option = self.options[self.option_number]
+        self.lcd.lcd_display_string(current_option + ":" + str(int(self.option_values[self.option_number])), 2)
 
     def handle_button_press(self, column, row):
         #Send button press
         if self.options_open:
-            #Perform Menu Action
-            return None
+            # Handle options
+            button_num = 1 + 4 * column + row
+            self.update_option_lcd()
+            if not button_num in [14, 15, 16]:
+                # Unknown options button
+                self.lcd.lcd_display_string("Up:14Set:15Q:16", 1)
+                time.sleep(1)
+                self.update_option_lcd()
+            if button_num == 14:
+                # next option
+                self.option_number = 0 if self.option_number == (len(self.options)-1) else self.option_number + 1
+                self.update_option_lcd()
+            elif button_num == 15:
+                # apply option
+                if self.option_number == 0:
+                    #select_kit
+                    self.option_values[self.option_number] = 0 if self.option_values[self.option_number] == self.total_drumkits else self.option_values[self.option_number] + 1
+                    self.send_msg.select_kit(self.option_values[self.option_number])
+                    self.update_option_lcd()
+                if self.option_number == 1:
+                    #toggle_sound
+                    self.option_values[self.option_number] = not self.option_values[self.option_number]
+                    if self.option_values[self.option_number]:
+                        self.send_msg.audio_on()
+                    else:
+                        self.send_msg.audio_off()
+                    self.update_option_lcd()
+                if self.option_number == 2:
+                    #clear_all
+                    self.send_msg.clear_all()
+                    self.option_values[self.option_number] = "Clear"
+                    self.update_option_lcd()
+            elif button_num == 16:
+                #quit options
+                self.toggle_options()
         else:
             self.button_press_time[column][row] = datetime.now()
             button_num = 1 + 4 * column + row
-            if row > 1:
-                #Drumbox
-                self.send_msg.press_button(button_num)
-            else:
-                #loop
-                self.send_msg.press_button(button_num)
+            self.send_msg.press_button(button_num)
 
     def handle_button_release(self, column, row):
         #Send key release
-        #print("Key Up: " + str(column) + ", " + str(row))
         if not self.button_press_time[column][row] == 0:
             #error if only key up is registered: avoid by if
             button_num = 1 + 4 * column + row
             self.button_timer[column][row] = datetime.now() - self.button_press_time[column][row]
-            if self.button_timer[column][row].seconds > 1 and row < 2:
+            if self.button_timer[column][row].seconds > 1 and column < 2:
                 #send clear loop if row 1 or 2
                 print("clear loop: " + str(button_num))
                 self.send_msg.clear_loop(button_num)
             if self.button_timer[column][row].seconds > 1 and button_num == 13:
                 #open the option menu
                 print("Opening options")
-                self.open_options()
+                self.toggle_options()
             self.button_timer[column][row] = 0
 
     def set_button_color(self, button, color):
