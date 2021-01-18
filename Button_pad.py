@@ -83,7 +83,7 @@ class Button_pad:
         if self.options_open:
             self.lcd.lcd_display_string("Options", 1)
         else:
-            self.lcd
+            self.lcd.lcd_clear()
             self.options_open = False
             self.option_number = 0
             self.option_values[2] = 0
