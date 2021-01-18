@@ -600,7 +600,7 @@ push has been done.;
 #X connect 8 0 9 0;
 #X restore 160 30 pd clear-loops;
 #N canvas 56 266 695 454 loop_player 1;
-#N canvas 363 540 971 236 combine_loops 1;
+#N canvas 363 540 971 236 combine_loops 0;
 #X obj 19 43 loop_output 1;
 #X obj 20 84 loop_output 2;
 #X obj 135 43 loop_output 3;
@@ -628,7 +628,7 @@ push has been done.;
 #X connect 12 0 8 1;
 #X restore 344 41 pd combine_loops;
 #X obj 118 351 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 9898 1;
+-1 -1 1435 1;
 #X text 122 330 timer, f 6;
 #X obj 115 377 s loop-position;
 #X text 113 19 Loop position and metronome;
@@ -661,8 +661,8 @@ push has been done.;
 #X text 337 111 metronome;
 #X text 497 21 loop time to samples;
 #X obj 339 134 r clear-loops;
-#X obj 339 341 hradio 15 1 0 8 empty empty empty 0 -8 0 10 -262144
--1 -1 6;
+#X obj 339 341 hradio 15 1 0 1 empty empty empty 0 -8 0 10 -262144
+-1 -1 0;
 #X msg 371 314 number \$1;
 #X obj 339 367 s counter;
 #X obj 357 284 r signature;

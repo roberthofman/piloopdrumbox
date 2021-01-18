@@ -86,7 +86,7 @@ def set_metronome(value, total_beats):
     lcd.lcd_display_string(block_size * BLOCK + (SCREEN_SIZE - block_size) * BLANK, 2)
 
 # Wait for linux to boot further
-time.sleep(5)
+time.sleep(6)
 
 # Setup log
 logging.basicConfig(filename="/home/pi/logs/pylogs.log", filemode="w")
