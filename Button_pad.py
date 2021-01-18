@@ -81,8 +81,9 @@ class Button_pad:
         """
         self.options_open = not self.options_open
         if self.options_open:
-            self.update_option_lcd()
+            self.lcd.lcd_display_string("Options", 1)
         else:
+            self.lcd
             self.options_open = False
             self.option_number = 0
             self.option_values[2] = 0
@@ -92,7 +93,6 @@ class Button_pad:
         """
         Update the lcd with the selected option
         """
-        self.lcd.lcd_display_string("Options", 1)
         current_option = self.options[self.option_number]
         self.lcd.lcd_display_string(current_option + ":" + str(int(self.option_values[self.option_number])), 2)
 

@@ -1,6 +1,6 @@
 #N canvas 233 57 1189 617 12;
 #X obj 408 210 r press-one;
-#N canvas 0 22 450 278 (subpatch) 0;
+#N canvas 0 25 450 278 (subpatch) 0;
 #X array loop-\$1 441000 float 3;
 #A 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
@@ -13232,7 +13232,7 @@
 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
-#X coords 0 1 441000 -1 200 140 1;
+#X coords 0 1 441000 -1 200 140 1 0 0;
 #X restore 949 222 graph;
 #X obj 329 45 r lp-trig-\$1;
 #X obj 329 133 sel 0 1;
@@ -13329,7 +13329,6 @@ the timer == T, f 24;
 #X obj 686 279 r lp-trig-\$1;
 #X msg 730 302 1;
 #X obj 823 301 loadbang;
-#X obj 200 68 r clear-\$1;
 #X text 452 187 init loop;
 #X connect 0 0 28 0;
 #X connect 2 0 12 0;
@@ -13404,8 +13403,8 @@ the timer == T, f 24;
 #X connect 75 0 79 0;
 #X connect 75 0 76 1;
 #X connect 76 0 5 0;
-#X connect 77 0 39 0;
 #X connect 77 0 27 0;
+#X connect 77 0 39 0;
 #X connect 79 0 5 0;
 #X connect 80 0 76 1;
 #X connect 81 0 80 0;
@@ -13416,4 +13415,3 @@ the timer == T, f 24;
 #X connect 90 0 91 0;
 #X connect 91 0 73 1;
 #X connect 92 0 70 0;
-#X connect 93 0 41 0;

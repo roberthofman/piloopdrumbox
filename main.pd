@@ -1,4 +1,4 @@
-#N canvas 604 73 729 441 12;
+#N canvas 727 126 713 415 12;
 #X obj 76 83 bng 45 250 50 0 lp-trig-1 button-1 empty 17 7 0 10 -262144
 -1 -1;
 #X obj 150 83 bng 45 250 50 0 lp-trig-2 button-2 empty 17 7 0 10 -262144
@@ -599,8 +599,8 @@ push has been done.;
 #X connect 8 0 7 0;
 #X connect 8 0 9 0;
 #X restore 160 30 pd clear-loops;
-#N canvas 575 236 695 454 loop_player 0;
-#N canvas 363 540 971 236 combine_loops 0;
+#N canvas 56 266 695 454 loop_player 1;
+#N canvas 363 540 971 236 combine_loops 1;
 #X obj 19 43 loop_output 1;
 #X obj 20 84 loop_output 2;
 #X obj 135 43 loop_output 3;
@@ -628,7 +628,7 @@ push has been done.;
 #X connect 12 0 8 1;
 #X restore 344 41 pd combine_loops;
 #X obj 118 351 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 1580 1;
+-1 -1 9898 1;
 #X text 122 330 timer, f 6;
 #X obj 115 377 s loop-position;
 #X text 113 19 Loop position and metronome;
@@ -662,7 +662,7 @@ push has been done.;
 #X text 497 21 loop time to samples;
 #X obj 339 134 r clear-loops;
 #X obj 339 341 hradio 15 1 0 8 empty empty empty 0 -8 0 10 -262144
--1 -1 0;
+-1 -1 6;
 #X msg 371 314 number \$1;
 #X obj 339 367 s counter;
 #X obj 357 284 r signature;
@@ -680,7 +680,7 @@ push has been done.;
 #X obj 499 221 / 8;
 #X text 530 221 devisable by 8;
 #X obj 499 294 * 8;
-#X msg 72 100 0;
+#X msg 14 91 0;
 #X obj 14 46 r clear-loops;
 #X connect 1 0 3 0;
 #X connect 6 0 7 0;
