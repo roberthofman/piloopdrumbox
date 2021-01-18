@@ -96,8 +96,8 @@ print("Checking for updates...")
 try:
     g = git.cmd.Git(DIR)
     g.pull()
-except:
-    logging.warning('Could not reach git')
+except Exception as e:
+    logging.warning('Could not reach git: ' + str(e))
 
 # Set up the LCD
 lcd = RPi_I2C_driver.lcd()
