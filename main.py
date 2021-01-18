@@ -20,7 +20,7 @@ SCREEN_SIZE = 16 #screen size of the LCD display (length)
 PD_PATH = "" #pi
 PORT_SEND_TO_PD = 3000 #port to communicate message TO PD
 PORT_RECEIVE_FROM_PD = 4000 #port to receive messages FROM PD
-DIR = '~/piloopdrumbox' #where does the GIT repo live on the Pi
+DIR = '/home/pi/piloopdrumbox' #where does the GIT repo live on the Pi
 
 def read_pd_input(proc, q):
     """
@@ -86,7 +86,7 @@ def set_metronome(value, total_beats):
     lcd.lcd_display_string(block_size * BLOCK + (SCREEN_SIZE - block_size) * BLANK, 2)
 
 # Wait for linux to boot further
-time.sleep(6)
+time.sleep(5)
 
 # Setup log
 logging.basicConfig(filename="/home/pi/logs/pylogs.log", filemode="w")
