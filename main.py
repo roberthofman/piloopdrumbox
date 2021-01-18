@@ -2,6 +2,7 @@ import os
 import time
 import git
 import math
+import logging
 from subprocess import Popen, PIPE
 from queue import Queue, Empty
 from threading import Thread
@@ -87,13 +88,16 @@ def set_metronome(value, total_beats):
 # Wait for linux to boot further
 time.sleep(5)
 
+# Setup log
+logging.basicConfig(filename="/home/pi/logs/pylogs.log", filemode="w")
+
 # Perform a git pull to get the latest version on boot
 print("Checking for updates...")
 try:
     g = git.cmd.Git(DIR)
     g.pull()
 except:
-    print("Could not reach git")
+    logging.warning('Could not reach git')
 
 # Set up the LCD
 lcd = RPi_I2C_driver.lcd()
