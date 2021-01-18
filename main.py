@@ -128,7 +128,7 @@ print("starting PD...")
 time.sleep(4)
 
 print("Setup complete!")
-lcd.lcd_display_string("Ready to play!", 1)
+lcd.lcd_display_string("Ready to play :)", 1)
 
 while True:
     # Run button loop
