@@ -45,6 +45,7 @@ class Button_pad:
         self.total_drumkits = 3
         # loop variables
         self.active_loops = {1:False, 2:False, 3:False, 4:False, 5:False, 6:False, 7:False, 8:False}
+        self.init_loop = True
 
     def create_matrix(self, value, y_range, x_range):
         """
@@ -132,6 +133,7 @@ class Button_pad:
                     self.send_msg.clear_all()
                     self.option_values[self.option_number] = 1
                     self.active_loops = {1:False, 2:False, 3:False, 4:False, 5:False, 6:False, 7:False, 8:False}
+                    self.init_loop = True
                 self.update_option_lcd()
             if button_num == 16:
                 # quit options
@@ -167,8 +169,13 @@ class Button_pad:
                         self.send_msg.clear_loop(button_num)
                     else:
                         self.send_msg.press_button(button_num)
-                #turn into an active loop
-                self.active_loops[button_num] = True
+                if not self.init_loop:
+                    #turn into an active loop if this is not the first press of the initial loop
+                    #in that case; you don't want to wait until release.
+                    self.active_loops[button_num] = True
+                else:
+                    #Set the initial loop to false 
+                    self.init_loop = False
             if self.button_timer[column][row].seconds >= 1 and button_num == 13:
                 #open the option menu
                 self.toggle_options()
