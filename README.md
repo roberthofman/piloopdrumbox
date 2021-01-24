@@ -18,9 +18,10 @@ Make sure you have installed the packages to work with GPIO pins:
 `sudo apt-get install python-rpi.gpio`  
 You'll need a couple of python libraries:   
 * python-rpi.gpio
-* GitPython
 * i2c–tools
 * smbus
+
+You'll need to wire up the GPIO pins to the correct pin numbers, which are coded in `Button_pad.py`. I followed [this](https://learn.sparkfun.com/tutorials/button-pad-hookup-guide?_ga=2.228180057.552363603.1611515792-1928249015.1605036658) guide.  
 
 ### Drum sounds
 I added a couple drum sounds. You can add additional .wav files following the number sintax in the folder. 
