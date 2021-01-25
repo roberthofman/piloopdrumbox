@@ -22,6 +22,7 @@ DIR = '/home/pi/piloopdrumbox' #where does the GIT repo live on the Pi
 
 def read_pd_input(proc, q):
     """
+    callback function
     Thread process to read PureData input
     Requires the queue, that stores the socket output
     """
@@ -32,6 +33,7 @@ def read_pd_input(proc, q):
 
 def process_pd_input(q):
     """
+    callback function
     Constantly read the queue for new messages from PD
     """
     while True:
