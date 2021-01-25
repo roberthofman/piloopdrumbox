@@ -9,8 +9,10 @@ class Button_pad:
         """
         Hooking up the button pad: Config variables / Global Variables
         Source: https://tinyurl.com/y6qafxfs
+        PD_PATH: can be empty on linux, on mac navigate to PD location
+        PORT_SEND_TO_PD: use a different port to send/receive messages (defined in main.py)
+        lcd: defined in main; the lcd class to update messages
         """
-        # GPIO.setwarnings(False) #later warnings suppression (if needed)
         # Leds rows/cols
         self.NUM_LED_COLUMNS = 4
         self.NUM_LED_ROWS = 4
@@ -21,7 +23,8 @@ class Button_pad:
         self.NUM_COLORS = 3
         # Vary this number if the key press is not registered correctly
         # It basically sets the sensitivity of the button (press/no press)
-        self.MAX_DEBOUNCE = 3 # should range between 2-3 accorinding to Sparkfun
+        # Higher is less sensitive, lower is more sensitive (INT)
+        self.MAX_DEBOUNCE = 3 # should be 2 / 3 accorinding to Sparkfun
         # Global Variables
         self.btnColumnPins = [31, 33, 35, 37] # Pin numbers for columns (4)
         self.btnRowPins = [13, 15, 19, 21] # Pin numbers for rows (4)
@@ -174,7 +177,7 @@ class Button_pad:
                     #in that case; you don't want to wait until release.
                     self.active_loops[button_num] = True
                 else:
-                    #Set the initial loop to false 
+                    #Set the initial loop to false; initial loop is now recorded
                     self.init_loop = False
             if self.button_timer[column][row].seconds >= 1 and button_num == 13:
                 #open the option menu

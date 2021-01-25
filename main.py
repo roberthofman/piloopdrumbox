@@ -1,8 +1,6 @@
 import os
 import time
-import git
 import math
-import logging
 from subprocess import Popen, PIPE
 from queue import Queue, Empty
 from threading import Thread
@@ -38,7 +36,7 @@ def process_pd_input(q):
     """
     while True:
         try:
-            #reads the queue with blocking
+            #reads the queue without blocking
             pd_input = q.get().decode()
             if pd_input:
                 handle_pd_msg(pd_input)
@@ -84,9 +82,6 @@ def handle_status(action, payload):
 def set_metronome(value, total_beats):
     block_size = math.floor(SCREEN_SIZE / total_beats * (value + 1))
     lcd.lcd_display_string(block_size * BLOCK + (SCREEN_SIZE - block_size) * BLANK, 2)
-
-# Setup log
-logging.basicConfig(filename="/home/pi/logs/pylogs.log", filemode="w")
 
 # Set up the LCD
 lcd = RPi_I2C_driver.lcd()
