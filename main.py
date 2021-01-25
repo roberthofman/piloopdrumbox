@@ -85,23 +85,12 @@ def set_metronome(value, total_beats):
     block_size = math.floor(SCREEN_SIZE / total_beats * (value + 1))
     lcd.lcd_display_string(block_size * BLOCK + (SCREEN_SIZE - block_size) * BLANK, 2)
 
-# Wait for linux to boot further
-#time.sleep(5)
-
 # Setup log
 logging.basicConfig(filename="/home/pi/logs/pylogs.log", filemode="w")
 
-# Perform a git pull to get the latest version on boot
-print("Checking for updates...")
-try:
-    g = git.cmd.Git(DIR)
-    g.pull()
-except Exception as e:
-    logging.warning('Could not reach git: ' + str(e))
-
 # Set up the LCD
 lcd = RPi_I2C_driver.lcd()
-lcd.lcd_display_string("Loading... (V0.2)", 1)
+lcd.lcd_display_string("Loading... (V0.3)", 1)
 
 # Set up the GPIO library and Pins and send the PD_to_py info
 buttons = Button_pad(PD_PATH, PORT_SEND_TO_PD, lcd)
@@ -111,7 +100,6 @@ for drumpad_button in DRUMPAD_BUTTONS:
     buttons.set_button_color(drumpad_button, COLORS[5])
 
 # start the socket
-print("setting up socket...")
 args = ["pdreceive", str(PORT_RECEIVE_FROM_PD)]
 process_socket_PD = Popen(args, stdout=PIPE) #second process to read PD
 proc_q = Queue() #queue for messages from PD
@@ -120,15 +108,12 @@ read_pd_thread = Thread(target = read_pd_input, args = (process_socket_PD.stdout
 process_pd_thread = Thread(target = process_pd_input, args = (proc_q, ))
 read_pd_thread.start()
 process_pd_thread.start()
-time.sleep(1)
 
 # start PD
 os.system(PD_PATH + 'pd -nogui main.pd &')
-print("starting PD...")
-time.sleep(4)
+time.sleep(2)
 
-print("Setup complete!")
-lcd.lcd_display_string("Ready to play :)", 1)
+lcd.lcd_display_string("Ready to play!", 1)
 
 while True:
     # Run button loop
