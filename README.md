@@ -22,7 +22,7 @@ You'll need a couple of python libraries:
 * smbus
 
 You'll need to wire up the GPIO pins to the correct pin numbers, which are coded in `Button_pad.py`. I followed [this](https://learn.sparkfun.com/tutorials/button-pad-hookup-guide?_ga=2.228180057.552363603.1611515792-1928249015.1605036658) guide.  
-I used they I2C driver By [DenisFromHR](https://gist.github.com/DenisFromHR/cc863375a6e19dce359d). 
+I used an I2C driver by [DenisFromHR](https://gist.github.com/DenisFromHR/cc863375a6e19dce359d). 
 
 ### Drum sounds
 I added a couple drum sounds. You can add additional .wav files following the number sintax in the folder. 
