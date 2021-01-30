@@ -65,12 +65,12 @@ def handle_status(action, payload):
     payload = [int(i) for i in payload]
     if action == "clear_rec":
         buttons.set_button_color(payload[0], COLORS[7]) #off
-    elif action == "start_rec":
+    elif action == "start_rec" or action == "start_overdub":
         buttons.set_button_color(payload[0], COLORS[0]) #red
-        lcd.lcd_display_string("Start rec: " + str(payload[0]), 1)
-    elif action == "stop_rec":
+        lcd.lcd_display_string("Start {}: ".format("rec" if action == "start_rec" else "odub") + str(payload[0]), 1)
+    elif action == "stop_rec" or action == "stop_overdub":
         buttons.set_button_color(payload[0], COLORS[1]) #green
-        lcd.lcd_display_string("Finished rec: " + str(payload[0]), 1)
+        lcd.lcd_display_string("Finished {}: ".format("rec" if action == "stop_rec" else "odub") + str(payload[0]), 1)
     elif action == "wait_rec":
         buttons.set_button_color(payload[0], COLORS[6]) #orange
     elif action == "mute_rec":

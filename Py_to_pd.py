@@ -64,3 +64,13 @@ class Py_to_pd:
         Reset the entire song
         """
         self.send2Pd(4)
+
+    def overdub(self, button):
+        """
+        Overdub a certain loop
+        button: 1:8 (loop buttons)
+        """
+        if button > 8:
+            print("This is not a loop button")
+        else:
+            self.send2Pd(5, button)

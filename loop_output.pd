@@ -28,7 +28,7 @@
 #X obj 90 57 delay 10;
 #X obj 386 117 == 0;
 #X text 254 93 avoid /0;
-#X obj 366 183 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 366 183 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 466 89 r rec-loop-\$1;
 #X obj 466 114 == 1;
@@ -40,6 +40,7 @@
 #X text 569 53 additional bang needed on &;
 #X text 569 70 because & object only reads the;
 #X text 569 87 right input after a bang on the left;
+#X obj 156 337 s~ read-loop-\$1;
 #X connect 0 0 1 0;
 #X connect 1 0 18 0;
 #X connect 2 0 1 1;
@@ -58,6 +59,7 @@
 #X connect 17 0 11 0;
 #X connect 17 0 10 1;
 #X connect 18 0 15 0;
+#X connect 18 0 38 0;
 #X connect 19 0 26 0;
 #X connect 20 0 21 0;
 #X connect 21 0 14 1;

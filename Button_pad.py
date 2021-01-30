@@ -8,7 +8,7 @@ class Button_pad:
     def __init__(self, PD_PATH, PORT_SEND_TO_PD, lcd):
         """
         Hooking up the button pad: Config variables / Global Variables
-        Source: https://tinyurl.com/y6qafxfs
+        Source: https://tinyurl.com/y6qafxfs (C-code for arduino)
         PD_PATH: can be empty on linux, on mac navigate to PD location
         PORT_SEND_TO_PD: use a different port to send/receive messages (defined in main.py)
         lcd: defined in main; the lcd class to update messages
@@ -19,23 +19,27 @@ class Button_pad:
         # Buttons rows/cols
         self.NUM_BTN_COLUMNS = 4
         self.NUM_BTN_ROWS = 4
-        # Change to RGB later
+        # RGB
         self.NUM_COLORS = 3
         # Vary this number if the key press is not registered correctly
         # It basically sets the sensitivity of the button (press/no press)
         # Higher is less sensitive, lower is more sensitive (INT)
         self.MAX_DEBOUNCE = 3 # should be 2 / 3 accorinding to Sparkfun
         # Global Variables
-        self.btnColumnPins = [31, 33, 35, 37] # Pin numbers for columns (4)
-        self.btnRowPins = [13, 15, 19, 21] # Pin numbers for rows (4)
-        self.ledColumnPins = [32, 36, 38, 40] # Pin numbers for the LED's (columns) (4)
-        self.colorPins = [[8, 18, 7], [10, 22, 23], [12, 24, 11], [16, 26, 29]] # 1: red 2: blue 3: green
+        self.btnColumnPins = [31, 33, 35, 37] # Pin numbers for columns (SWT_GND) 
+        self.btnRowPins = [13, 15, 19, 21] # Pin numbers for rows (SWITCH) 
+        self.ledColumnPins = [32, 36, 38, 40] # Pin numbers for the LED ground (LED_GND)
+        # RGB pins
+        # 1: red (8, 10, 12, 16) 
+        # 2: blue (18, 22, 24, 26)
+        # 3: green (7, 23, 11, 29)
+        self.colorPins = [[8, 18, 7], [10, 22, 23], [12, 24, 11], [16, 26, 29]] 
         # Tracks how often a button is pressed
         self.debounce_count = self.create_matrix(0, self.NUM_BTN_COLUMNS, self.NUM_BTN_ROWS)
         # Tracks the LED status
         self.LED_output = self.create_matrix("", self.NUM_LED_COLUMNS, self.NUM_LED_ROWS)
-        self.button_press_time = self.create_matrix(0, self.NUM_BTN_COLUMNS, self.NUM_BTN_ROWS)
-        self.button_timer = self.create_matrix(0, self.NUM_BTN_COLUMNS, self.NUM_BTN_ROWS)
+        self.button_press_time = self.create_matrix(datetime.now(), self.NUM_BTN_COLUMNS, self.NUM_BTN_ROWS)
+        self.button_was_pressed = self.create_matrix(False, self.NUM_BTN_COLUMNS, self.NUM_BTN_ROWS)
         # initiate python to PD class
         self.send_msg = Py_to_pd(PD_PATH, PORT_SEND_TO_PD)
         # be able to send msg to LCD
@@ -142,12 +146,17 @@ class Button_pad:
                 # quit options
                 self.toggle_options()
         else:
+            prev_press_time = self.button_press_time[column][row]
             self.button_press_time[column][row] = datetime.now()
+            self.button_was_pressed[column][row] = True
             button_num = 1 + 4 * column + row
             if button_num > 8 or not self.active_loops[button_num]:
                 # Press the button if drumkit or no active loop
                 # For active loops: wait for release timer (clear or (un)mute)
                 self.send_msg.press_button(button_num)
+            if not self.init_loop and button_num <= 8 and (self.button_press_time[column][row] - prev_press_time).total_seconds() < 1:
+                # Overdub when: not initial loop, pressed a loop button, and pressed twice within 1 sec.
+                self.send_msg.overdub(button_num)
 
     def handle_button_release(self, column, row):
         """
@@ -159,31 +168,30 @@ class Button_pad:
         - Lastly: reset the button timer and press time
         """
         #Send key release
-        if not self.button_press_time[column][row] == 0:
-            #error if only key up is registered: avoid by if
+        if self.button_was_pressed[column][row]:
+            #avoid that only key release is registered
             button_num = 1 + 4 * column + row
-            self.button_timer[column][row] = datetime.now() - self.button_press_time[column][row]
+            button_timer = datetime.now() - self.button_press_time[column][row]
             if button_num < 9:
                 # loop button
                 if self.active_loops[button_num]:
                     #active loop: release longer than 1 second: clear loop, else press_button
-                    if self.button_timer[column][row].seconds >= 1:
+                    if button_timer.seconds >= 1:
                         #send clear loop if row 1 or 2
                         self.send_msg.clear_loop(button_num)
                     else:
                         self.send_msg.press_button(button_num)
                 if not self.init_loop:
                     #turn into an active loop if this is not the first press of the initial loop
-                    #in that case; you don't want to wait until release.
+                    #in that case; you don't want to wait until release for mute.
                     self.active_loops[button_num] = True
                 else:
                     #Set the initial loop to false; initial loop is now recorded
                     self.init_loop = False
-            if self.button_timer[column][row].seconds >= 1 and button_num == 13:
+            if button_timer.seconds >= 1 and button_num == 13:
                 #open the option menu
                 self.toggle_options()
-            self.button_timer[column][row] = 0
-            self.button_press_time[column][row] = 0
+            self.button_was_pressed[column][row] = False
 
     def set_button_color(self, button, color):
         """
