@@ -87,7 +87,8 @@ def set_metronome(value, total_beats):
 
 # Set up the LCD
 lcd = RPi_I2C_driver.lcd()
-lcd.lcd_display_string("Loading... (V1.0)", 1)
+lcd.lcd_display_string("Loading...", 1)
+lcd.lcd_display_string("Version 1.0", 2)
 
 # Set up the GPIO library and Pins and send the PD_to_py info
 buttons = Button_pad(PD_PATH, PORT_SEND_TO_PD, lcd)
