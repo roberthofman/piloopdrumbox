@@ -644,7 +644,7 @@ push has been done.;
 #X connect 8 0 9 0;
 #X restore 160 30 pd clear-loops;
 #N canvas 31 320 695 454 loop_player 1;
-#N canvas 268 179 1140 572 combine_loops 1;
+#N canvas 268 179 1140 572 combine_loops 0;
 #X obj 19 43 loop_output 1;
 #X obj 121 43 loop_output 2;
 #X obj 224 43 loop_output 3;
@@ -676,10 +676,10 @@ push has been done.;
 #X msg 670 411 1;
 #X obj 450 411 r loop-vol;
 #X obj 667 305 - 100;
-#X text 774 256 if loop position is in the last 100 samples \; fade-out
-;
 #X text 775 231 to avoid clicks;
 #X text 16 13 volume control and master volume setting;
+#X text 774 256 if loop position is in the last 100 ms \; fade-out
+;
 #X connect 0 0 8 0;
 #X connect 1 0 8 0;
 #X connect 2 0 8 0;
@@ -714,7 +714,7 @@ push has been done.;
 #X connect 30 0 23 1;
 #X restore 344 41 pd combine_loops;
 #X obj 118 351 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 6199 1;
+-1 -1 7498 1;
 #X text 122 330 timer, f 6;
 #X obj 115 377 s loop-position;
 #X text 113 19 Loop position and metronome;
@@ -747,8 +747,8 @@ push has been done.;
 #X text 337 111 metronome;
 #X text 497 21 loop time to samples;
 #X obj 339 134 r clear-loops;
-#X obj 339 341 hradio 15 1 0 8 empty empty empty 0 -8 0 10 -262144
--1 -1 3;
+#X obj 339 341 hradio 15 1 0 1 empty empty empty 0 -8 0 10 -262144
+-1 -1 0;
 #X msg 371 314 number \$1;
 #X obj 339 367 s counter;
 #X obj 357 284 r signature;
