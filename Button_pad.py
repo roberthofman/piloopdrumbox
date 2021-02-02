@@ -156,7 +156,7 @@ class Button_pad:
                 self.send_msg.press_button(button_num)
             if not self.init_loop and button_num <= 8 and (self.button_press_time[column][row] - prev_press_time).total_seconds() < 1:
                 # Overdub when: not initial loop, pressed a loop button, and pressed twice within 1 sec.
-                self.send_msg.overdub(button_num)
+                self.send_msg.clear_loop(button_num)
 
     def handle_button_release(self, column, row):
         """
@@ -178,7 +178,7 @@ class Button_pad:
                     #active loop: release longer than 1 second: clear loop, else press_button
                     if button_timer.seconds >= 1:
                         #send clear loop if row 1 or 2
-                        self.send_msg.clear_loop(button_num)
+                        self.send_msg.overdub(button_num)
                     else:
                         self.send_msg.press_button(button_num)
                 if not self.init_loop:
