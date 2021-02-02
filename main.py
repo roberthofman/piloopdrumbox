@@ -63,6 +63,7 @@ def handle_status(action, payload):
     Handle status messages from PD
     """
     payload = [int(i) for i in payload]
+    print(action)
     if action == "clear_rec":
         buttons.set_button_color(payload[0], COLORS[7]) #off
     elif action == "start_rec" or action == "start_overdub":
