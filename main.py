@@ -96,11 +96,13 @@ def read_button_status():
         for column in range(4):
             for row in range(4):
                 if buttons.button_was_pressed[column][row]:
-                    print("pressed!")
                     handle_button_press(column, row)
+                    # Turn back button press to false
+                    buttons.button_was_pressed = False
                 if buttons.button_was_released[column][row]:
-                    print('released!')
                     handle_button_release(column, row)
+                    # Turn back button press to false
+                    buttons.button_was_released = False
         time.sleep(1/2000)
 
 def handle_button_press(column, row):
@@ -188,32 +190,27 @@ def handle_button_release(column, row):
     - Lastly: reset the button timer and press time
     """
     #Send key release
-    if buttons.button_was_pressed[column][row]:
-        #avoid that only key release is registered
-        button_num = 1 + 4 * column + row
-        button_timer = datetime.now() - buttons.button_press_time[column][row]
-        if button_num < 9:
-            # loop button
-            if buttons.active_loops[button_num]:
-                #active loop: release longer than 1 second: clear loop, else press_button
-                if button_timer.seconds >= 0.5:
-                    #send clear loop if row 1 or 2
-                    send_msg.overdub(button_num)
-                else:
-                    send_msg.press_button(button_num)
-            if not buttons.init_loop:
-                #turn into an active loop if this is not the first press of the initial loop
-                #in that case; you don't want to wait until release for mute.
-                buttons.active_loops[button_num] = True
+    button_num = 1 + 4 * column + row
+    button_timer = datetime.now() - buttons.button_press_time[column][row]
+    if button_num < 9:
+        # loop button
+        if buttons.active_loops[button_num]:
+            #active loop: release longer than 1 second: clear loop, else press_button
+            if button_timer.seconds >= 0.5:
+                #send clear loop if row 1 or 2
+                send_msg.overdub(button_num)
             else:
-                #Set the initial loop to false; initial loop is now recorded
-                buttons.init_loop = False
-        if button_timer.seconds >= 0.5 and button_num == 13:
-            #open the option menu
-            toggle_options()
-        #reset buttons
-        buttons.button_was_released[column][row] = False
-        buttons.button_was_pressed[column][row] = False
+                send_msg.press_button(button_num)
+        if not buttons.init_loop:
+            #turn into an active loop if this is not the first press of the initial loop
+            #in that case; you don't want to wait until release for mute.
+            buttons.active_loops[button_num] = True
+        else:
+            #Set the initial loop to false; initial loop is now recorded
+            buttons.init_loop = False
+    if button_timer.seconds >= 0.5 and button_num == 13:
+        #open the option menu
+        toggle_options()
 
 # Set up the LCD
 lcd = RPi_I2C_driver.lcd()
