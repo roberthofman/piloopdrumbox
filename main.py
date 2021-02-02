@@ -98,11 +98,11 @@ def read_button_status():
                 if buttons.button_was_pressed[column][row]:
                     handle_button_press(column, row)
                     # Turn back button press to false
-                    buttons.button_was_pressed = False
+                    buttons.button_was_pressed[column][row] = False
                 if buttons.button_was_released[column][row]:
                     handle_button_release(column, row)
                     # Turn back button press to false
-                    buttons.button_was_released = False
+                    buttons.button_was_released[column][row] = False
         time.sleep(1/2000)
 
 def handle_button_press(column, row):
