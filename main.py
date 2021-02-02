@@ -84,7 +84,7 @@ def handle_status(action, payload):
         print("unknown status received from PD")
 
 def set_metronome(value, total_beats):
-    block_size = math.floor(SCREEN_SIZE / total_beats * (value + 1))
+    block_size = math.floor(SCREEN_SIZE / max(total_beats, 4) * (value + 1))
     lcd.lcd_display_string(block_size * BLOCK + (SCREEN_SIZE - block_size) * BLANK, 2)
 
 def read_button_status():
@@ -191,14 +191,16 @@ def handle_button_release(column, row):
     #Send key release
     button_num = 1 + 4 * column + row
     button_timer = datetime.now() - buttons.button_press_time[column][row]
+    prev_button_timer = datetime.now() - buttons.button_prev_press_time[column][row]
     if button_num < 9:
         # loop button
         if buttons.active_loops[button_num]:
             #active loop: release longer than 1 second: clear loop, else press_button
-            if button_timer.seconds >= 0.5:
-                #send clear loop if row 1 or 2
+            if button_timer.total_seconds() >= 0.5:
+                #send overdub loop if row 1 or 2
                 send_msg.overdub(button_num)
-            elif (buttons.button_press_time[column][row] - buttons.button_prev_press_time[column][row]).total_seconds() > 0.5:
+            elif prev_button_timer.total_seconds() > 0.5:
+                #press button only if not pressed twice within 0.5 second
                 send_msg.press_button(button_num)
         if not buttons.init_loop:
             #turn into an active loop if this is not the first press of the initial loop
