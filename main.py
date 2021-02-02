@@ -154,6 +154,7 @@ def handle_button_press(column, row):
         if not buttons.init_loop and button_num <= 8 and (buttons.button_press_time[column][row] - buttons.button_prev_press_time[column][row]).total_seconds() < 0.5:
             # clear when: not initial loop, pressed a loop button, and pressed twice within 1 sec.
             send_msg.clear_loop(button_num)
+            buttons.active_loops[button_num] = False
         # Set previous button press time
         buttons.button_prev_press_time[column][row] = buttons.button_press_time[column][row]
 
@@ -199,7 +200,7 @@ def handle_button_release(column, row):
             if button_timer.total_seconds() >= 0.5:
                 #send overdub loop if row 1 or 2
                 send_msg.overdub(button_num)
-            elif prev_button_timer.total_seconds() > 0.5:
+            elif buttons.active_loops[button_num]:
                 #press button only if not pressed twice within 0.5 second
                 send_msg.press_button(button_num)
         if not buttons.init_loop:
