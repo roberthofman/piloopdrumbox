@@ -65,7 +65,6 @@ def handle_status(action, payload):
     Handle status messages from PD
     """
     payload = [int(i) for i in payload]
-    print(action, payload)
     if action == "clear_rec":
         buttons.set_button_color(payload[0], COLORS[7]) #off
     elif action == "start_rec" or action == "start_overdub":
@@ -150,10 +149,10 @@ def handle_button_press(column, row):
         button_num = 1 + 4 * column + row
         if button_num > 8 or not buttons.active_loops[button_num]:
             # Press the button if drumkit or no active loop
-            # For active loops: wait for release timer (clear or (un)mute)
+            # For active loops: wait for release timer (overdub or (un)mute)
             send_msg.press_button(button_num)
-        if not buttons.init_loop and button_num <= 8 and (buttons.button_press_time[column][row] - buttons.button_prev_press_time[column][row]).total_seconds() < 1:
-            # Overdub when: not initial loop, pressed a loop button, and pressed twice within 1 sec.
+        if not buttons.init_loop and button_num <= 8 and (buttons.button_press_time[column][row] - buttons.button_prev_press_time[column][row]).total_seconds() < 0.5:
+            # clear when: not initial loop, pressed a loop button, and pressed twice within 1 sec.
             send_msg.clear_loop(button_num)
         # Set previous button press time
         buttons.button_prev_press_time[column][row] = buttons.button_press_time[column][row]
@@ -199,7 +198,7 @@ def handle_button_release(column, row):
             if button_timer.seconds >= 0.5:
                 #send clear loop if row 1 or 2
                 send_msg.overdub(button_num)
-            else:
+            elif (buttons.button_press_time[column][row] - buttons.button_prev_press_time[column][row]).total_seconds() > 0.5:
                 send_msg.press_button(button_num)
         if not buttons.init_loop:
             #turn into an active loop if this is not the first press of the initial loop
