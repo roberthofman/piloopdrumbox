@@ -88,17 +88,20 @@ def set_metronome(value, total_beats):
     block_size = math.floor(SCREEN_SIZE / total_beats * (value + 1))
     lcd.lcd_display_string(block_size * BLOCK + (SCREEN_SIZE - block_size) * BLANK, 2)
 
-def read_button_status(button_was_pressed_matrix, button_was_released_matrix):
+def read_button_status():
     """
     Thread function that continuously reads the button_pad input
     """
     while True:
         for column in range(4):
             for row in range(4):
-                if button_was_pressed_matrix[column][row]:
+                if buttons.button_was_pressed[column][row]:
+                    print("pressed!")
                     handle_button_press(column, row)
-                if button_was_released_matrix[column][row]:
+                if buttons.button_was_released[column][row]:
+                    print('released!')
                     handle_button_release(column, row)
+        time.sleep(1/2000)
 
 def handle_button_press(column, row):
     """
@@ -235,7 +238,7 @@ proc_q = Queue() #queue for messages from PD
 read_pd_thread = Thread(target = read_pd_input, args = (process_socket_PD.stdout, proc_q))
 process_pd_thread = Thread(target = process_pd_input, args = (proc_q, ))
 # Thread to handle the button press/release
-handle_button_press_release = Thread(target = read_button_status, args = (buttons.button_was_pressed, buttons.button_was_released))
+handle_button_press_release = Thread(target = read_button_status, args = ())
 
 read_pd_thread.start()
 process_pd_thread.start()
