@@ -250,3 +250,4 @@ lcd.lcd_display_string("Ready to play!", 1)
 while True:
     # Run button loop
     buttons.scan()
+    time.sleep(1/1000)
