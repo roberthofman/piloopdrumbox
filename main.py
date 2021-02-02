@@ -221,7 +221,7 @@ lcd.lcd_display_string("Version 1.1", 2)
 send_msg = Py_to_pd(PD_PATH, PORT_SEND_TO_PD)
 
 # Set up the GPIO library and Pins
-buttons = Button_pad(lcd)
+buttons = Button_pad()
 buttons.setup_buttons() #Initialize the Pins of leds/buttons
 for drumpad_button in DRUMPAD_BUTTONS:
     #Set buttons to white color
