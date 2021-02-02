@@ -196,11 +196,11 @@ def handle_button_release(column, row):
     if button_num < 9:
         # loop button
         if buttons.active_loops[button_num]:
-            #active loop: release longer than 1 second: clear loop, else press_button
+            #active loop: release longer than 1 second: overdub loop, else press_button
             if button_timer.total_seconds() >= 0.5:
                 #send overdub loop if row 1 or 2
                 send_msg.overdub(button_num)
-            elif buttons.active_loops[button_num]:
+            else:
                 #press button only if not pressed twice within 0.5 second
                 send_msg.press_button(button_num)
         if not buttons.init_loop:
