@@ -714,7 +714,7 @@ push has been done.;
 #X connect 30 0 23 1;
 #X restore 344 41 pd combine_loops;
 #X obj 118 351 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 1655 1;
+-1 -1 2841 1;
 #X text 122 330 timer, f 6;
 #X obj 115 377 s loop-position;
 #X text 113 19 Loop position and metronome;
