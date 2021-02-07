@@ -151,7 +151,7 @@ def handle_button_press(column, row):
             # Press the button if drumkit or no active loop
             # For active loops: wait for release timer (overdub or (un)mute)
             send_msg.press_button(button_num)
-        if not buttons.init_loop and button_num <= 8 and (buttons.button_press_time[column][row] - buttons.button_prev_press_time[column][row]).total_seconds() < 0.5:
+        if not buttons.init_loop and button_num <= 8 and (buttons.button_press_time[column][row] - buttons.button_prev_press_time[column][row]).total_seconds() < 0.2:
             # clear when: not initial loop, pressed a loop button, and pressed twice within 1 sec.
             send_msg.clear_loop(button_num)
             buttons.active_loops[button_num] = False
@@ -197,7 +197,7 @@ def handle_button_release(column, row):
         # loop button
         if buttons.active_loops[button_num]:
             #active loop: release longer than 1 second: overdub loop, else press_button
-            if button_timer.total_seconds() >= 0.5:
+            if button_timer.total_seconds() >= 0.2:
                 #send overdub loop if row 1 or 2
                 send_msg.overdub(button_num)
             else:
