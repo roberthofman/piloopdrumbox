@@ -1,4 +1,4 @@
-#N canvas 230 25 1207 768 12;
+#N canvas 233 25 1207 768 12;
 #N canvas 0 25 668 464 (subpatch) 0;
 #X array loop-\$1 882000 float 3;
 #A 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
@@ -26495,7 +26495,7 @@ the timer == T, f 24;
 #X obj 370 293 spigot;
 #X msg 409 238 1;
 #X obj 507 210 r press-two;
-#X msg 507 264 0;
+#X msg 507 255 0;
 #X obj 186 415 delay;
 #X obj 236 351 r loop-time;
 #X obj 218 327 -;
@@ -26510,7 +26510,7 @@ the timer == T, f 24;
 #X obj 388 187 loadbang;
 #X text 314 433 stop;
 #X text 141 414 start;
-#X obj 507 238 delay 100;
+#X obj 507 233 delay 100;
 #X obj 133 114 r press-two;
 #X msg 133 144 1;
 #X obj 505 532 s rec-loop-\$1;
