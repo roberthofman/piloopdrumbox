@@ -685,7 +685,7 @@ the loop;
 #X obj 234 502 *~;
 #X obj 189 418 rev2~ 100 90 3000 20;
 #X obj 252 453 loadbang;
-#X msg 252 478 0.3;
+#X msg 252 478 0.1;
 #X connect 0 0 8 0;
 #X connect 0 1 24 0;
 #X connect 1 0 8 0;
@@ -729,7 +729,7 @@ the loop;
 #X connect 38 0 35 1;
 #X restore 344 41 pd combine_loops;
 #X obj 118 351 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 10697 1;
+-1 -1 0 1;
 #X text 122 330 timer, f 6;
 #X obj 115 377 s loop-position;
 #X text 113 19 Loop position and metronome;
