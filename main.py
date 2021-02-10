@@ -68,7 +68,7 @@ def handle_status(action, payload):
     action_handler = {
         "clear_rec"     : clear_record,
         "start_rec"     : record, 
-        "start_overdub" : record, 
+        "start_overdub" : overdub, 
         "stop_rec"      : finish_record, #green
         "stop_overdub"  : finish_overdub, #green
         "wait_rec"      : wait_record, #orange
@@ -92,7 +92,7 @@ def record(payload):
 
 def overdub(payload):
     buttons.set_button_color(payload[0], COLORS[0]) #red
-    lcd.lcd_display_string("Start odub" + str(payload[0]), 1)
+    lcd.lcd_display_string("Start odub:" + str(payload[0]), 1)
 
 def finish_record(payload):
     buttons.set_button_color(payload[0], COLORS[1]) #green
