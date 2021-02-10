@@ -253,6 +253,7 @@ for drumpad_button in DRUMPAD_BUTTONS:
     i=0
     #Set buttons to white color
     buttons.set_button_color(drumpad_button, COLORS[i])
+    time.sleep(1)
     i+= 1
 
 # start the socket
