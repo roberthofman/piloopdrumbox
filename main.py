@@ -20,7 +20,6 @@ SCREEN_SIZE = 16 #screen size of the LCD display (length)
 PD_PATH = "" #pi
 PORT_SEND_TO_PD = 3000 #port to communicate message TO PD
 PORT_RECEIVE_FROM_PD = 4000 #port to receive messages FROM PD
-DIR = '/home/pi/piloopdrumbox' #where does the GIT repo live on the Pi
 
 def read_pd_input(proc, q):
     """
@@ -251,8 +250,10 @@ send_msg = Py_to_pd(PD_PATH, PORT_SEND_TO_PD)
 buttons = Button_pad()
 buttons.setup_buttons() #Initialize the Pins of leds/buttons
 for drumpad_button in DRUMPAD_BUTTONS:
+    i=0
     #Set buttons to white color
-    buttons.set_button_color(drumpad_button, COLORS[5])
+    buttons.set_button_color(drumpad_button, COLORS[i])
+    i+= 1
 
 # start the socket
 args = ["pdreceive", str(PORT_RECEIVE_FROM_PD)]
