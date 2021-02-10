@@ -251,7 +251,7 @@ buttons = Button_pad()
 buttons.setup_buttons() #Initialize the Pins of leds/buttons
 for drumpad_button in DRUMPAD_BUTTONS:
     #Set buttons to white color
-    buttons.set_button_color(drumpad_button, COLORS[5])
+    buttons.set_button_color(drumpad_button, COLORS[4])
 
 # start the socket
 args = ["pdreceive", str(PORT_RECEIVE_FROM_PD)]
