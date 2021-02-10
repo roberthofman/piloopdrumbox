@@ -249,12 +249,9 @@ send_msg = Py_to_pd(PD_PATH, PORT_SEND_TO_PD)
 # Set up the GPIO library and Pins
 buttons = Button_pad()
 buttons.setup_buttons() #Initialize the Pins of leds/buttons
-i=0
 for drumpad_button in DRUMPAD_BUTTONS:
     #Set buttons to white color
-    buttons.set_button_color(drumpad_button, COLORS[i])
-    time.sleep(1)
-    i+= 1
+    buttons.set_button_color(drumpad_button, COLORS[5])
 
 # start the socket
 args = ["pdreceive", str(PORT_RECEIVE_FROM_PD)]
