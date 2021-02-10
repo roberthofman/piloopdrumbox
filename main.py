@@ -66,36 +66,47 @@ def handle_status(action, payload):
     """
     payload = [int(i) for i in payload]
     action_handler = {
-        "clear_rec"     : action_button_color(payload, COLORS[7]), #off
-        "start_rec"     : record(action, payload, COLORS[0]), #red
-        "start_overdub" : record(action, payload, COLORS[0]), #red
-        "stop_rec"      : finish_record(action, payload, COLORS[1]), #green
-        "stop_overdub"  : finish_record(action, payload, COLORS[1]), #green
-        "wait_rec"      : action_button_color(payload, COLORS[6]), #orange
-        "mute_rec"      : mute_record(payload, COLORS[2], COLORS[1]) #blue/green
+        "clear_rec"     : clear_record,
+        "start_rec"     : record, 
+        "start_overdub" : record, 
+        "stop_rec"      : finish_record, #green
+        "stop_overdub"  : finish_overdub, #green
+        "wait_rec"      : wait_record, #orange
+        "mute_rec"      : mute_record #blue/green
         }
     try:
-        action_handler[action]
+        action_handler[action](payload)
     except:
         #not recognized action from PD
         print("unknown action received")
 
-def action_button_color(payload, color):
-    buttons.set_button_color(payload[0], color) #off
+def clear_record(payload):
+    buttons.set_button_color(payload[0], COLORS[7]) #off
 
-def record(action, payload, color):
-    buttons.set_button_color(payload[0], color) #red
-    lcd.lcd_display_string("Start {}: ".format("rec" if action == "start_rec" else "odub") + str(payload[0]), 1)
+def wait_record(payload):
+    buttons.set_button_color(payload[0], COLORS[6]) #off
 
-def finish_record(action, payload, color):
-    buttons.set_button_color(payload[0], color) #green
-    lcd.lcd_display_string("Finished {}: ".format("rec" if action == "stop_rec" else "odub") + str(payload[0]), 1)
+def record(payload):
+    buttons.set_button_color(payload[0], COLORS[0]) #red
+    lcd.lcd_display_string("Start rec:" + str(payload[0]), 1)
 
-def mute_record(payload, mute_color, unmute_color):
+def overdub(payload):
+    buttons.set_button_color(payload[0], COLORS[0]) #red
+    lcd.lcd_display_string("Start odub" + str(payload[0]), 1)
+
+def finish_record(payload):
+    buttons.set_button_color(payload[0], COLORS[1]) #green
+    lcd.lcd_display_string("Finished rec:" + str(payload[0]), 1)
+
+def finish_overdub(payload):
+    buttons.set_button_color(payload[0], COLORS[1]) #green
+    lcd.lcd_display_string("Finished odub:" + str(payload[0]), 1)
+
+def mute_record(payload):
     if payload[0] == 1: #mute
-        buttons.set_button_color(payload[1], mute_color) #blue
+        buttons.set_button_color(payload[1], COLORS[2]) #blue
     if payload[0] == 0: #unmute
-        buttons.set_button_color(payload[1], unmute_color) #green
+        buttons.set_button_color(payload[1], COLORS[1]) #green
 
 def set_metronome(value, total_beats):
     block_size = math.floor(SCREEN_SIZE / max(total_beats, 4) * (value + 1))
