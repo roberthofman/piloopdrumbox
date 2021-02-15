@@ -41,7 +41,7 @@ class Button_pad:
         # Options variables
         self.options_open = False
         self.option_number = 0
-        self.options = {0: "select_kit", 1: "toggle_input", 2: "clear_all"}
+        self.options = {0: "select_kit", 1: "audio_input", 2: "clear_all"}
         self.option_values = {0:1, 1:1, 2:0} # standard values
         self.total_drumkits = num_drumkits
         # loop variables
