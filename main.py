@@ -152,12 +152,9 @@ def handle_button_press(column, row):
                 buttons.option_values[buttons.option_number] = 1 if buttons.option_values[buttons.option_number] == buttons.total_drumkits else buttons.option_values[buttons.option_number] + 1
                 send_msg.select_kit(buttons.option_values[buttons.option_number])
             if buttons.option_number == 1:
-                # toggle_sound
-                buttons.option_values[buttons.option_number] = not buttons.option_values[buttons.option_number]
-                if buttons.option_values[buttons.option_number]:
-                    send_msg.audio_on()
-                else:
-                    send_msg.audio_off()
+                # toggle_input
+                buttons.option_values[buttons.option_number] = 1 - buttons.option_values[buttons.option_number]
+                send_msg.toggle_audio_input(buttons.option_values[buttons.option_number])
             if buttons.option_number == 2:
                 # clear_all
                 send_msg.clear_all()
@@ -202,7 +199,7 @@ def update_option_lcd():
     Update the lcd with the selected option
     """
     current_option = buttons.options[buttons.option_number]
-    lcd.lcd_display_string(current_option + ":" + str(int(buttons.option_values[buttons.option_number])), 2)
+    lcd.lcd_display_string(current_option + ":" + str(buttons.option_values[buttons.option_number]), 2)
 
 def handle_button_release(column, row):
     """

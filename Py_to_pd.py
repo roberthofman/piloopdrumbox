@@ -74,3 +74,10 @@ class Py_to_pd:
             print("This is not a loop button")
         else:
             self.send2Pd(5, button)
+
+    def toggle_audio_input(self, toggle):
+        """
+        set input vol to 0
+        for switching instruments
+        """
+        self.send2Pd(6, toggle)
