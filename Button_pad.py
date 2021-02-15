@@ -4,7 +4,7 @@ from datetime import datetime
 import math
 
 class Button_pad:
-    def __init__(self):
+    def __init__(self, num_drumkits):
         """
         Hooking up the button pad: Config variables / Global Variables
         Source: https://tinyurl.com/y6qafxfs (C-code for arduino)
@@ -43,7 +43,7 @@ class Button_pad:
         self.option_number = 0
         self.options = {0: "select_kit", 1: "toggle_sound", 2: "clear_all"}
         self.option_values = {0:1, 1:True, 2:0} # standard values
-        self.total_drumkits = 4
+        self.total_drumkits = num_drumkits
         # loop variables
         self.active_loops = {1:False, 2:False, 3:False, 4:False, 5:False, 6:False, 7:False, 8:False}
         self.init_loop = True

@@ -246,8 +246,13 @@ lcd.lcd_display_string("Version 1.5", 2)
 # Set up communication to PureData
 send_msg = Py_to_pd(PD_PATH, PORT_SEND_TO_PD)
 
+# Get the number of drum samples
+drum_files = os.listdir('drum_sounds')
+kit = ['crash', 'hh', 'kick', 'snare']
+num_drumkits = max([int(x.split('_')[1]) for x in drum_files if x.split('_')[0] in kit])
+
 # Set up the GPIO library and Pins
-buttons = Button_pad()
+buttons = Button_pad(num_drumkits)
 buttons.setup_buttons() #Initialize the Pins of leds/buttons
 for drumpad_button in DRUMPAD_BUTTONS:
     #Set buttons to white color
