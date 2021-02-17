@@ -187,6 +187,7 @@ def toggle_options():
     buttons.options_open = not buttons.options_open
     if buttons.options_open:
         lcd.lcd_display_string("Options", 1)
+        update_option_lcd()
     else:
         lcd.lcd_clear()
         buttons.options_open = False
