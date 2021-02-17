@@ -2,7 +2,7 @@
 #X obj 88 271 phasor~;
 #X obj 88 299 *~;
 #X obj 139 300 * 44.1;
-#X msg 46 158 0;
+#X msg 5 160 0;
 #X obj 88 162 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
 #X text 94 6 mute/turn on loop;
@@ -12,7 +12,7 @@
 #X obj 107 217 expr 1000 / $f1;
 #X obj 387 54 r loop-position;
 #X obj 387 197 spigot;
-#X obj 88 369 outlet~;
+#X obj 88 389 outlet~;
 #X obj 88 334 tabread4~ loop-\$1;
 #X obj 446 80 r mute-\$1;
 #X obj 585 103 loadbang;
@@ -31,8 +31,8 @@
 #X text 629 43 additional bang needed on &;
 #X text 629 60 because & object only reads the;
 #X text 629 77 right input after a bang on the left;
-#X obj 156 369 s~ read-loop-\$1;
-#X text 195 352 for overdub;
+#X obj 156 377 s~ read-loop-\$1;
+#X text 195 360 for overdub;
 #X obj 546 406 vline~;
 #X msg 546 380 \$1 \, \$2 \$3;
 #X obj 546 354 pack f f f;
@@ -61,19 +61,26 @@
 #X text 619 179 fade-out part of the loop;
 #X text 594 233 on start loop -> play fade-out;
 #X text 636 283 fade-out duration \; 500ms;
+#X obj 88 362 *~;
+#X msg 12 330 1;
+#X text 8 315 volume back;
+#X text 23 416 volume outlet: make sure set back to 0 on mute \, otherwise
+click in output;
 #X connect 0 0 1 0;
 #X connect 1 0 13 0;
 #X connect 2 0 1 1;
 #X connect 3 0 0 0;
+#X connect 3 0 59 1;
 #X connect 4 0 52 0;
+#X connect 4 0 60 0;
 #X connect 6 0 9 0;
 #X connect 6 1 2 0;
 #X connect 8 0 6 0;
 #X connect 9 0 52 1;
 #X connect 10 0 11 0;
 #X connect 11 0 0 1;
-#X connect 13 0 12 0;
 #X connect 13 0 29 0;
+#X connect 13 0 59 0;
 #X connect 14 0 18 0;
 #X connect 15 0 16 0;
 #X connect 16 0 11 1;
@@ -115,3 +122,5 @@
 #X connect 50 0 49 1;
 #X connect 51 0 49 1;
 #X connect 52 0 0 0;
+#X connect 59 0 12 0;
+#X connect 60 0 59 1;
