@@ -26601,7 +26601,7 @@ the timer == T, f 24;
 #X obj 952 566 s overdub-unmute-\$1;
 #X obj 685 190 r overdub-unmute-\$1;
 #X text 767 587 avoid original loop begin not captured;
-#X obj 736 588 - 5;
+#X obj 736 588 - 1;
 #X connect 1 0 11 0;
 #X connect 2 0 13 0;
 #X connect 2 1 14 0;
