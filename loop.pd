@@ -26578,7 +26578,7 @@ the timer == T, f 24;
 #X obj 966 647 r~ drums;
 #X obj 955 619 r~ audio;
 #X text 751 447 similar process as the recording;
-#X text 1029 650 receive the running loop;
+#X text 977 692 receive the running loop;
 #X obj 658 473 \$1;
 #X obj 658 496 s wait-rec;
 #X text 658 516 to python;
