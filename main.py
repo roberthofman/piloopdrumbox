@@ -83,7 +83,8 @@ def clear_record(payload):
     buttons.set_button_color(payload[0], COLORS[7]) #off
 
 def wait_record(payload):
-    buttons.set_button_color(payload[0], COLORS[6]) #off
+    buttons.set_button_color(payload[0], COLORS[6]) #orange
+    lcd.lcd_display_string("Get ready!", 1)
 
 def record(payload):
     buttons.set_button_color(payload[0], COLORS[0]) #red
@@ -173,7 +174,7 @@ def handle_button_press(column, row):
             # For active loops: wait for release timer (overdub or (un)mute)
             send_msg.press_button(button_num)
         if not buttons.init_loop and button_num <= 8 and (buttons.button_press_time[column][row] - buttons.button_prev_press_time[column][row]).total_seconds() < 0.3:
-            # clear when: not initial loop, pressed a loop button, and pressed twice within 1 sec.
+            # clear when: not initial loop, pressed a loop button, and pressed twice within 0.3 sec.
             send_msg.clear_loop(button_num)
             buttons.active_loops[button_num] = False
         # Set previous button press time
@@ -186,13 +187,12 @@ def toggle_options():
     buttons.options_open = not buttons.options_open
     if buttons.options_open:
         lcd.lcd_display_string("Options", 1)
-        update_option_lcd()
     else:
         lcd.lcd_clear()
         buttons.options_open = False
         buttons.option_number = 0
         buttons.option_values[2] = 0
-        lcd.lcd_display_string("Ready to play!", 1)
+        lcd.lcd_display_string("Lets get playing!", 1)
 
 def update_option_lcd():
     """
@@ -218,11 +218,11 @@ def handle_button_release(column, row):
         # loop button
         if buttons.active_loops[button_num]:
             #active loop: release longer than 1 second: overdub loop, else press_button
-            if button_timer.total_seconds() >= 0.3:
+            if button_timer.total_seconds() >= 0.5:
                 #send overdub loop if row 1 or 2
                 send_msg.overdub(button_num)
             else:
-                #press button only if not pressed twice within 0.5 second
+                #press button only if not held down > 0.5 seconds
                 send_msg.press_button(button_num)
         if not buttons.init_loop:
             #turn into an active loop if this is not the first press of the initial loop
