@@ -2,12 +2,11 @@ import git
 import urllib.request
 import logging
 import time
-from resources import RPi_I2C_driver
+from main import lcd
 
 logging.basicConfig(filename="/home/pi/logs/gitlogs.log", filemode="w")
 DIR = '/home/pi/piloopdrumbox' 
 pulled = False
-lcd = RPi_I2C_driver.lcd()
 
 def connect():
     try:
