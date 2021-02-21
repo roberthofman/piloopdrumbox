@@ -4,10 +4,10 @@ import math
 from subprocess import Popen, PIPE
 from queue import Queue, Empty
 from threading import Thread
-from Button_pad import Button_pad
+from resources.Button_pad import Button_pad
 from resources import RPi_I2C_driver
 from datetime import datetime
-from Py_to_pd import Py_to_pd
+from resources.Py_to_pd import Py_to_pd
 
 #Globals
 COLORS = ["red", "green", "blue", "yellow", "purple", "cyan", "white", "off"]
@@ -239,7 +239,7 @@ def handle_button_release(column, row):
 # Set up the LCD
 lcd = RPi_I2C_driver.lcd()
 lcd.lcd_display_string("Loading...", 1)
-lcd.lcd_display_string("Version 1.7", 2)
+lcd.lcd_display_string("Version 1.9", 2)
 
 # Set up communication to PureData
 send_msg = Py_to_pd(PD_PATH, PORT_SEND_TO_PD)
