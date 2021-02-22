@@ -27,4 +27,4 @@ while not pulled:
             logging.warning('Could not reach git: ' + str(e))
             pulled = True #avoid infinite loop
     else:
-        time.sleep(10)
+        time.sleep(1)
