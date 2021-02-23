@@ -731,7 +731,7 @@ the loop;
 #X connect 36 0 16 0;
 #X restore 344 41 pd combine_loops;
 #X obj 118 351 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 8863 1;
+-1 -1 0 1;
 #X text 122 330 timer, f 6;
 #X obj 115 377 s loop-position;
 #X text 113 19 Loop position and metronome;
@@ -848,7 +848,7 @@ the loop;
 #X obj 341 184 tgl 15 0 empty mute-8 empty 17 7 0 10 -4032 -1 -1 0
 1;
 #X obj 127 124 tgl 15 0 empty rec-loop-1 empty 17 7 0 10 -4034 -1 -1
-1 1;
+0 1;
 #X obj 199 125 tgl 15 0 empty rec-loop-2 empty 17 7 0 10 -4034 -1 -1
 0 1;
 #X obj 269 125 tgl 15 0 empty rec-loop-3 empty 17 7 0 10 -4034 -1 -1
@@ -972,9 +972,5 @@ to the socket;
 #X connect 10 0 2 1;
 #X restore 381 282 pd audio_input;
 #X text 494 282 audio input (soundcard);
-#X obj 418 341 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X obj 418 361 s overdub-1;
 #X connect 28 0 27 0;
 #X connect 40 0 41 0;
-#X connect 65 0 66 0;
