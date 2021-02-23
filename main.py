@@ -214,13 +214,11 @@ def handle_button_release(column, row):
     """
     #Send key release
     button_num = 1 + 4 * column + row
-    button_timer = datetime.now() - buttons.button_press_time[column][row]
-    prev_button_timer = datetime.now() - buttons.button_prev_press_time[column][row]
     if button_num < 9:
         # loop button
         if buttons.active_loops[button_num]:
             #active loop: release longer than 1 second: overdub loop, else press_button
-            if button_timer.total_seconds() >= 0.5:
+            if (datetime.now() - buttons.button_press_time[column][row]).total_seconds() >= 0.5:
                 #send overdub loop if row 1 or 2
                 send_msg.overdub(button_num)
             else:
@@ -233,7 +231,7 @@ def handle_button_release(column, row):
         else:
             #Set the initial loop to false; initial loop is now recorded
             buttons.init_loop = False
-    if button_timer.seconds >= 0.5 and button_num == 13:
+    if (datetime.now() - buttons.button_press_time[column][row]).seconds >= 0.5 and button_num == 13:
         #open the option menu
         toggle_options()
 
