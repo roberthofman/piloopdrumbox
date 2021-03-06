@@ -14,7 +14,7 @@ COLORS = ["red", "green", "blue", "yellow", "purple", "cyan", "white", "off"]
 LOOP_BUTTONS = [1,2,3,4,5,6,7,8]
 DRUMPAD_BUTTONS = [9,10,11,12,13,14,15,16]
 BLOCK = chr(255) #block to display on screen for metronome
-CIRCLE = chr(186) 
+CIRCLE = chr(149) 
 TRIANGLE = chr(155)
 BLANK = chr(32) #blank block to display for metronome
 SCREEN_SIZE = 16 #screen size of the LCD display (length)
@@ -103,7 +103,7 @@ def overdub(payload):
 def finish_record(payload):
     #payload: 0 -> number of loops, 1 -> loop nr.
     buttons.set_button_color(payload[1], COLORS[1]) #green
-    lcd.lcd_display_string_pos(">", 1, (payload[0]-1)*2)
+    lcd.lcd_display_string_pos(TRIANGLE, 1, (payload[0]-1)*2)
     loop_status[payload[1]] = payload[0]
     display_loop_status(replace_loop=payload[1])
 
