@@ -106,7 +106,7 @@ def finish_record(payload):
 def display_loop_status(full_replace=False, replace_loop=0):
     if full_replace:
         status_to_str = ''.join('{}{}'.format("|", val) for val in loop_status.values())
-        lcd.lcd_display_string(status_to_str)
+        lcd.lcd_display_string(status_to_str, 1)
     else:
         lcd.lcd_display_string_pos(str(loop_status[replace_loop]), 1, (replace_loop-1)*2)
 
