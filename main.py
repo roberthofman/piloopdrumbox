@@ -252,7 +252,7 @@ def handle_button_release(column, row):
 # Set up the LCD
 lcd = RPi_I2C_driver.lcd()
 lcd.lcd_display_string("Loading...", 1)
-lcd.lcd_display_string("Version 2.0", 2)
+lcd.lcd_display_string("Version 2.3", 2)
 
 # Set up communication to PureData
 send_msg = Py_to_pd(PD_PATH, PORT_SEND_TO_PD)
