@@ -24,8 +24,6 @@ PORT_SEND_TO_PD = 3000 #port to communicate message TO PD
 PORT_RECEIVE_FROM_PD = 4000 #port to receive messages FROM PD
 loop_status = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0}
 
-
-
 def read_pd_input(proc, q):
     """
     callback function
@@ -87,8 +85,9 @@ def handle_status(action, payload):
 def clear_record(payload):
     buttons.set_button_color(payload[0], COLORS[7]) #off
     loop_status[payload[0]] = 0
-    lcd.lcd_display_string_pos("|", 1, (payload[0]-1)*2)
-    display_loop_status(replace_loop=payload[0])
+    if not all([x == 0 for x in loop_status.values()]):
+        lcd.lcd_display_string_pos("|", 1, (payload[0]-1)*2)
+        display_loop_status(replace_loop=payload[0])
 
 def wait_record(payload):
     buttons.set_button_color(payload[0], COLORS[6]) #orange
@@ -185,6 +184,7 @@ def handle_button_press(column, row):
                 buttons.option_values[buttons.option_number] = 1
                 buttons.active_loops = {1:False, 2:False, 3:False, 4:False, 5:False, 6:False, 7:False, 8:False}
                 buttons.init_loop = True
+                loop_status = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0}
             update_option_lcd()
         if button_num == 16:
             # quit options
