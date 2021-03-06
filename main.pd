@@ -1,4 +1,4 @@
-#N canvas 689 365 713 415 12;
+#N canvas 718 355 713 415 12;
 #X obj 76 83 bng 45 250 50 0 lp-trig-1 button-1 empty 17 7 0 10 -262144
 -1 -1;
 #X obj 150 83 bng 45 250 50 0 lp-trig-2 button-2 empty 17 7 0 10 -262144
@@ -653,7 +653,7 @@ push has been done.;
 #X connect 8 0 9 0;
 #X restore 160 30 pd clear-loops;
 #N canvas 0 349 695 454 loop_player 1;
-#N canvas 863 25 778 572 combine_loops 0;
+#N canvas 662 25 778 572 combine_loops 1;
 #X obj 19 43 loop_output 1;
 #X obj 21 69 loop_output 2;
 #X obj 21 94 loop_output 3;
@@ -677,6 +677,10 @@ the loop;
 #X obj 189 418 rev2~ 100 50 3000 50;
 #X msg 252 478 0.2;
 #X text 403 387 if loop position is 0: fade-out;
+#X msg 176 365 1;
+#X obj 176 342 loadbang;
+#X obj 386 340 loadbang;
+#X msg 386 363 1;
 #X connect 0 0 8 0;
 #X connect 0 1 12 0;
 #X connect 1 0 8 0;
@@ -705,6 +709,10 @@ the loop;
 #X connect 19 1 17 0;
 #X connect 20 0 15 1;
 #X connect 20 0 17 1;
+#X connect 22 0 8 1;
+#X connect 23 0 22 0;
+#X connect 24 0 25 0;
+#X connect 25 0 12 1;
 #X restore 114 41 pd combine_loops;
 #X text 115 20 Play loops:;
 #X obj 269 42 r loop-time;
@@ -722,7 +730,7 @@ the loop;
 #X text 267 21 loop time to samples;
 #X obj 109 134 r clear-loops;
 #X obj 109 341 hradio 15 1 0 4 empty empty empty 0 -8 0 10 -262144
--1 -1 3;
+-1 -1 1;
 #X msg 141 314 number \$1;
 #X obj 109 367 s counter;
 #X obj 127 284 r signature;
@@ -801,7 +809,7 @@ the loop;
 0 1;
 #X obj 341 205 tgl 15 0 empty rec-loop-8 empty 17 7 0 10 -4034 -1 -1
 0 1;
-#N canvas 720 25 633 448 send_msg 1;
+#N canvas 720 25 633 448 send_msg 0;
 #X obj 220 147 r counter;
 #X obj 24 51 loadbang;
 #X obj 24 390 netsend;
