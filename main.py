@@ -14,12 +14,15 @@ COLORS = ["red", "green", "blue", "yellow", "purple", "cyan", "white", "off"]
 LOOP_BUTTONS = [1,2,3,4,5,6,7,8]
 DRUMPAD_BUTTONS = [9,10,11,12,13,14,15,16]
 BLOCK = chr(255) #block to display on screen for metronome
+CIRCLE = "o" 
+TRIANGLE = ">"
 BLANK = chr(32) #blank block to display for metronome
 SCREEN_SIZE = 16 #screen size of the LCD display (length)
 #PD_PATH = "/Applications/Pd-0.51-1.app/Contents/Resources/bin/" #mac
 PD_PATH = "" #pi
 PORT_SEND_TO_PD = 3000 #port to communicate message TO PD
 PORT_RECEIVE_FROM_PD = 4000 #port to receive messages FROM PD
+loop_status = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0}
 
 def read_pd_input(proc, q):
     """
@@ -77,40 +80,59 @@ def handle_status(action, payload):
         action_handler[action](payload)
     except:
         #not recognized action from PD
-        print("unknown action received")
+        print("unknown action received/crash: ", str(action))
 
 def clear_record(payload):
     buttons.set_button_color(payload[0], COLORS[7]) #off
+    loop_status[payload[0]] = 0
+    if not all([x == 0 for x in loop_status.values()]):
+        lcd.lcd_display_string_pos("|", 1, (payload[0]-1)*2)
+        display_loop_status(replace_loop=payload[0])
 
 def wait_record(payload):
     buttons.set_button_color(payload[0], COLORS[6]) #orange
-    lcd.lcd_display_string("Get ready!", 1)
+    lcd.lcd_display_string_pos("-", 1, (payload[0]-1)*2)
 
 def record(payload):
     buttons.set_button_color(payload[0], COLORS[0]) #red
-    lcd.lcd_display_string("Start rec:" + str(payload[0]), 1)
+    lcd.lcd_display_string_pos(CIRCLE, 1, (payload[0]-1)*2)
 
 def overdub(payload):
     buttons.set_button_color(payload[0], COLORS[0]) #red
-    lcd.lcd_display_string("Start odub:" + str(payload[0]), 1)
+    lcd.lcd_display_string_pos(CIRCLE, 1, (payload[0]-1)*2)
 
 def finish_record(payload):
-    buttons.set_button_color(payload[0], COLORS[1]) #green
-    lcd.lcd_display_string("Finished rec:" + str(payload[0]), 1)
+    #payload: 0 -> number of loops, 1 -> loop nr.
+    buttons.set_button_color(payload[1], COLORS[1]) #green
+    lcd.lcd_display_string_pos(TRIANGLE, 1, (payload[0]-1)*2)
+    loop_status[payload[1]] = payload[0]
+    display_loop_status(replace_loop=payload[1])
+
+def display_loop_status(full_replace=False, replace_loop=0):
+    if full_replace:
+        status_to_str = ''.join('{}{}'.format("|", val) for val in loop_status.values())
+        lcd.lcd_display_string(status_to_str, 1)
+    else:
+        lcd.lcd_display_string_pos(str(loop_status[replace_loop]), 1, (replace_loop-1)*2+1)
 
 def finish_overdub(payload):
     buttons.set_button_color(payload[0], COLORS[1]) #green
-    lcd.lcd_display_string("Finished odub:" + str(payload[0]), 1)
+    lcd.lcd_display_string_pos(TRIANGLE, 1, (payload[0]-1)*2)
 
 def mute_record(payload):
     if payload[0] == 1: #mute
+        lcd.lcd_display_string_pos("m", 1, (payload[1]-1)*2)
         buttons.set_button_color(payload[1], COLORS[2]) #blue
     if payload[0] == 0: #unmute
+        lcd.lcd_display_string_pos(TRIANGLE, 1, (payload[1]-1)*2)
         buttons.set_button_color(payload[1], COLORS[1]) #green
 
 def set_metronome(value, total_beats):
-    block_size = math.floor(SCREEN_SIZE / max(total_beats, 4) * (value + 1))
-    lcd.lcd_display_string(block_size * BLOCK + (SCREEN_SIZE - block_size) * BLANK, 2)
+    block_size = math.floor(SCREEN_SIZE / max(total_beats, 4))
+    if value == 0:
+        lcd.lcd_display_string(block_size * BLOCK + (SCREEN_SIZE - block_size) * BLANK, 2)
+    else:
+        lcd.lcd_display_string_pos(block_size * BLOCK, 2, block_size*value)
 
 def read_button_status():
     """
@@ -162,6 +184,7 @@ def handle_button_press(column, row):
                 buttons.option_values[buttons.option_number] = 1
                 buttons.active_loops = {1:False, 2:False, 3:False, 4:False, 5:False, 6:False, 7:False, 8:False}
                 buttons.init_loop = True
+                loop_status = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0}
             update_option_lcd()
         if button_num == 16:
             # quit options
@@ -190,11 +213,10 @@ def toggle_options():
         lcd.lcd_display_string("Options", 1)
         update_option_lcd()
     else:
-        lcd.lcd_clear()
         buttons.options_open = False
         buttons.option_number = 0
         buttons.option_values[2] = 0
-        lcd.lcd_display_string("Lets get playing!", 1)
+        display_loop_status(full_replace=True)
 
 def update_option_lcd():
     """
@@ -238,7 +260,7 @@ def handle_button_release(column, row):
 # Set up the LCD
 lcd = RPi_I2C_driver.lcd()
 lcd.lcd_display_string("Loading...", 1)
-lcd.lcd_display_string("Version 2.0", 2)
+lcd.lcd_display_string("Version 2.3", 2)
 
 # Set up communication to PureData
 send_msg = Py_to_pd(PD_PATH, PORT_SEND_TO_PD)
@@ -273,7 +295,8 @@ handle_button_press_release.start()
 os.system(PD_PATH + 'pd -nogui main.pd &')
 time.sleep(2)
 
-lcd.lcd_display_string("Ready to play!", 1)
+display_loop_status(full_replace=True)
+lcd.lcd_display_string("Ready to play!", 2)
 
 while True:
     # Run button loop
