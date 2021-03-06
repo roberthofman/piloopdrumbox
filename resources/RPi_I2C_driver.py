@@ -143,10 +143,6 @@ class lcd:
          self.lcd_write(0x80)
       if line == 2:
          self.lcd_write(0xC0)
-      if line == 3:
-         self.lcd_write(0x94)
-      if line == 4:
-         self.lcd_write(0xD4)
       #Added by me: make sure to fill entire row
       #otherwise, previous string still on screen
       if len(string) < display_size:

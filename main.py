@@ -20,6 +20,7 @@ SCREEN_SIZE = 16 #screen size of the LCD display (length)
 PD_PATH = "" #pi
 PORT_SEND_TO_PD = 3000 #port to communicate message TO PD
 PORT_RECEIVE_FROM_PD = 4000 #port to receive messages FROM PD
+loop_status = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0}
 
 def read_pd_input(proc, q):
     """
@@ -81,26 +82,37 @@ def handle_status(action, payload):
 
 def clear_record(payload):
     buttons.set_button_color(payload[0], COLORS[7]) #off
+    loop_status[payload[1]] = payload[0]
+    display_loop_status(replace_loop=payload[1])
 
 def wait_record(payload):
     buttons.set_button_color(payload[0], COLORS[6]) #orange
-    lcd.lcd_display_string("Get ready!", 1)
+    lcd.lcd_display_string_pos("-", 1, (payload[0]-1)*2)
 
 def record(payload):
     buttons.set_button_color(payload[0], COLORS[0]) #red
-    lcd.lcd_display_string("Start rec:" + str(payload[0]), 1)
+    lcd.lcd_display_string_pos(BLOCK, 1, (payload[0]-1)*2)
 
 def overdub(payload):
     buttons.set_button_color(payload[0], COLORS[0]) #red
-    lcd.lcd_display_string("Start odub:" + str(payload[0]), 1)
+    lcd.lcd_display_string_pos(BLOCK, 1, (payload[0]-1)*2)
 
 def finish_record(payload):
+    #payload: 0 -> number of loops, 1 -> loop nr.
     buttons.set_button_color(payload[0], COLORS[1]) #green
-    lcd.lcd_display_string("Finished rec:" + str(payload[0]), 1)
+    loop_status[payload[1]] = payload[0]
+    display_loop_status(replace_loop=payload[1])
+
+def display_loop_status(full_replace=False, replace_loop=0):
+    if full_replace:
+        status_to_str = ''.join('{}{}'.format("|", val) for val in loop_status.values())
+        lcd.lcd_display_string(status_to_str)
+    else:
+        lcd.lcd_display_string_pos(str(loop_status[replace_loop]), 1, (replace_loop-1)*2)
 
 def finish_overdub(payload):
     buttons.set_button_color(payload[0], COLORS[1]) #green
-    lcd.lcd_display_string("Finished odub:" + str(payload[0]), 1)
+    lcd.lcd_display_string_pos("|", 1, (payload[0]-1)*2)
 
 def mute_record(payload):
     if payload[0] == 1: #mute
@@ -109,8 +121,11 @@ def mute_record(payload):
         buttons.set_button_color(payload[1], COLORS[1]) #green
 
 def set_metronome(value, total_beats):
-    block_size = math.floor(SCREEN_SIZE / max(total_beats, 4) * (value + 1))
-    lcd.lcd_display_string(block_size * BLOCK + (SCREEN_SIZE - block_size) * BLANK, 2)
+    block_size = math.floor(SCREEN_SIZE / max(total_beats, 4))
+    if value == 0:
+        lcd.lcd_display_string(block_size * BLOCK + (SCREEN_SIZE - block_size) * BLANK, 2)
+    else:
+        lcd.lcd_display_string_pos(block_size * BLOCK, 2, block_size*value)
 
 def read_button_status():
     """
@@ -190,11 +205,10 @@ def toggle_options():
         lcd.lcd_display_string("Options", 1)
         update_option_lcd()
     else:
-        lcd.lcd_clear()
         buttons.options_open = False
         buttons.option_number = 0
         buttons.option_values[2] = 0
-        lcd.lcd_display_string("Lets get playing!", 1)
+        display_loop_status(full_replace=True)
 
 def update_option_lcd():
     """
