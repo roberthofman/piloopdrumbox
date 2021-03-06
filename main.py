@@ -14,7 +14,7 @@ COLORS = ["red", "green", "blue", "yellow", "purple", "cyan", "white", "off"]
 LOOP_BUTTONS = [1,2,3,4,5,6,7,8]
 DRUMPAD_BUTTONS = [9,10,11,12,13,14,15,16]
 BLOCK = chr(255) #block to display on screen for metronome
-CIRCLE = chr(174) 
+CIRCLE = chr(186) 
 TRIANGLE = chr(155)
 BLANK = chr(32) #blank block to display for metronome
 SCREEN_SIZE = 16 #screen size of the LCD display (length)
@@ -85,7 +85,7 @@ def handle_status(action, payload):
 def clear_record(payload):
     buttons.set_button_color(payload[0], COLORS[7]) #off
     loop_status[payload[0]] = 0
-    lcd.lcd_display_string_pos(TRIANGLE, 1, (payload[0]-1)*2)
+    lcd.lcd_display_string_pos("|", 1, (payload[0]-1)*2)
     display_loop_status(replace_loop=payload[0])
 
 def wait_record(payload):
@@ -103,13 +103,13 @@ def overdub(payload):
 def finish_record(payload):
     #payload: 0 -> number of loops, 1 -> loop nr.
     buttons.set_button_color(payload[1], COLORS[1]) #green
-    lcd.lcd_display_string_pos(TRIANGLE, 1, (payload[0]-1)*2)
+    lcd.lcd_display_string_pos(">", 1, (payload[0]-1)*2)
     loop_status[payload[1]] = payload[0]
     display_loop_status(replace_loop=payload[1])
 
 def display_loop_status(full_replace=False, replace_loop=0):
     if full_replace:
-        status_to_str = ''.join('{}{}'.format(TRIANGLE, val) for val in loop_status.values())
+        status_to_str = ''.join('{}{}'.format("|", val) for val in loop_status.values())
         lcd.lcd_display_string(status_to_str, 1)
     else:
         lcd.lcd_display_string_pos(str(loop_status[replace_loop]), 1, (replace_loop-1)*2+1)
