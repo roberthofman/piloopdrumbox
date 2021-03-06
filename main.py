@@ -14,8 +14,8 @@ COLORS = ["red", "green", "blue", "yellow", "purple", "cyan", "white", "off"]
 LOOP_BUTTONS = [1,2,3,4,5,6,7,8]
 DRUMPAD_BUTTONS = [9,10,11,12,13,14,15,16]
 BLOCK = chr(255) #block to display on screen for metronome
-CIRCLE = chr(149) 
-TRIANGLE = chr(155)
+CIRCLE = "o" 
+TRIANGLE = ">"
 BLANK = chr(32) #blank block to display for metronome
 SCREEN_SIZE = 16 #screen size of the LCD display (length)
 #PD_PATH = "/Applications/Pd-0.51-1.app/Contents/Resources/bin/" #mac
@@ -23,6 +23,8 @@ PD_PATH = "" #pi
 PORT_SEND_TO_PD = 3000 #port to communicate message TO PD
 PORT_RECEIVE_FROM_PD = 4000 #port to receive messages FROM PD
 loop_status = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0}
+
+
 
 def read_pd_input(proc, q):
     """
