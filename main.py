@@ -78,12 +78,12 @@ def handle_status(action, payload):
         action_handler[action](payload)
     except:
         #not recognized action from PD
-        print("unknown action received")
+        print("unknown action received/crash: ", str(action))
 
 def clear_record(payload):
     buttons.set_button_color(payload[0], COLORS[7]) #off
-    loop_status[payload[1]] = payload[0]
-    display_loop_status(replace_loop=payload[1])
+    loop_status[payload[0]] = 0
+    display_loop_status(replace_loop=payload[0])
 
 def wait_record(payload):
     buttons.set_button_color(payload[0], COLORS[6]) #orange
@@ -287,7 +287,8 @@ handle_button_press_release.start()
 os.system(PD_PATH + 'pd -nogui main.pd &')
 time.sleep(2)
 
-lcd.lcd_display_string("Ready to play!", 1)
+display_loop_status(full_replace=True)
+lcd.lcd_display_string("Ready to play!", 2)
 
 while True:
     # Run button loop
