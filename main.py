@@ -108,7 +108,7 @@ def display_loop_status(full_replace=False, replace_loop=0):
         status_to_str = ''.join('{}{}'.format("|", val) for val in loop_status.values())
         lcd.lcd_display_string(status_to_str, 1)
     else:
-        lcd.lcd_display_string_pos(str(loop_status[replace_loop]), 1, (replace_loop-1)*2)
+        lcd.lcd_display_string_pos(str(loop_status[replace_loop]), 1, (replace_loop-1)*2+1)
 
 def finish_overdub(payload):
     buttons.set_button_color(payload[0], COLORS[1]) #green
@@ -116,8 +116,10 @@ def finish_overdub(payload):
 
 def mute_record(payload):
     if payload[0] == 1: #mute
+        lcd.lcd_display_string_pos("m", 1, (payload[0]-1)*2)
         buttons.set_button_color(payload[1], COLORS[2]) #blue
     if payload[0] == 0: #unmute
+        lcd.lcd_display_string_pos("|", 1, (payload[0]-1)*2)
         buttons.set_button_color(payload[1], COLORS[1]) #green
 
 def set_metronome(value, total_beats):
