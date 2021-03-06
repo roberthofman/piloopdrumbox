@@ -2,7 +2,7 @@ import git
 import urllib.request
 import logging
 import time
-from main import lcd
+from resources import RPi_I2C_driver
 
 logging.basicConfig(filename="/home/pi/logs/gitlogs.log", filemode="w")
 DIR = '/home/pi/piloopdrumbox' 
@@ -21,7 +21,9 @@ while not pulled:
             g = git.cmd.Git(DIR)
             pull = g.pull()
             if not pull == 'Already up to date.':
+                lcd = RPi_I2C_driver.lcd()
                 lcd.lcd_display_string("Reboot to update" ,1)
+                lcd.lcd_display_string("new build ready", 2)
             pulled = True
         except Exception as e:
             logging.warning('Could not reach git: ' + str(e))
