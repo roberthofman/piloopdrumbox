@@ -104,7 +104,7 @@ def overdub(payload):
 def finish_record(payload):
     #payload: 0 -> number of loops, 1 -> loop nr.
     buttons.set_button_color(payload[1], COLORS[1]) #green
-    lcd.lcd_display_string_pos(TRIANGLE, 1, (payload[0]-1)*2)
+    lcd.lcd_display_string_pos(TRIANGLE, 1, (payload[1]-1)*2)
     loop_status[payload[1]] = payload[0]
     display_loop_status(replace_loop=payload[1])
 
