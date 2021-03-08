@@ -1,6 +1,6 @@
-import git
 import urllib.request
 import logging
+import os
 import time
 from resources import RPi_I2C_driver
 
@@ -18,8 +18,7 @@ def connect():
 while not pulled:
     if connect():
         try:
-            g = git.cmd.Git(DIR)
-            pull = g.pull()
+            pull = os.system('git pull')
             if not pull == 'Already up to date.':
                 lcd = RPi_I2C_driver.lcd()
                 lcd.lcd_display_string("Reboot to update" ,1)
