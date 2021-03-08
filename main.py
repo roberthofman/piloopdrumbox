@@ -1,6 +1,7 @@
 import os
 import time
 import math
+import random
 from subprocess import Popen, PIPE
 from queue import Queue, Empty
 from threading import Thread
@@ -163,9 +164,13 @@ def handle_button_press(column, row):
         # Handle options
         button_num = 1 + 4 * column + row
         update_option_lcd()
-        if not button_num in [14, 15, 16]:
+        if not button_num in [4, 14, 15, 16]:
             # Unknown options button
             lcd.lcd_display_string("Use but 14/15/16", 1)
+        if button_num == 4:
+            for drumpad_button in DRUMPAD_BUTTONS:
+                #Set buttons to white color
+                buttons.set_button_color(drumpad_button, random.choice(COLORS))
         if button_num == 14:
             # next option
             buttons.option_number = 0 if buttons.option_number == (len(buttons.options)-1) else buttons.option_number + 1
