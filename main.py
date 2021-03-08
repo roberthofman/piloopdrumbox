@@ -168,13 +168,14 @@ def handle_button_press(column, row):
             # Unknown options button
             lcd.lcd_display_string("Use but 14/15/16", 1)
         if button_num == 12:
+            col = random.choice(COLORS)
             for drumpad_button in DRUMPAD_BUTTONS:
                 #Set buttons to white color
-                col = random.choice(COLORS)
                 buttons.set_button_color(drumpad_button, col)
         if button_num == 11:
             #reset screen
             lcd.lcd_clear()
+            lcd.lcd_display_string("screen reset",1)
             update_option_lcd()
         if button_num == 14:
             # next option
