@@ -85,7 +85,7 @@ def handle_status(action, payload):
 def clear_record(payload):
     buttons.set_button_color(payload[0], COLORS[7]) #off
     loop_status[payload[0]] = 0
-    if not all([x == 0 for x in loop_status.values()]):
+    if not buttons.options_open:
         lcd.lcd_display_string_pos("|", 1, (payload[0]-1)*2)
         display_loop_status(replace_loop=payload[0])
 
