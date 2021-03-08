@@ -16,6 +16,8 @@ DRUMPAD_BUTTONS = [9,10,11,12,13,14,15,16]
 BLOCK = chr(255) #block to display on screen for metronome
 CIRCLE = [0x00,  0x00,  0x0E,  0x1F,  0x1F,  0x1F,  0x0E,  0x00]
 TRIANGLE = [0x08,  0x0C,  0x0E,  0x0F,  0x0E,  0x0C,  0x08,  0x00]
+SQUARE = [0x00,  0x00,  0x1F,  0x1F,  0x1F, 0x1F,  0x1F,  0x00]
+CLOCK = [0x00,  0x0E,  0x15,  0x15,  0x17,  0x11,  0x0E,  0x00]
 BLANK = chr(32) #blank block to display for metronome
 SCREEN_SIZE = 16 #screen size of the LCD display (length)
 #PD_PATH = "/Applications/Pd-0.51-1.app/Contents/Resources/bin/" #mac
@@ -91,7 +93,7 @@ def clear_record(payload):
 
 def wait_record(payload):
     buttons.set_button_color(payload[0], COLORS[6]) #orange
-    lcd.lcd_display_string_pos("-", 1, (payload[0]-1)*2)
+    lcd.lcd_write_char_pos(3, 1, (payload[0]-1)*2)
 
 def record(payload):
     buttons.set_button_color(payload[0], COLORS[0]) #red
@@ -121,7 +123,7 @@ def finish_overdub(payload):
 
 def mute_record(payload):
     if payload[0] == 1: #mute
-        lcd.lcd_display_string_pos("m", 1, (payload[1]-1)*2)
+        lcd.lcd_write_char_pos(2, 1, (payload[1]-1)*2)
         buttons.set_button_color(payload[1], COLORS[2]) #blue
     if payload[0] == 0: #unmute
         lcd.lcd_write_char_pos(0, 1, (payload[1]-1)*2)
@@ -261,7 +263,7 @@ def handle_button_release(column, row):
 lcd = RPi_I2C_driver.lcd()
 lcd.lcd_display_string("Loading...", 1)
 lcd.lcd_display_string("Version 2.5", 2)
-lcd.lcd_load_custom_chars([TRIANGLE, CIRCLE])
+lcd.lcd_load_custom_chars([TRIANGLE, CIRCLE, SQUARE, CLOCK])
 
 # Set up communication to PureData
 send_msg = Py_to_pd(PD_PATH, PORT_SEND_TO_PD)
