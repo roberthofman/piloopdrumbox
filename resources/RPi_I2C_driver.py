@@ -136,6 +136,15 @@ class lcd:
       self.lcd_write_four_bits(mode | (charvalue & 0xF0))
       self.lcd_write_four_bits(mode | ((charvalue << 4) & 0xF0))
 
+   def lcd_write_char_pos(self, charvalue, line, pos, mode=1):
+      if line == 1:
+         pos_new = pos
+      elif line == 2:
+         pos_new = 0x40 + pos
+
+      self.lcd_write(0x80 + pos_new)
+
+      self.lcd_write_char(charvalue, mode)      
 
    # put string function
    def lcd_display_string(self, string, line, display_size=16):
