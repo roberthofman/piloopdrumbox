@@ -33,7 +33,7 @@ def read_pd_input(proc, q):
     while True:
         pd_input = proc.readline()
         q.put(pd_input)
-        time.sleep(1/10)
+        time.sleep(1/100)
 
 def process_pd_input(q):
     """
