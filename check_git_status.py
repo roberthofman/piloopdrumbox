@@ -1,5 +1,6 @@
 import urllib.request
 import logging
+import subprocess
 import os
 import time
 from resources import RPi_I2C_driver
@@ -18,13 +19,13 @@ def connect():
 while not pulled:
     if connect():
         try:
-            pull = os.system('git pull')
-            if not pull == 'Already up to date.':
+            pull = subprocess.run(['git', 'pull'], stdout=subprocess.PIPE)
+            if not pull.stdout.decode() == 'Already up to date.\n':
                 lcd = RPi_I2C_driver.lcd()
                 lcd.lcd_display_string("Reboot to update" ,1)
                 lcd.lcd_display_string("new build ready", 2)
             pulled = True
-        except Exception as e:
+        except subprocess.CalledProcessError as err:
             logging.warning('Could not reach git: ' + str(e))
             pulled = True #avoid infinite loop
     else:
