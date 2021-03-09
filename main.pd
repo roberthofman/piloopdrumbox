@@ -631,7 +631,7 @@ push has been done.;
 #X restore 382 117 pd init_loop;
 #X obj 160 8 bng 15 250 50 0 empty clear-all empty 17 7 0 10 -262144
 -1 -1;
-#N canvas 23 487 450 300 clear-loops 0;
+#N canvas 23 487 450 300 clear-loops 1;
 #X obj 25 84 s clear-1;
 #X obj 25 111 s clear-2;
 #X obj 116 84 s clear-3;
@@ -729,8 +729,8 @@ the loop;
 #X text 63 107 metronome;
 #X text 223 17 loop time to samples;
 #X obj 65 130 r clear-loops;
-#X obj 65 337 hradio 15 1 0 4 empty empty empty 0 -8 0 10 -262144 -1
--1 2;
+#X obj 65 337 hradio 15 1 0 8 empty empty empty 0 -8 0 10 -262144 -1
+-1 4;
 #X msg 97 310 number \$1;
 #X obj 65 363 s counter;
 #X obj 83 280 r signature;
