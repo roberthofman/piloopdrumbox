@@ -631,7 +631,7 @@ push has been done.;
 #X restore 382 117 pd init_loop;
 #X obj 160 8 bng 15 250 50 0 empty clear-all empty 17 7 0 10 -262144
 -1 -1;
-#N canvas 23 487 450 300 clear-loops 1;
+#N canvas 23 487 450 300 clear-loops 0;
 #X obj 25 84 s clear-1;
 #X obj 25 111 s clear-2;
 #X obj 116 84 s clear-3;
@@ -652,8 +652,8 @@ push has been done.;
 #X connect 8 0 7 0;
 #X connect 8 0 9 0;
 #X restore 160 30 pd clear-loops;
-#N canvas 21 356 400 413 loop_player 1;
-#N canvas 89 221 484 474 combine_loops 1;
+#N canvas 21 166 400 413 loop_player 0;
+#N canvas 89 221 484 474 combine_loops 0;
 #X obj 19 43 loop_output 1;
 #X obj 21 69 loop_output 2;
 #X obj 21 94 loop_output 3;
@@ -730,7 +730,7 @@ the loop;
 #X text 223 17 loop time to samples;
 #X obj 65 130 r clear-loops;
 #X obj 65 337 hradio 15 1 0 8 empty empty empty 0 -8 0 10 -262144 -1
--1 2;
+-1 7;
 #X msg 97 310 number \$1;
 #X obj 65 363 s counter;
 #X obj 83 280 r signature;
@@ -809,7 +809,7 @@ the loop;
 0 1;
 #X obj 341 205 tgl 15 0 empty rec-loop-8 empty 17 7 0 10 -4034 -1 -1
 0 1;
-#N canvas 720 25 633 448 send_msg 1;
+#N canvas 720 25 633 448 send_msg 0;
 #X obj 220 147 r counter;
 #X obj 24 51 loadbang;
 #X obj 24 390 netsend;
