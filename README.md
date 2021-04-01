@@ -1,6 +1,7 @@
 # Pi-loop-drumbox!
 Welcome to my repo for the ultimate Raspberry pi + drum pad + loop station.  
 For updates on the build log see the [wiki](https://github.com/roberthofman/piloopdrumbox/wiki).   
+For a demo, see the [video](https://www.reddit.com/user/robie10321/draft/6c734330-9322-11eb-820f-96c2d4de49d5).
 
 ## Install requirements
 ### PureData
