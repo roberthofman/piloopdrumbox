@@ -5,7 +5,7 @@ For a demo, see the [video](https://www.youtube.com/watch?v=OCAQdhkNPjU&t=1s).
 
 ## Install requirements
 ### PureData
-To install puredata: `sudo apt-get install puredata`.  
+To install puredata: `sudo apt-get install puredata`. Build with version 0.51-1.  
 No extensions are required.  
 In order to get the soundcard working and avoiding the  
 `ALSA input error (snd_pcm_open): No such file or directory`  
